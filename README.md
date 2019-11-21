@@ -1,4 +1,4 @@
-# letsattend
+# Let's Attend!
 
 Events app made in Flutter
 
