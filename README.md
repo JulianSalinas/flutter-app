@@ -1,4 +1,4 @@
-# flutter_app
+# Let's Attend!
 
 A new Flutter application.
 
