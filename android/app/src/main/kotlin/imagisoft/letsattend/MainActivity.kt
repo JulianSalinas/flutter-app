@@ -1,4 +1,4 @@
-package rommie.flutter_app
+package imagisoft.letsattend
 
 import android.os.Bundle
 

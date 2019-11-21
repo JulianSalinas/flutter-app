@@ -1,6 +1,6 @@
-# flutter_app
+# letsattend
 
-A new Flutter application.
+Events app made in Flutter
 
 ## Getting Started
 
