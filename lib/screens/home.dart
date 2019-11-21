@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/components/Shortcut.dart';
-import 'package:flutter_app/screens/playground.dart';
+import 'package:letsattend/screens/playground.dart';
+import 'package:letsattend/components/Shortcut.dart';
 
 
 class HomeScreen extends StatefulWidget {
