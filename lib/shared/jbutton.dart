@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,13 +33,14 @@ class JButton extends StatelessWidget {
         ];
 
         final buttonRow = Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: buttonContent
         );
 
         final buttonContainer = Container(
             height: 48,
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+            padding: EdgeInsets.all(4),
             child: buttonRow
         );
 

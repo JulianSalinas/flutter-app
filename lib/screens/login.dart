@@ -5,8 +5,9 @@ import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/colors/ui_colors.dart';
 import 'package:letsattend/providers/palette.dart';
 import 'package:letsattend/shared/jbutton.dart';
+import 'package:letsattend/theme/theme_screen.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 class Login extends StatefulWidget {
     @override
@@ -15,31 +16,33 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+    static final InputBorder inputBorder = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(32.0)
+    );
+
+    static final InputDecoration inputDecoration = InputDecoration(
+        border: inputBorder,
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0)
+    );
 
     @override
     Widget build(BuildContext context) {
 
         final Palette palette = Provider.of<Palette>(context);
 
+        final welcomeLabel = Text(
+            'INICIO DE SESIÓN',
+            style: Theme.of(context).textTheme.headline,
+        );
+
         final emailField = TextField(
             obscureText: false,
-            style: style,
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                hintText: "Email",
-                border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+            decoration: inputDecoration.copyWith(hintText: 'Email')
         );
 
         final passwordField = TextField(
             obscureText: true,
-            style: style,
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                hintText: "Password",
-                border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+            decoration: inputDecoration.copyWith(hintText: 'Contraseña')
         );
 
         final loginButton = JButton(
@@ -67,7 +70,7 @@ class LoginState extends State<Login> {
         );
 
         final googleIcon = Icon(
-            Icons.access_alarm,
+            FontAwesome.google,
             color: palette.darkMode ? Colors.white : UIColors.google,
         );
 
@@ -79,13 +82,15 @@ class LoginState extends State<Login> {
         );
 
         final loginContent = [
+            welcomeLabel,
+            SizedBox(height: 16),
             emailField,
             SizedBox(height: 16),
             passwordField,
             SizedBox(height: 16),
             authButtons,
             SizedBox(height: 16),
-            Text('Ó puedes'),
+            Text('Ó puedes', textAlign: TextAlign.center),
             SizedBox(height: 16),
             googleButton
         ];
@@ -93,14 +98,21 @@ class LoginState extends State<Login> {
         final loginColumn = Column(
             children: loginContent,
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
         );
 
-        final loginContainer = Container(
+        // IntrinsicWidth adjusts the column to its widest child
+        final loginContainer = IntrinsicWidth(
             child: loginColumn,
-            margin: EdgeInsets.all(48)
         );
 
-        return SafeArea(child: loginContainer);
+        return Material(
+            child: SafeArea(
+                child: ThemeScreen(
+                    child: loginContainer
+                )
+            )
+        );
 
     }
 

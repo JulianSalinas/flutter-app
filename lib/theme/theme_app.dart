@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:letsattend/providers/palette.dart';
-import 'package:letsattend/theme/theme_screen.dart';
 
 
 class ThemeApp extends StatelessWidget {
 
-    final Widget startWidget;
+    final Widget child;
 
-    ThemeApp(this.startWidget);
+    ThemeApp(this.child);
 
     @override
     Widget build(BuildContext context) {
@@ -18,15 +16,10 @@ class ThemeApp extends StatelessWidget {
 
         ThemeData themeData = ThemeData(
             brightness: palette.darkMode ? Brightness.dark : Brightness.light,
-            primarySwatch: Colors.purple,
+            primarySwatch: Colors.red,
         );
 
-        return MaterialApp(
-            home: Scaffold(
-                body: ThemeScreen(startWidget)
-            ),
-            theme: themeData
-        );
+        return MaterialApp(home: child, theme: themeData);
 
     }
 

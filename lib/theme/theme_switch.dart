@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/theme/theme_text.dart';
 
@@ -28,7 +29,7 @@ class ThemeSwitch extends StatelessWidget {
         );
 
         final switchDescription = [
-            Icon(Icons.brightness_medium),
+            Icon(MaterialCommunityIcons.weather_night),
             SizedBox(width: 16),
             ThemeText(text)
         ];

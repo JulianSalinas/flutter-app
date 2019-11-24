@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 
 class ThemeScreen extends StatelessWidget {
 
-    final Widget widget;
+    final Widget child;
 
-    ThemeScreen(this.widget);
+    ThemeScreen({@required this.child});
 
     @override
     Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class ThemeScreen extends StatelessWidget {
             onChanged: palette.onChangeDarkMode
         );
 
-        final flexibleWidget = Flexible(
-            child: widget,
+        final flexibleWidget = Expanded(
+            child: child,
         );
 
         return Column(children: [flexibleWidget, themeSwitch]);
