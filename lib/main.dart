@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'screens/home.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(LetsAttend());
+import 'package:letsattend/theme/theme_app.dart';
+import 'package:letsattend/screens/login.dart';
+import 'package:letsattend/providers/palette.dart';
 
-class LetsAttend extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.purple,
-      ),
-      home: HomeScreen(title: 'Go Together!'),
-    );
-  }
+void main() => runApp(Main());
+
+class Main extends StatelessWidget {
+
+    @override
+    Widget build(BuildContext context) {
+
+        return MultiProvider(
+            providers: [
+                ChangeNotifierProvider<Palette>.value(value: Palette())
+            ],
+            child: ThemeApp(Login())
+        );
+
+    }
 
 }

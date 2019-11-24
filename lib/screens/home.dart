@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/screens/playground.dart';
-import 'package:letsattend/components/Shortcut.dart';
+import 'package:letsattend/shared/shortcut.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -82,24 +82,27 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Shortcut(),
-                Shortcut(),
-                Shortcut(),
+                Shortcut(icon: Icons.home, text: 'Inicio'),
+                Shortcut(icon: Icons.event, text: 'Eventos'),
+                Shortcut(icon: Icons.people, text: 'Ponentes'),
               ]
             )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
+
         onPressed: () {
           _incrementCounter();
         },
         tooltip: 'Increment',
-        child: Icon(Icons.edit),
+        child: Icon(Icons.menu),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ), // This t
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,// railing comma makes auto-formatting nicer for build methods.
     );
   }
 }
