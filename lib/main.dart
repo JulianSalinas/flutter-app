@@ -15,7 +15,7 @@ class Main extends StatelessWidget {
 
         return MultiProvider(
             providers: [
-                ChangeNotifierProvider<Palette>.value(value: Palette())
+                ChangeNotifierProvider<Palette>(builder: (context) => Palette())
             ],
             child: ThemeApp(Login())
         );

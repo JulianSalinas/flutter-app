@@ -27,9 +27,15 @@ class ThemeSwitch extends StatelessWidget {
             activeColor: FlatUI.pomegranate,
         );
 
+        final switchDescription = [
+            Icon(Icons.brightness_medium),
+            SizedBox(width: 16),
+            ThemeText(text)
+        ];
+
         final switchContent = Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [ThemeText(text), switchComponent]
+            children: [Row(children: switchDescription), switchComponent]
         );
 
         return Container(

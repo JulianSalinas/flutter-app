@@ -14,12 +14,11 @@ class ThemeApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
 
-        Palette palette = Provider.of<Palette>(context);
-        final mode = palette.darkMode ? 0 : 1;
+        final Palette palette = Provider.of<Palette>(context);
 
         ThemeData themeData = ThemeData(
-            brightness: Brightness.values[mode],
-            primarySwatch: Colors.red,
+            brightness: palette.darkMode ? Brightness.dark : Brightness.light,
+            primarySwatch: Colors.purple,
         );
 
         return MaterialApp(

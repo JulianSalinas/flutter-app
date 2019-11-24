@@ -15,15 +15,7 @@ class ThemeScreen extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
 
-        Palette palette = Provider.of<Palette>(context);
-
-        final boxDecoration = BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: UIGradients.kashmir
-            )
-        );
+        final Palette palette = Provider.of<Palette>(context);
 
         final themeSwitch = ThemeSwitch(
             value: palette.darkMode,
