@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/screens/login.dart';
 import 'package:letsattend/providers/palette.dart';
-import 'package:letsattend/colors/ui_gradients.dart';
 import 'package:letsattend/theme/theme_switch.dart';
 import 'package:provider/provider.dart';
 

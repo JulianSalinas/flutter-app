@@ -39,10 +39,14 @@ class ThemeSwitch extends StatelessWidget {
             children: [Row(children: switchDescription), switchComponent]
         );
 
-        return Container(
-            child: switchContent,
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-            decoration: BoxDecoration(color: color)
+        return Hero(
+            tag: 'theme-switch',
+            child: Container(
+                height: 48,
+                child: switchContent,
+                padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                decoration: BoxDecoration(color: color)
+            )
         );
 
     }

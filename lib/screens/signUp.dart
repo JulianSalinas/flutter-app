@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -6,28 +5,23 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/shared/uinput.dart';
 import 'package:letsattend/shared/jbutton.dart';
 import 'package:letsattend/colors/flat_ui.dart';
-import 'package:letsattend/screens/signUp.dart';
-import 'package:letsattend/colors/ui_colors.dart';
-import 'package:letsattend/providers/palette.dart';
 import 'package:letsattend/theme/theme_screen.dart';
 
 
-class Login extends StatefulWidget {
+class SignUp extends StatefulWidget {
     @override
-    LoginState createState() => LoginState();
+    SignUpState createState() => SignUpState();
 }
 
-class LoginState extends State<Login> {
+class SignUpState extends State<SignUp> {
 
     @override
     Widget build(BuildContext context) {
 
-        final Palette palette = Provider.of<Palette>(context);
-
         final headlineText = Hero(
             tag: 'headline-text',
             child: Text(
-                'INICIO DE SESIÓN',
+                'CREAR CUENTA',
                 style: Theme.of(context).textTheme.headline
             )
         );
@@ -53,40 +47,27 @@ class LoginState extends State<Login> {
         final confirmationField = Hero(
             tag: 'confirmation-field',
             child: Visibility(
-                visible: false,
+                visible: true,
                 maintainSize: false,
-                child: SizedBox.shrink()
+                child: UInput(
+                    obscureText: true,
+                    hintText: 'Confirmación',
+                    icon: Icon(MaterialCommunityIcons.chevron_right_circle_outline)
+                ),
             )
-        );
-
-        final loginButton = JButton(
-            'INGRESAR',
-            color: FlatUI.midnightBlue,
-            onPressed: () => print('Ingresar')
-        );
-
-        final signUpButton = JButton(
-            'REGISTRAR',
-            color: FlatUI.wetAsphalt,
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUp())
-            )
-        );
-
-        final authContent = [
-            Expanded(flex: 0, child: loginButton),
-            SizedBox(width: 8),
-            Expanded(flex: 1, child: signUpButton),
-        ];
-
-        final authButtons = Row(
-            children: authContent,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center
         );
 
         final createButton = Hero(
             tag: 'sign-up-button',
+            child: JButton(
+                'CREAR E INGRESAR',
+                color: FlatUI.midnightBlue,
+                onPressed: () => print('Google')
+            )
+        );
+
+        final googleButton = Hero(
+            tag: 'google-button',
             child: Visibility(
                 visible: false,
                 maintainSize: false,
@@ -94,25 +75,15 @@ class LoginState extends State<Login> {
             )
         );
 
-        final googleIcon = Icon(
-            FontAwesome.google,
-            color: palette.darkMode ? Colors.white : UIColors.google,
-        );
-
-        final googleButton = JButton(
-            'INGRESAR CON GOOGLE',
-            color: UIColors.google,
-            onPressed: () => print('Google'),
-            icon: googleIcon
-        );
-
-        final retrievePassword = Hero(
+        final backButton = Hero(
             tag: 'alternative-button',
             child: CupertinoButton(
-                child: Text('¿Has olvidado tu contraseña?',
-                    style: TextStyle(color: FlatUI.peterRiver)
+                child: Text('¿Ya tienes una cuenta?',
+                    style: TextStyle(
+                        color: FlatUI.peterRiver
+                    )
                 ),
-                onPressed: () => print('Retrieve password')
+                onPressed: () => Navigator.pop(context)
             )
         );
 
@@ -122,17 +93,14 @@ class LoginState extends State<Login> {
             emailField,
             SizedBox(height: 16),
             passwordField,
+            SizedBox(height: 16),
             confirmationField,
             SizedBox(height: 16),
-            authButtons,
             createButton,
-            SizedBox(height: 16),
-            Text('Ó puedes', textAlign: TextAlign.center),
-            SizedBox(height: 16),
             googleButton,
-            retrievePassword
+            backButton
         ];
-        
+
         final loginColumn = Column(
             children: loginContent,
             mainAxisAlignment: MainAxisAlignment.center,

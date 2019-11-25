@@ -17,7 +17,10 @@ class ThemeText extends StatelessWidget {
             fontWeight: FontWeight.w300
         );
 
-        return Text(text, style: style);
+        return Material(
+            color: Colors.transparent,
+            child: Text(text, style: style),
+        );
     }
 
 }
