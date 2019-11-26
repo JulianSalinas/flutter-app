@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:letsattend/shared/uinput.dart';
 import 'package:letsattend/shared/jbutton.dart';
@@ -15,14 +16,27 @@ class SignUp extends StatefulWidget {
 
 class SignUpState extends State<SignUp> {
 
+    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
+    final confirmationCtrl = TextEditingController();
+
+    @override
+    void dispose() {
+        emailCtrl.dispose();
+        passwordCtrl.dispose();
+        confirmationCtrl.dispose();
+        super.dispose();
+    }
+
     @override
     Widget build(BuildContext context) {
 
         final headlineText = Hero(
             tag: 'headline-text',
-            child: Text(
-                'CREAR CUENTA',
-                style: Theme.of(context).textTheme.headline
+            child: TypewriterAnimatedTextKit(
+                duration: Duration(seconds: 9),
+                text: ['ES HORA DE', 'CREAR UNA CUENTA', '...O YA TIENES UNA?'],
+                textStyle: Theme.of(context).textTheme.headline
             )
         );
 
@@ -31,7 +45,8 @@ class SignUpState extends State<SignUp> {
             child: UInput(
                 hintText: 'Email',
                 obscureText: false,
-                icon: Icon(MaterialCommunityIcons.mail_ru)
+                icon: Icon(MaterialCommunityIcons.mail_ru),
+                controller: emailCtrl,
             )
         );
 
@@ -40,7 +55,8 @@ class SignUpState extends State<SignUp> {
             child: UInput(
                 hintText: 'Contraseña',
                 obscureText: true,
-                icon: Icon(MaterialCommunityIcons.key)
+                icon: Icon(MaterialCommunityIcons.key),
+                controller: passwordCtrl,
             )
         );
 
@@ -52,8 +68,9 @@ class SignUpState extends State<SignUp> {
                 child: UInput(
                     obscureText: true,
                     hintText: 'Confirmación',
-                    icon: Icon(MaterialCommunityIcons.chevron_right_circle_outline)
-                ),
+                    icon: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
+                    controller: confirmationCtrl,
+                )
             )
         );
 

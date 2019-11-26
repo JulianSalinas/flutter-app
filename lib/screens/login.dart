@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:letsattend/shared/uinput.dart';
 import 'package:letsattend/shared/jbutton.dart';
@@ -19,6 +20,16 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
+    final emailCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
+
+    @override
+    void dispose() {
+        emailCtrl.dispose();
+        passwordCtrl.dispose();
+        super.dispose();
+    }
+
     @override
     Widget build(BuildContext context) {
 
@@ -26,9 +37,10 @@ class LoginState extends State<Login> {
 
         final headlineText = Hero(
             tag: 'headline-text',
-            child: Text(
-                'INICIO DE SESIÓN',
-                style: Theme.of(context).textTheme.headline
+            child: TypewriterAnimatedTextKit(
+                duration: Duration(seconds: 9),
+                text: ['BIENVENIDO', 'INICIA SESIÓN', '...O REGISTRATE'],
+                textStyle: Theme.of(context).textTheme.headline
             )
         );
 
@@ -37,7 +49,8 @@ class LoginState extends State<Login> {
             child: UInput(
                 hintText: 'Email',
                 obscureText: false,
-                icon: Icon(MaterialCommunityIcons.mail_ru)
+                icon: Icon(MaterialCommunityIcons.mail_ru),
+                controller: emailCtrl,
             )
         );
 
@@ -46,7 +59,8 @@ class LoginState extends State<Login> {
             child: UInput(
                 hintText: 'Contraseña',
                 obscureText: true,
-                icon: Icon(MaterialCommunityIcons.key)
+                icon: Icon(MaterialCommunityIcons.key),
+                controller: passwordCtrl,
             )
         );
 

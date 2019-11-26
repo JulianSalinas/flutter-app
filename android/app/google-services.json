@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "185946453107",
+    "firebase_url": "https://lets-attend-c136a.firebaseio.com",
+    "project_id": "lets-attend-c136a",
+    "storage_bucket": "lets-attend-c136a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185946453107:android:20f5dd22ab9cadee086606",
+        "android_client_info": {
+          "package_name": "imagisoft.letsattend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185946453107-j69j1coi3ul93he2b8c363jg9ndrepv3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "imagisoft.letsattend",
+            "certificate_hash": "9707fb1e0fc313b843cd50ee33503f47c59bf612"
+          }
+        },
+        {
+          "client_id": "185946453107-j2nukntemr75noatb8f0tn3ch7jf03s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeJNs3q-sAuobqcfTRr4XwBrG1jMYmYOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185946453107-j2nukntemr75noatb8f0tn3ch7jf03s8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "185946453107-72cq9j7ukbbnd7u2h12aqot7sadv3efa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "imagisoft.letsattend"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
