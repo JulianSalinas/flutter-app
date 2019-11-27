@@ -1,17 +1,19 @@
-import 'package:provider/provider.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-
-import 'package:letsattend/shared/uinput.dart';
-import 'package:letsattend/shared/jbutton.dart';
 import 'package:letsattend/colors/flat_ui.dart';
-import 'package:letsattend/screens/signUp.dart';
 import 'package:letsattend/colors/ui_colors.dart';
 import 'package:letsattend/providers/palette.dart';
+import 'package:letsattend/screens/auth/signUp.dart';
+import 'package:letsattend/shared/jbutton.dart';
+import 'package:letsattend/shared/uinput.dart';
 import 'package:letsattend/theme/theme_screen.dart';
+import 'package:provider/provider.dart';
 
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
     @override
@@ -22,6 +24,111 @@ class LoginState extends State<Login> {
 
     final emailCtrl = TextEditingController();
     final passwordCtrl = TextEditingController();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    String emailError;
+    String passwordError;
+
+    @override
+    void initState(){
+        super.initState();
+        emailCtrl.text = 'july12sali@gmail.com';
+        passwordCtrl.text = 'telacreistewe';
+    }
+
+    /// TODO: Change method for one real
+    retrieveForgottenPassword(){
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text('Recuperar contraseña'),
+                    content: Text('¿Desea enviar la contraseña a su correo?'),
+                    actions: <Widget>[
+                        new FlatButton(
+                            child: new Text('CANCELAR'),
+                            onPressed: Navigator.of(context).pop
+                        ),
+                        new FlatButton(
+                            child: new Text('ENVIAR'),
+                            onPressed: sendPasswordResetEmail
+                        )
+                    ],
+                );
+            }
+        );
+    }
+
+
+    sendPasswordResetEmail(){
+        Navigator.of(context).pop();
+        auth.sendPasswordResetEmail(email: emailCtrl.text)
+            .then(retrieveSuccess, onError: retrieveFailure);
+    }
+
+    retrieveSuccess(Object result){
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text('Recuperar contraseña'),
+                    content: Text('Tu contraseña se ha enviado a tu correo'),
+                    actions: <Widget>[
+                        new FlatButton(
+                            child: new Text('ENTENDIDO'),
+                            onPressed: Navigator.of(context).pop
+                        )
+                    ]
+                );
+            }
+        );
+    }
+
+    retrieveFailure(Object error){
+        if (error.runtimeType == PlatformException){
+            PlatformException exception = error;
+            if (exception.code == 'ERROR_INVALID_EMAIL'){
+                print('Correo no válido');
+            }
+            else if (exception.code == 'ERROR_USER_NOT_FOUND'){
+                print('Usuario no encontrado');
+            }
+        }
+    }
+
+    loginWithEmailAndPassword() {
+        auth.signInWithEmailAndPassword(
+            email: emailCtrl.text,
+            password: passwordCtrl.text,
+        ).then(loginSuccess, onError: loginFailure);
+    }
+
+    loginSuccess(AuthResult result){
+        FirebaseUser user = result.user;
+        print(user);
+    }
+
+    loginFailure(Object error){
+
+        if (error.runtimeType == PlatformException){
+            PlatformException exception = error;
+
+            if(exception.code == 'ERROR_WRONG_PASSWORD'){
+                print('Contraseña incorrecta');
+            }
+            else if (exception.code == 'ERROR_INVALID_EMAIL'){
+                print('Correo no válido');
+                setState(() {
+                    emailError = 'Correo no válido';
+                });
+            }
+            else if (exception.code == 'ERROR_USER_NOT_FOUND'){
+                print('Usuario no encontrado');
+            }
+
+        }
+
+    }
 
     @override
     void dispose() {
@@ -49,8 +156,9 @@ class LoginState extends State<Login> {
             child: UInput(
                 hintText: 'Email',
                 obscureText: false,
-                icon: Icon(MaterialCommunityIcons.mail_ru),
+                icon: Icon(MaterialCommunityIcons.mail_ru, color: FlatUI.peterRiver),
                 controller: emailCtrl,
+                errorText: emailError,
             )
         );
 
@@ -59,7 +167,7 @@ class LoginState extends State<Login> {
             child: UInput(
                 hintText: 'Contraseña',
                 obscureText: true,
-                icon: Icon(MaterialCommunityIcons.key),
+                icon: Icon(MaterialCommunityIcons.key, color: FlatUI.peterRiver),
                 controller: passwordCtrl,
             )
         );
@@ -76,7 +184,7 @@ class LoginState extends State<Login> {
         final loginButton = JButton(
             'INGRESAR',
             color: FlatUI.midnightBlue,
-            onPressed: () => print('Ingresar')
+            onPressed: loginWithEmailAndPassword
         );
 
         final signUpButton = JButton(
@@ -88,7 +196,7 @@ class LoginState extends State<Login> {
         );
 
         final authContent = [
-            Expanded(flex: 0, child: loginButton),
+            Expanded(flex: 1, child: loginButton),
             SizedBox(width: 8),
             Expanded(flex: 1, child: signUpButton),
         ];
@@ -126,7 +234,7 @@ class LoginState extends State<Login> {
                 child: Text('¿Has olvidado tu contraseña?',
                     style: TextStyle(color: FlatUI.peterRiver)
                 ),
-                onPressed: () => print('Retrieve password')
+                onPressed: retrieveForgottenPassword
             )
         );
 
@@ -146,7 +254,7 @@ class LoginState extends State<Login> {
             googleButton,
             retrievePassword
         ];
-        
+
         final loginColumn = Column(
             children: loginContent,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -156,7 +264,7 @@ class LoginState extends State<Login> {
         // IntrinsicWidth adjusts the column to its widest child
         final loginContainer = Container(
             child: IntrinsicWidth(child: loginColumn),
-            constraints: BoxConstraints(minWidth: 280)
+            constraints: BoxConstraints(minWidth: 280, maxWidth: 280)
         );
 
         return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -7,6 +8,9 @@ import 'package:letsattend/shared/uinput.dart';
 import 'package:letsattend/shared/jbutton.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/theme/theme_screen.dart';
+
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -19,6 +23,33 @@ class SignUpState extends State<SignUp> {
     final emailCtrl = TextEditingController();
     final passwordCtrl = TextEditingController();
     final confirmationCtrl = TextEditingController();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    signUpWithEmailAndPassword(){
+        print('handleEmailAndPasswordSignUp');
+        auth.createUserWithEmailAndPassword(
+            email: emailCtrl.text,
+            password: passwordCtrl.text
+        )
+        .then(signUpSuccess)
+        .catchError(signUpFailure);
+    }
+
+    signUpSuccess(AuthResult result){
+        print(result);
+    }
+
+    signUpFailure(Object error){
+        if (error.runtimeType == PlatformException){
+            PlatformException exception = error;
+            if(exception.code == 'ERROR_EMAIL_ALREADY_IN_USE'){
+                print('El correo ya tiene una cuenta asociada');
+            }
+            else if (exception.code == 'ERROR_INVALID_EMAIL'){
+                print('Correo no válido');
+            }
+        }
+    }
 
     @override
     void dispose() {
@@ -62,15 +93,11 @@ class SignUpState extends State<SignUp> {
 
         final confirmationField = Hero(
             tag: 'confirmation-field',
-            child: Visibility(
-                visible: true,
-                maintainSize: false,
-                child: UInput(
-                    obscureText: true,
-                    hintText: 'Confirmación',
-                    icon: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
-                    controller: confirmationCtrl,
-                )
+            child: UInput(
+                obscureText: true,
+                hintText: 'Confirmación',
+                icon: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
+                controller: confirmationCtrl,
             )
         );
 
@@ -79,7 +106,7 @@ class SignUpState extends State<SignUp> {
             child: JButton(
                 'CREAR E INGRESAR',
                 color: FlatUI.midnightBlue,
-                onPressed: () => print('Google')
+                onPressed: signUpWithEmailAndPassword
             )
         );
 
@@ -127,7 +154,7 @@ class SignUpState extends State<SignUp> {
         // IntrinsicWidth adjusts the column to its widest child
         final loginContainer = Container(
             child: IntrinsicWidth(child: loginColumn),
-            constraints: BoxConstraints(minWidth: 280)
+            constraints: BoxConstraints(minWidth: 280, maxWidth: 280)
         );
 
         return Scaffold(

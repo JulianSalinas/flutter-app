@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letsattend/screens/login.dart';
+import 'package:letsattend/screens/auth/login.dart';
 import 'package:letsattend/providers/palette.dart';
 
 
@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
 
         ThemeData themeData = ThemeData(
             brightness: palette.darkMode ? Brightness.dark : Brightness.light,
-            primarySwatch: Colors.red,
+            primarySwatch: Colors.blue,
         );
 
         return Material(
