@@ -1,44 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/app.dart';
+import 'package:letsattend/providers/auth.dart';
+import 'package:letsattend/providers/scheme.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letsattend/screens/auth/login.dart';
-import 'package:letsattend/providers/palette.dart';
-
-
+/// Entry point of the Flutter application
 void main() => runApp(Main());
 
+/// Wraps the application to get the ability to access
+/// variables at the top of the three using the provider pattern
+/// [See] https://pub.dev/packages/provider
 class Main extends StatelessWidget {
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
 
-        return MultiProvider(
-            providers: [
-                ChangeNotifierProvider<Palette>(builder: (context) => Palette())
-            ],
-            child: MainApp()
-        );
+    /// All global widgets must be here
+    final providers = [
+      ChangeNotifierProvider<Auth>(builder: (context) => Auth()),
+      ChangeNotifierProvider<Scheme>(builder: (context) => Scheme()),
+    ];
 
-    }
+    /// Providers are available across the app
+    return MultiProvider(providers: providers, child: App());
 
-}
-
-class MainApp extends StatelessWidget {
-
-    @override
-    Widget build(BuildContext context) {
-
-        final Palette palette = Provider.of<Palette>(context);
-
-        ThemeData themeData = ThemeData(
-            brightness: palette.darkMode ? Brightness.dark : Brightness.light,
-            primarySwatch: Colors.blue,
-        );
-
-        return Material(
-            child: MaterialApp(home: Login(), theme: themeData)
-        );
-
-    }
-
+  }
 }

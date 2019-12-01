@@ -2,58 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 
-class UInput extends StatefulWidget {
+/// Custom input with an icon
+class UInput extends StatelessWidget {
 
-    final Widget icon;
+    final IconData icon;
     final String hintText;
     final String errorText;
     final bool obscureText;
     final Function onChanged;
+    final TextInputType keyboardType;
     final TextEditingController controller;
 
     UInput({
         this.icon,
         this.hintText,
         this.errorText,
-        this.obscureText,
+        this.obscureText = false,
         this.onChanged,
+        this.keyboardType,
         this.controller
     });
 
     @override
-    UInputState createState() => UInputState();
-
-}
-
-class UInputState extends State<UInput>{
-
-    @override
     Widget build(BuildContext context) {
 
-        final inputBorder = OutlineInputBorder(
+        final border = OutlineInputBorder(
             borderRadius: BorderRadius.circular(32.0),
             borderSide: BorderSide(color: FlatUI.midnightBlue, width: 2.0),
         );
 
-        final inputPrefix = Padding(
+        final prefix = Padding(
+            child: Icon(icon),
             padding: const EdgeInsets.fromLTRB(24, 0, 12, 0),
-            child: widget.icon,
         );
 
-        final inputDecoration = InputDecoration(
-            border: inputBorder,
-            focusedBorder: inputBorder,
+        final decoration = InputDecoration(
+            border: border,
+            prefixIcon: prefix,
+            focusedBorder: border,
+            hintText: hintText,
+            errorText: errorText,
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            hintText: widget.hintText,
-            prefixIcon: inputPrefix,
-            errorText: widget.errorText,
         );
 
         return TextField(
-            obscureText: widget.obscureText,
-            decoration: inputDecoration,
-            onChanged: widget.onChanged,
-            controller: widget.controller
+            decoration: decoration,
+            onChanged: onChanged,
+            controller: controller,
+            obscureText: obscureText,
+            keyboardType: keyboardType,
         );
 
     }
