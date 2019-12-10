@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/shared/tswitch.dart';
+import 'package:letsattend/shared/night_switch.dart';
 
 /// It wraps a component to allow it to take the full space
 /// Adds a switch to change between dark and light mode
@@ -17,7 +17,7 @@ class Screen extends StatelessWidget {
     );
 
     /// Wraps the screen and put and dark mode switch
-    return Column(children: [expanded, TSwitch()]);
+    return Column(children: [expanded, NightSwitch()]);
 
   }
 }

@@ -12,12 +12,12 @@ import 'package:letsattend/screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SignUp extends StatefulWidget {
+class AuthInit extends StatefulWidget {
   @override
-  SignUpState createState() => SignUpState();
+  AuthInitState createState() => AuthInitState();
 }
 
-class SignUpState extends State<SignUp> {
+class AuthInitState extends State<AuthInit> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final confirmationCtrl = TextEditingController();
@@ -27,7 +27,7 @@ class SignUpState extends State<SignUp> {
     print('handleEmailAndPasswordSignUp');
     auth
         .createUserWithEmailAndPassword(
-            email: emailCtrl.text, password: passwordCtrl.text)
+        email: emailCtrl.text, password: passwordCtrl.text)
         .then(signUpSuccess)
         .catchError(signUpFailure);
   }

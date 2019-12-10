@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
 class Scheme with ChangeNotifier {
-  bool darkMode = true;
+  bool nightMode = true;
 
-  void onChangeDarkMode(value) {
-    darkMode = value;
+  void onChangeNightMode(value) {
+    nightMode = value;
     notifyListeners();
   }
 }

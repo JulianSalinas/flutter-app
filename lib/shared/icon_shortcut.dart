@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Shortcut extends StatelessWidget {
+class IconShortcut extends StatelessWidget {
   final String text;
   final IconData icon;
 
-  Shortcut({
+  IconShortcut({
     Key key,
     @required this.icon,
     @required this.text,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 /// Text used for toolbars and buttons in this app
-class UText extends StatelessWidget {
+class FormalText extends StatelessWidget {
 
   final String text;
   final Color color;
 
-  UText(this.text, {this.color});
+  FormalText(this.text, {this.color});
 
   @override
   Widget build(BuildContext context) {

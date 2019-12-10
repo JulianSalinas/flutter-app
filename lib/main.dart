@@ -1,28 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/app.dart';
 import 'package:letsattend/providers/auth.dart';
 import 'package:letsattend/providers/scheme.dart';
+import 'package:letsattend/screens/auth/sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:letsattend/screens/schedule/sheet.dart';
 
-/// Entry point of the Flutter application
-void main() => runApp(Main());
+void main() {
 
-/// Wraps the application to get the ability to access
-/// variables at the top of the three using the provider pattern
-/// [See] https://pub.dev/packages/provider
-class Main extends StatelessWidget {
+  /// Access variables at the top of the three
+  /// by using the provider pattern
+  /// [See] https://pub.dev/packages/provider
+  final providers = [
+    ChangeNotifierProvider<Auth>(builder: (context) => Auth()),
+    ChangeNotifierProvider<Scheme>(builder: (context) => Scheme()),
+  ];
+
+  /// Entry point of the Flutter application
+  runApp(MultiProvider(
+    child: App(),
+    providers: providers,
+  ));
+
+}
+
+/// The theme is changed according to the variable available by the provider
+class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
-    /// All global widgets must be here
-    final providers = [
-      ChangeNotifierProvider<Auth>(builder: (context) => Auth()),
-      ChangeNotifierProvider<Scheme>(builder: (context) => Scheme()),
-    ];
+    final scheme = Provider.of<Scheme>(context);
 
-    /// Providers are available across the app
-    return MultiProvider(providers: providers, child: App());
+    /// Allows to switch between dark and light mode
+    final themeData = ThemeData(
+      brightness: scheme.nightMode ? Brightness.dark : Brightness.light,
+      primarySwatch: Colors.red,
+    );
+
+    /// TODO: Fix home screen
+    /// App's main container
+    //    final home = Sample(
+    //      text: 'HOME',
+    //      color: FlatUI.emerald,
+    //    );
+
+    final home = Sheet(date: DateTime.now(),);
+
+    /// Renders the applications with the theme data
+    return Material(
+      child: MaterialApp(home: home, theme: themeData),
+    );
 
   }
 }

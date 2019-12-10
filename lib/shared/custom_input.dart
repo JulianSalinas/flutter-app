@@ -3,17 +3,18 @@ import 'package:flutter/widgets.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 
 /// Custom input with an icon
-class UInput extends StatelessWidget {
+class CustomInput extends StatelessWidget {
+
+    final bool obscureText;
 
     final IconData icon;
     final String hintText;
     final String errorText;
-    final bool obscureText;
     final Function onChanged;
     final TextInputType keyboardType;
     final TextEditingController controller;
 
-    UInput({
+    CustomInput({
         this.icon,
         this.hintText,
         this.errorText,

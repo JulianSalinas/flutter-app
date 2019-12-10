@@ -9,8 +9,8 @@ import 'package:letsattend/providers/auth.dart';
 import 'package:letsattend/providers/scheme.dart';
 import 'package:letsattend/screens/auth/sign_up.dart';
 import 'package:letsattend/screens/auth/auth_form.dart';
-import 'package:letsattend/shared/ubutton.dart';
-import 'package:letsattend/shared/uinput.dart';
+import 'package:letsattend/shared/unique_button.dart';
+import 'package:letsattend/shared/custom_input.dart';
 import 'package:letsattend/screen.dart';
 import 'package:provider/provider.dart';
 
@@ -120,7 +120,7 @@ class LoginState extends State<Login> {
       submit: submit(auth),
     );
 
-    final googleButton = UButton(
+    final googleButton = UniqueButton(
       'Ingresar con Google',
       color: UIColors.google,
       onPressed: () => print('Google'),
