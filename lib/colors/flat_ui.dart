@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
 class FlatUI {
+
+  static final values = [
+    greenSea,
+    nephritis,
+    belizeHole,
+    orange,
+    midnightBlue,
+    wisteria,
+    pumpkin
+  ];
+
   /// Between green and blue
   static const turquoise = Color(0xff1abc9c);
   static const greenSea = Color(0xff16a085);
@@ -32,4 +43,5 @@ class FlatUI {
   // Red-like colors
   static const alizarin = Color(0xffe74c3c);
   static const pomegranate = Color(0xffd34836);
+
 }

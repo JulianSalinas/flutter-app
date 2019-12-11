@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/shared/nested_point.dart';
+import 'package:letsattend/screens/schedule/item/item_point.dart';
 import 'package:provider/provider.dart';
 
 class ItemDecoration extends StatelessWidget {
@@ -8,12 +8,14 @@ class ItemDecoration extends StatelessWidget {
   final Color color;
   final bool isFirst;
   final bool isLast;
+  final bool isOdd;
 
   const ItemDecoration({
     Key key,
     @required this.color,
     this.isFirst = false,
     this.isLast = false,
+    this.isOdd = false,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,7 @@ class ItemDecoration extends StatelessWidget {
     final content = Column(
       children: <Widget>[
         Opacity(opacity: 0.15, child: topLine),
-        NestedPoint(color: color),
+        NestedPoint(color: isOdd ? color : lineColor, isOdd: isOdd),
         Expanded(child: bottomLineContent),
       ],
     );

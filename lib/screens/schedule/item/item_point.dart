@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/providers/scheme.dart';
+import 'package:provider/provider.dart';
 
 class NestedPoint extends StatelessWidget {
 
+  final bool isOdd;
   final Color color;
 
-  NestedPoint({@required this.color});
+  NestedPoint({
+    @required this.color,
+    this.isOdd,
+  });
 
   @override
   Widget build(BuildContext context) {
 
+    final scheme = Provider.of<Scheme>(context);
+    final evenColor = scheme.nightMode ? Colors.white : Colors.black;
+
     final innerDecoration = BoxDecoration(
-      color: color,
+      color: isOdd ? color : evenColor,
       shape: BoxShape.circle,
     );
 
@@ -20,15 +29,20 @@ class NestedPoint extends StatelessWidget {
 
     final outerDecoration = BoxDecoration(
       shape: BoxShape.circle,
-      border: Border.all(width: 3, color: color),
+      border: Border.all(width: 3, color: isOdd ? color: evenColor),
     );
 
-    return Container(
+    final content = Container(
       width: 20,
       height: 20,
       child: innerPoint,
       padding: EdgeInsets.all(4.5),
       decoration: outerDecoration,
+    );
+
+    return Opacity(
+      opacity: isOdd ? 1 : 0.4,
+      child: content,
     );
 
   }

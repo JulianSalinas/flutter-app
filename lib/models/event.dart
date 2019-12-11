@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:letsattend/colors/ui_colors.dart';
+import 'package:letsattend/models/person.dart';
 
 class Event {
 
@@ -10,6 +11,7 @@ class Event {
   String description;
   DateTime end;
   DateTime start;
+  List<Person> people;
 
   Event({
     this.title,
@@ -18,6 +20,7 @@ class Event {
     this.code,
     this.end,
     this.start,
+    this.people,
   });
 
   Event.empty();

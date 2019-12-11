@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/event.dart';
+import 'package:letsattend/models/person.dart';
 import 'package:letsattend/screen.dart';
 import 'package:letsattend/screens/schedule/item/item.dart';
 
@@ -19,8 +20,47 @@ class SheetState extends State<Sheet> {
   @override
   void initState() {
     super.initState();
-    Event e1 = Event();
-    events.addAll([e1, e1, e1]);
+
+    final Event e1 = Event(
+      code: 'P01',
+      type: 'PONENCIA',
+      location: 'Centro de las Artes',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      people: [
+        Person(name: 'Julian Salinas'),
+        Person(name: 'Aquiles Van Stengel'),
+        Person(name: 'Luna Pancrasia'),
+      ]
+    );
+
+    final Event e2 = Event(
+      code: 'C02',
+      type: 'CONFERENCIA',
+      location: 'Auditorio B1',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      people: [
+        Person(name: 'Josseline Alfaro'),
+      ]
+    );
+
+    final Event e3 = Event(
+      code: 'T03',
+      type: 'TALLER',
+      location: 'Laboratorio H',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      people: [
+        Person(name: 'Mayorlan Nunes'),
+        Person(name: 'Kimberly Camacho'),
+      ]
+    );
+
+    events.addAll([e1, e2, e3]);
   }
 
   @override
@@ -29,9 +69,10 @@ class SheetState extends State<Sheet> {
     final listView = ListView.builder(
       itemCount: events.length,
       itemBuilder: (context, index) => Item(
+        event: events.elementAt(index),
         isFirst: index == 0,
         isLast: index == events.length - 1,
-        isEven: index.isEven,
+        isOdd: index.isEven,
       ),
     );
 
