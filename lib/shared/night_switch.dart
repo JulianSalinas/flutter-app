@@ -25,7 +25,7 @@ class NightSwitch extends StatelessWidget {
     final scheme = Provider.of<Scheme>(context);
 
     /// Cupertino switch also works on Android
-    final switchComponent = CupertinoSwitch(
+    final switchComponent = Switch(
       value: scheme.nightMode,
       onChanged: scheme.onChangeNightMode,
       activeColor: FlatUI.pomegranate,

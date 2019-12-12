@@ -15,7 +15,7 @@ class UIColors {
 
   /// Colors for the events
   static const ponencia = FlatUI.nephritis;
-  static const conferencia = FlatUI.belizeHole;
+  static const conferencia = FlatUI.peterRiver;
   static const taller = FlatUI.pumpkin;
   static const feria = FlatUI.wisteria;
   static const merienda = FlatUI.sunflower;

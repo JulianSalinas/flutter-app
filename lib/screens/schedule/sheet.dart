@@ -15,7 +15,7 @@ class Sheet extends StatefulWidget {
 
 class SheetState extends State<Sheet> {
 
-  final events = <Event>[];
+  List<Event> events = <Event>[];
 
   @override
   void initState() {
@@ -27,12 +27,13 @@ class SheetState extends State<Sheet> {
       location: 'Centro de las Artes',
       start: DateTime.now(),
       end: DateTime.now(),
-      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      title: 'Competencias profesionales de profesores de matemática',
       people: [
         Person(name: 'Julian Salinas'),
         Person(name: 'Aquiles Van Stengel'),
         Person(name: 'Luna Pancrasia'),
-      ]
+      ],
+      isFavorite: true,
     );
 
     final Event e2 = Event(
@@ -41,10 +42,11 @@ class SheetState extends State<Sheet> {
       location: 'Auditorio B1',
       start: DateTime.now(),
       end: DateTime.now(),
-      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      title: 'Competencias profesionales',
       people: [
         Person(name: 'Josseline Alfaro'),
-      ]
+      ],
+      isFavorite: false,
     );
 
     final Event e3 = Event(
@@ -57,7 +59,8 @@ class SheetState extends State<Sheet> {
       people: [
         Person(name: 'Mayorlan Nunes'),
         Person(name: 'Kimberly Camacho'),
-      ]
+      ],
+      isFavorite: true,
     );
 
     events.addAll([e1, e2, e3]);
@@ -73,6 +76,7 @@ class SheetState extends State<Sheet> {
         isFirst: index == 0,
         isLast: index == events.length - 1,
         isOdd: index.isEven,
+        onFavoriteChanged: onFavoriteChange,
       ),
     );
 
@@ -83,6 +87,13 @@ class SheetState extends State<Sheet> {
         ),
       ),
     );
+  }
+
+
+  onFavoriteChange(Event event) {
+    setState(() {
+      event.isFavorite = !event.isFavorite;
+    });
   }
 
 }

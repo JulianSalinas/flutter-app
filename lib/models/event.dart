@@ -13,6 +13,8 @@ class Event {
   DateTime start;
   List<Person> people;
 
+  bool isFavorite;
+
   Event({
     this.title,
     this.type,
@@ -21,6 +23,7 @@ class Event {
     this.end,
     this.start,
     this.people,
+    this.isFavorite
   });
 
   Event.empty();

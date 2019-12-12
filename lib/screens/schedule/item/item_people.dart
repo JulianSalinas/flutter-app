@@ -44,7 +44,7 @@ class ItemPeople extends StatelessWidget {
       style: TextStyle(fontSize: 12)
     );
 
-    final peopleContent = Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Stack(children: peopleWidgets.toList()),
@@ -52,8 +52,6 @@ class ItemPeople extends StatelessWidget {
         Opacity(opacity: 0.6, child: description),
       ],
     );
-
-    return Expanded(child: peopleContent);
 
   }
 
