@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/providers/auth.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/auth/sign_in.dart';
+import 'package:letsattend/screen.dart';
+import 'package:letsattend/screens/detail/detail.dart';
 import 'package:provider/provider.dart';
-import 'package:letsattend/screens/schedule/sheet.dart';
+import 'package:letsattend/screens/schedule/date_page.dart';
 
 void main() {
 
@@ -37,14 +39,15 @@ class App extends StatelessWidget {
       primarySwatch: Colors.red,
     );
 
-    /// TODO: Fix home screen
-    /// App's main container
-    //    final home = Sample(
-    //      text: 'HOME',
-    //      color: FlatUI.emerald,
-    //    );
+    final test = DatePage(
+      date: DateTime.now(),
+    );
 
-    final home = Sheet(date: DateTime.now(),);
+    final home = Scaffold(
+      body: Screen(
+        child: test
+      ),
+    );
 
     /// Renders the applications with the theme data
     return Material(

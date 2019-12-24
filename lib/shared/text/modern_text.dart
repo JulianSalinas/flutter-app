@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 /// Text used for toolbars and buttons in this app
-class FormalText extends StatelessWidget {
+class ModernText extends StatelessWidget {
 
   final String text;
   final Color color;
 
   final double fontSize;
 
-  FormalText(this.text, {
+  ModernText(this.text, {
     this.color,
     this.fontSize = 14,
   });
@@ -21,7 +21,7 @@ class FormalText extends StatelessWidget {
       fontSize: fontSize,
       letterSpacing: 2.4,
       fontWeight: FontWeight.w300,
-      color: color ?? Colors.white,
+      color: color,
     );
 
     /// Material wrappers solves a bug when it is inside Hero widget

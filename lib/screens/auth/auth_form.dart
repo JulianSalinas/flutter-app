@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/colors/flat_ui.dart';
-import 'package:letsattend/shared/unique_button.dart';
-import 'package:letsattend/shared/custom_input.dart';
+import 'package:letsattend/shared/button/modern_button.dart';
+import 'package:letsattend/shared/input/modern_input.dart';
 
 
 class AuthForm extends StatefulWidget {
@@ -57,14 +57,14 @@ class AuthFormState extends State<AuthForm> {
   @override
   Widget build(BuildContext context) {
 
-    final emailField = CustomInput(
+    final emailField = ModernInput(
       hintText: 'Email',
       errorText: emailError,
       controller: emailCtrl,
       icon: MaterialCommunityIcons.mail_ru,
     );
 
-    final passwordField = CustomInput(
+    final passwordField = ModernInput(
       obscureText: true,
       hintText: 'Contraseña',
       errorText: passwordError,
@@ -72,7 +72,7 @@ class AuthFormState extends State<AuthForm> {
       icon: MaterialCommunityIcons.key,
     );
 
-    final confirmationField = CustomInput(
+    final confirmationField = ModernInput(
       obscureText: true,
       hintText: 'Confirmación',
       errorText: confirmationError,
@@ -80,7 +80,7 @@ class AuthFormState extends State<AuthForm> {
       icon: MaterialCommunityIcons.chevron_right_circle_outline,
     );
 
-    final submitButton = UniqueButton(
+    final submitButton = ModernButton(
       widget.submitText,
       color: FlatUI.midnightBlue,
       onPressed: /*validating ? null :*/ submit,

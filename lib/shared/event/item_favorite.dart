@@ -5,10 +5,12 @@ import 'package:letsattend/colors/flat_ui.dart';
 
 class Favorite extends StatelessWidget {
 
+  final String tag;
   final bool isFavorite;
   final Function onPressed;
 
   Favorite({
+    @required this.tag,
     this.isFavorite = false,
     this.onPressed
   });
@@ -22,9 +24,14 @@ class Favorite extends StatelessWidget {
       color: FlatUI.sunflower,
     );
 
-    return IconButton(
+    final button =  IconButton(
       icon: icon,
       onPressed: onPressed,
+    );
+
+    return Hero(
+      tag: tag,
+      child: button,
     );
 
   }

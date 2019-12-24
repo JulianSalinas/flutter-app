@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/colors/flat_ui.dart';
-import 'package:letsattend/shared/formal_text.dart';
+import 'package:letsattend/shared/text/modern_text.dart';
 
 /// Custom button with icon that adapts itself according
 /// to the active scheme
 /// It depends on the provider [scheme.dart]
-class UniqueButton extends StatelessWidget {
+class ModernButton extends StatelessWidget {
 
   final String text;
   final Color color;
   final IconData icon;
   final Function onPressed;
 
-  UniqueButton(
+  ModernButton(
     this.text, {
     this.icon,
     this.color = FlatUI.emerald,
@@ -31,7 +31,7 @@ class UniqueButton extends StatelessWidget {
     final content = [
       buttonIcon,
       SizedBox(width: icon == null ? 0 : 8),
-      FormalText(text.toUpperCase(), color: Colors.white),
+      ModernText(text.toUpperCase(), color: Colors.white),
     ];
 
     final wrapper = Row(
@@ -55,7 +55,7 @@ class UniqueButton extends StatelessWidget {
       color: color,
       shape: border,
       child: container,
-      onPressed: this.onPressed,
+      onPressed: onPressed,
     );
 
     return raiseButton;

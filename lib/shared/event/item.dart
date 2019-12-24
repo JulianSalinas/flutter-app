@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/schedule/item/item_favorite.dart';
+import 'package:letsattend/screens/detail/detail.dart';
+import 'package:letsattend/shared/event/item_favorite.dart';
+import 'package:letsattend/shared/text/hero_text.dart';
 import 'package:provider/provider.dart';
-import 'item_decoration.dart';
+import 'item_line.dart';
 import 'item_people.dart';
 
 
@@ -32,7 +34,7 @@ class Item extends StatelessWidget {
 
     final scheme = Provider.of<Scheme>(context);
 
-    final decoration = ItemDecoration(
+    final decoration = ItemLine(
       isFirst: isFirst,
       isLast: isLast,
       isOdd: isOdd,
@@ -46,7 +48,11 @@ class Item extends StatelessWidget {
 
     final itemDate = Opacity(
       opacity: 0.6,
-      child: Text('9:40 AM - 12:10 PM', style: TextStyle(fontSize: 10)),
+      child: HeroText(
+        '9:40 AM - 12:10 PM',
+        tag: 'event-date-${event.id}',
+        style: TextStyle(fontSize: 10),
+      ),
     );
 
     final itemTop = Row(
@@ -54,11 +60,12 @@ class Item extends StatelessWidget {
       children: <Widget>[itemType, itemDate],
     );
 
-    final itemTitle = Text(
+    final itemTitle = HeroText(
       event.title,
-      style: TextStyle(fontWeight: FontWeight.bold),
+      tag: 'event-title-${event.id}',
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
+      style: TextStyle(fontWeight: FontWeight.bold),
     );
 
     final itemLocation = Row(
@@ -74,6 +81,7 @@ class Item extends StatelessWidget {
     );
 
     final itemFavorite = Favorite(
+      tag: 'event-favorite-${event.id}',
       isFavorite: event.isFavorite,
       onPressed: () => onFavoriteChanged(event)
     );
@@ -120,9 +128,17 @@ class Item extends StatelessWidget {
       ],
     );
 
-    return Container(
-      height: 154,
-      child: stackContainer,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Detail(
+              event: event,
+            ),
+          ),
+        );
+      },
+      child: Container(height: 154, child: stackContainer),
     );
 
   }

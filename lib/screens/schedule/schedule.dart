@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/screens/sample.dart';
-import 'package:letsattend/screens/schedule/sheet.dart';
+import 'package:letsattend/screens/schedule/date_page.dart';
 
 class Schedule extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class ScheduleState extends State<Schedule> {
       controller: pageCtrl,
       pageSnapping: true,
       children: <Widget>[
-        Sheet(date: DateTime.now()),
+        DatePage(date: DateTime.now()),
         Sample(color: FlatUI.peterRiver, text: 'Page 2'),
         Sample(color: FlatUI.pomegranate, text: 'Page 3'),
       ],

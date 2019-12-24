@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/models/person.dart';
-import 'package:letsattend/screen.dart';
-import 'package:letsattend/screens/schedule/item/item.dart';
+import 'package:letsattend/shared/event/item.dart';
 
-class Sheet extends StatefulWidget {
+class DatePage extends StatefulWidget {
 
   final DateTime date;
-  Sheet({@required this.date});
+  DatePage({@required this.date});
 
   @override
-  SheetState createState() => SheetState();
+  DatePageState createState() => DatePageState();
 }
 
-class SheetState extends State<Sheet> {
+class DatePageState extends State<DatePage> {
 
   List<Event> events = <Event>[];
 
@@ -22,6 +21,7 @@ class SheetState extends State<Sheet> {
     super.initState();
 
     final Event e1 = Event(
+      id: '-SHT6654',
       code: 'P01',
       type: 'PONENCIA',
       location: 'Centro de las Artes',
@@ -37,12 +37,13 @@ class SheetState extends State<Sheet> {
     );
 
     final Event e2 = Event(
+      id: '-SDFGH24154',
       code: 'C02',
       type: 'CONFERENCIA',
       location: 'Auditorio B1',
       start: DateTime.now(),
       end: DateTime.now(),
-      title: 'Competencias profesionales',
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus si',
       people: [
         Person(name: 'Josseline Alfaro'),
       ],
@@ -50,6 +51,7 @@ class SheetState extends State<Sheet> {
     );
 
     final Event e3 = Event(
+      id: '-YHJNDRSDDF',
       code: 'T03',
       type: 'TALLER',
       location: 'Laboratorio H',
@@ -69,7 +71,7 @@ class SheetState extends State<Sheet> {
   @override
   Widget build(BuildContext context) {
 
-    final listView = ListView.builder(
+    return ListView.builder(
       itemCount: events.length,
       itemBuilder: (context, index) => Item(
         event: events.elementAt(index),
@@ -80,13 +82,6 @@ class SheetState extends State<Sheet> {
       ),
     );
 
-    return Scaffold(
-      body: SafeArea(
-        child: Screen(
-          child: listView,
-        ),
-      ),
-    );
   }
 
 

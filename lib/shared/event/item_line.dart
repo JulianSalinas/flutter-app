@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/schedule/item/item_point.dart';
+import 'package:letsattend/shared/event/item_point.dart';
 import 'package:provider/provider.dart';
 
-class ItemDecoration extends StatelessWidget {
+class ItemLine extends StatelessWidget {
 
   final Color color;
   final bool isFirst;
   final bool isLast;
   final bool isOdd;
 
-  const ItemDecoration({
+  const ItemLine({
     Key key,
     @required this.color,
     this.isFirst = false,

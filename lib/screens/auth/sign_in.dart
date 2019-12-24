@@ -6,15 +6,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/colors/ui_colors.dart';
 import 'package:letsattend/providers/auth.dart';
-import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/auth/sign_up.dart';
 import 'package:letsattend/screens/auth/auth_form.dart';
-import 'package:letsattend/shared/unique_button.dart';
-import 'package:letsattend/shared/custom_input.dart';
+import 'package:letsattend/shared/button/modern_button.dart';
 import 'package:letsattend/screen.dart';
 import 'package:provider/provider.dart';
 
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
@@ -106,7 +102,7 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
 
     final auth = Provider.of<Auth>(context);
-    final scheme = Provider.of<Scheme>(context);
+    // final scheme = Provider.of<Scheme>(context);
 
     final headline = TypewriterAnimatedTextKit(
       duration: Duration(seconds: 9),
@@ -120,7 +116,7 @@ class LoginState extends State<Login> {
       submit: submit(auth),
     );
 
-    final googleButton = UniqueButton(
+    final googleButton = ModernButton(
       'Ingresar con Google',
       color: UIColors.google,
       onPressed: () => print('Google'),

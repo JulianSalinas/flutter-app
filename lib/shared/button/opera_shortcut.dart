@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class IconShortcut extends StatelessWidget {
+class OperaShortcut extends StatelessWidget {
+
   final String text;
   final IconData icon;
 
-  IconShortcut({
+  OperaShortcut({
     Key key,
     @required this.icon,
     @required this.text,

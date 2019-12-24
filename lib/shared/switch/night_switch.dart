@@ -4,7 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/colors/ui_colors.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/shared/formal_text.dart';
+import 'package:letsattend/shared/text/modern_text.dart';
 import 'package:provider/provider.dart';
 
 /// Switch used to change the theme scheme
@@ -34,7 +34,7 @@ class NightSwitch extends StatelessWidget {
     final description = [
       Icon(MaterialCommunityIcons.weather_night),
       SizedBox(width: 16),
-      FormalText(text),
+      ModernText(text),
     ];
 
     final content = Row(

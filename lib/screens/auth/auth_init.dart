@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-import 'package:letsattend/shared/custom_input.dart';
-import 'package:letsattend/shared/unique_button.dart';
+import 'package:letsattend/shared/input/modern_input.dart';
+import 'package:letsattend/shared/button/modern_button.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/screen.dart';
 
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthInit extends StatefulWidget {
@@ -62,51 +61,63 @@ class AuthInitState extends State<AuthInit> {
         child: TypewriterAnimatedTextKit(
             duration: Duration(seconds: 9),
             text: ['ES HORA DE', 'CREAR UNA CUENTA', '...O YA TIENES UNA?'],
-            textStyle: Theme.of(context).textTheme.headline));
+            textStyle: Theme.of(context).textTheme.headline,
+        ),
+    );
 
     final emailField = Hero(
         tag: 'email-field',
-        child: CustomInput(
+        child: ModernInput(
           hintText: 'Email',
           obscureText: false,
           icon: MaterialCommunityIcons.mail_ru,
           controller: emailCtrl,
-        ));
+        ),
+    );
 
     final passwordField = Hero(
         tag: 'password-field',
-        child: CustomInput(
+        child: ModernInput(
           hintText: 'Contraseña',
           obscureText: true,
           icon: MaterialCommunityIcons.key,
           controller: passwordCtrl,
-        ));
+        ),
+    );
 
     final confirmationField = Hero(
         tag: 'confirmation-field',
-        child: CustomInput(
+        child: ModernInput(
           obscureText: true,
           hintText: 'Confirmación',
           icon: MaterialCommunityIcons.chevron_right_circle_outline,
           controller: confirmationCtrl,
-        ));
+        ),
+    );
 
     final createButton = Hero(
         tag: 'sign-up-button',
-        child: UniqueButton('CREAR E INGRESAR',
-            color: FlatUI.midnightBlue, onPressed: signUpWithEmailAndPassword));
+        child: ModernButton('CREAR E INGRESAR',
+            color: FlatUI.midnightBlue,
+            onPressed: signUpWithEmailAndPassword,
+        ),
+    );
 
     final googleButton = Hero(
         tag: 'google-button',
         child: Visibility(
-            visible: false, maintainSize: false, child: SizedBox.shrink()));
+            visible: false, maintainSize: false, child: SizedBox.shrink(),
+        ),
+    );
 
     final backButton = Hero(
         tag: 'alternative-button',
         child: CupertinoButton(
             child: Text('¿Ya tienes una cuenta?',
                 style: TextStyle(color: FlatUI.peterRiver)),
-            onPressed: () => Navigator.pop(context)));
+            onPressed: () => Navigator.pop(context),
+        ),
+    );
 
     final loginContent = [
       headlineText,
@@ -131,7 +142,8 @@ class AuthInitState extends State<AuthInit> {
     // IntrinsicWidth adjusts the column to its widest child
     final loginContainer = Container(
         child: IntrinsicWidth(child: loginColumn),
-        constraints: BoxConstraints(minWidth: 280, maxWidth: 280));
+        constraints: BoxConstraints(minWidth: 280, maxWidth: 280),
+    );
 
     return Scaffold(body: SafeArea(child: Screen(child: loginContainer)));
   }

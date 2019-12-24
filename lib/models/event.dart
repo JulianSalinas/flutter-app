@@ -4,18 +4,26 @@ import 'package:letsattend/models/person.dart';
 
 class Event {
 
+  // Provided by database
+  String id;
+
+  // Provided by user
+  String code;
+
   String title;
   String type;
   String location;
-  String code;
   String description;
+
+  // Scheduled event
   DateTime end;
   DateTime start;
-  List<Person> people;
 
+  List<Person> people;
   bool isFavorite;
 
   Event({
+    this.id,
     this.title,
     this.type,
     this.location,
@@ -39,6 +47,10 @@ class Event {
       return UIColors.feria;
     else
       return UIColors.merienda;
+  }
+
+  String getImage(){
+    return 'assets/tec_edificio_a4.jpg';
   }
 
 }

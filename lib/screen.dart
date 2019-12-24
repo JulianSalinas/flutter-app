@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/shared/night_switch.dart';
+import 'package:letsattend/shared/switch/night_switch.dart';
 
 /// It wraps a component to allow it to take the full space
 /// Adds a switch to change between dark and light mode
