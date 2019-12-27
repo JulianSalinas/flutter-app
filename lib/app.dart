@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:letsattend/people/people.dart';
+import 'package:letsattend/screens/auth/sign_in.dart';
+import 'package:provider/provider.dart';
+
+import 'package:letsattend/providers/scheme.dart';
+import 'package:letsattend/screens/home/home.dart';
+import 'package:letsattend/screens/auth/sign_in.dart';
+
+import 'screens/auth/sign_in.dart';
+import 'screens/home/home.dart';
+
+
+/// The theme is changed according to the variable available by the provider
+class App extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final scheme = Provider.of<Scheme>(context);
+
+    /// Allows to switch between dark and light mode
+    final themeData = ThemeData(
+      brightness: scheme.nightMode ? Brightness.dark : Brightness.light,
+      primarySwatch: Colors.red,
+    );
+
+    final routes = {
+      '/': (context) => People(),
+    };
+
+    final materialApp = MaterialApp(
+        title: 'Let\'s Attend',
+        routes: routes,
+        theme: themeData
+    );
+
+    /// Renders the applications with the theme data
+    return Material(child: materialApp);
+
+  }
+}
