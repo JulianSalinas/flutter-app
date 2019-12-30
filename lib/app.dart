@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/people/people.dart';
-import 'package:letsattend/screens/auth/sign_in.dart';
 import 'package:provider/provider.dart';
 
+import 'package:letsattend/screens/news/news.dart';
 import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/home/home.dart';
-import 'package:letsattend/screens/auth/sign_in.dart';
-
-import 'screens/auth/sign_in.dart';
-import 'screens/home/home.dart';
 
 
 /// The theme is changed according to the variable available by the provider
@@ -26,7 +20,7 @@ class App extends StatelessWidget {
     );
 
     final routes = {
-      '/': (context) => People(),
+      '/': (context) => News(),
     };
 
     final materialApp = MaterialApp(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/person.dart';
-import 'package:letsattend/people/people_item.dart';
+import 'package:letsattend/screens/people/people_item.dart';
 import 'package:letsattend/shared/text/modern_text.dart';
 
 
