@@ -33,10 +33,6 @@ class DetailContent extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            Text('Título', style: TextStyle(fontWeight: FontWeight.w300)),
-            SizedBox(
-              height: 8,
-            ),
             HeroText(event.title,
               tag: 'event-title-${event.id}',
               style: Typography.englishLike2018.title,
@@ -60,6 +56,9 @@ class DetailContent extends StatelessWidget {
             Text(
               DetailContent.abstract,
               style: Typography.englishLike2018.body2,
+            ),
+            SizedBox(
+              height: 16,
             ),
           ],
         ),

@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/providers/scheme.dart';
-import 'package:letsattend/screens/news/news_preview.dart';
-import 'package:provider/provider.dart';
+import 'package:letsattend/shared/preview/touchable_preview.dart';
 
 class NewsItem extends StatelessWidget {
 
@@ -18,23 +16,23 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<Scheme>(context);
-
-    final upper = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(post.title),
-        Text('hace 1 hora')
-      ],
+    final datetime = Text(
+      'Hace 3 horas',
+      style: TextStyle(
+        fontSize: 12,
+        color: FlatUI.peterRiver,
+      ),
     );
 
     final preview = post.preview != null ?
-      NewsPreview(preview: post.preview) :
+      TouchablePreview(preview: post.preview) :
       SizedBox.shrink();
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        datetime,
+        SizedBox(height: 2),
         Text(post.title, style: Typography.englishLike2018.title),
         SizedBox(height: 4,),
         Text(post.description),
@@ -44,9 +42,9 @@ class NewsItem extends StatelessWidget {
     );
 
     final decoration = Container(
-      width: 5,
-      height: 5,
-      margin: EdgeInsets.only(top: 8),
+      width: 6,
+      height: 6,
+      margin: EdgeInsets.only(top: 4),
       decoration: BoxDecoration(
         color: FlatUI.peterRiver,
         shape: BoxShape.circle,
@@ -64,6 +62,7 @@ class NewsItem extends StatelessWidget {
 
     return Container(
 //      height: 240,
+      margin: EdgeInsets.only(bottom: 16),
       child: container,
     );
 

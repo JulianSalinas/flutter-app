@@ -12,8 +12,8 @@ void main() {
   /// by using the provider pattern
   /// [See] https://pub.dev/packages/provider
   final providers = [
-    ChangeNotifierProvider<Auth>(builder: (context) => Auth()),
-    ChangeNotifierProvider<Scheme>(builder: (context) => Scheme()),
+    ChangeNotifierProvider<Auth>(create: (context) => Auth()),
+    ChangeNotifierProvider<Scheme>(create: (context) => Scheme()),
   ];
 
   /// Entry point of the Flutter application

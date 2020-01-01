@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/screens/schedule/date_page.dart';
+import 'package:letsattend/screens/schedule/schedule.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letsattend/screens/news/news.dart';
@@ -20,7 +22,7 @@ class App extends StatelessWidget {
     );
 
     final routes = {
-      '/': (context) => News(),
+      '/': (context) => Schedule(),
     };
 
     final materialApp = MaterialApp(

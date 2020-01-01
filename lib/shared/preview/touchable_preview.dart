@@ -1,53 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:letsattend/colors/flat_ui.dart';
 import 'package:letsattend/colors/ui_colors.dart';
 import 'package:letsattend/models/preview.dart';
 import 'package:letsattend/providers/scheme.dart';
+import 'package:letsattend/shared/preview/fullscreen_web_view.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class NewsPreview extends StatelessWidget {
+import 'touchable_image.dart';
+
+class TouchablePreview extends StatelessWidget {
 
   final Preview preview;
 
-  const NewsPreview({
+  const TouchablePreview({
     Key key,
     @required this.preview,
   }) : super(key: key);
+
+  openUrl(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FullscreenWebView(
+        title: preview.title,
+        url: preview.url,
+      )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final scheme = Provider.of<Scheme>(context);
 
-    if(preview.image != null) {
-
-      final image = Image.network(
-        preview.image,
-        fit: BoxFit.cover,
-      );
-
-      final roundedImage = ClipRRect(
-        child: image,
-        borderRadius: BorderRadius.circular(4),
-      );
-
-      final touchableFilter = Positioned.fill(
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(onTap: () => print('Image clicked!')),
-        ),
-      );
-
-      return Stack(
-        children: [roundedImage, touchableFilter],
-      );
-
-    }
+    if(preview.image != null)
+      return TouchableImage(imageUrl: preview.image);
 
     final thumbnail = preview.thumbnail != null ? Image.network(
       preview.thumbnail,
-      width: 48,
-      height: 48,
+      width: 36,
+      height: 36,
       fit: BoxFit.cover,
     ): SizedBox.shrink();
 
@@ -67,6 +61,8 @@ class NewsPreview extends StatelessWidget {
 
     final description = preview.description != null ? Text(
       preview.description,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
     ): SizedBox.shrink();
     
     final content = Column(
@@ -107,7 +103,17 @@ class NewsPreview extends StatelessWidget {
 
     return InkWell(
       child: container,
-      onTap: () => print('Post clicked'),
+      onTap: () => openUrl(context),
+      onLongPress: () {
+        Clipboard.setData(ClipboardData(
+          text: preview.url
+        )).then((result) {
+          Scaffold.of(context).showSnackBar(new SnackBar(
+            content: new Text('Copiado al portapapeles'),
+            duration: Duration(seconds: 1),
+          ));
+        });
+      },
     );
 
   }

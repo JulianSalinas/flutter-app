@@ -19,6 +19,8 @@ class ScheduleState extends State<Schedule> {
       pageSnapping: true,
       children: <Widget>[
         DatePage(date: DateTime.now()),
+        DatePage(date: DateTime.now()),
+        DatePage(date: DateTime.now()),
         Sample(color: FlatUI.peterRiver, text: 'Page 2'),
         Sample(color: FlatUI.pomegranate, text: 'Page 3'),
       ],

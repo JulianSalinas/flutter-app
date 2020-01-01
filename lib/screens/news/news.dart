@@ -66,12 +66,7 @@ class NewsState extends State<News> {
   }
 
   Widget buildItem(BuildContext context, int i){
-
-    if (i.isOdd) return Divider(height: 16);
-
-    final index = i ~/ 2;
-
-    return NewsItem(post: news[index]);
+    return NewsItem(post: news[i]);
   }
 
   @override
@@ -80,7 +75,7 @@ class NewsState extends State<News> {
     final listView = ListView.builder(
       padding:  EdgeInsets.fromLTRB(10, 16, 16, 16),
       itemBuilder: buildItem,
-      itemCount: news.length * 2 - 1, // 1 reserved for dividers
+      itemCount: news.length
     );
 
     return Scaffold(

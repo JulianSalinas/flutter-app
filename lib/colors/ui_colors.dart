@@ -10,12 +10,12 @@ class UIColors {
   static const darkReal = Color(0xff141E30);
   static const midnightCity = Color(0xff232526);
 
-  static const nightOverlay = Color(0x09FFFFFF);
-  static const lightOverlay = Color(0x09000000);
+  static const nightOverlay = Color(0x0FFFFFFF);
+  static const lightOverlay = Color(0x0F000000);
 
   /// Colors for the events
   static const ponencia = FlatUI.nephritis;
-  static const conferencia = Colors.deepPurpleAccent;
+  static const conferencia = FlatUI.peterRiver;
   static const taller = Colors.red;
   static const feria = FlatUI.wisteria;
   static const merienda = FlatUI.sunflower;
