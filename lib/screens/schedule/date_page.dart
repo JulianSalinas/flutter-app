@@ -20,7 +20,7 @@ class DatePageState extends State<DatePage> {
   void initState() {
     super.initState();
 
-    final Event e1 = Event(
+    events.add(Event(
       id: '-SHT6654',
       code: 'P01',
       type: 'PONENCIA',
@@ -34,9 +34,9 @@ class DatePageState extends State<DatePage> {
         Person(name: 'Luna Pancrasia'),
       ],
       isFavorite: true,
-    );
+    ));
 
-    final Event e2 = Event(
+    events.add(Event(
       id: '-SDFGH24154',
       code: 'C02',
       type: 'CONFERENCIA',
@@ -48,9 +48,9 @@ class DatePageState extends State<DatePage> {
         Person(name: 'Josseline Alfaro'),
       ],
       isFavorite: false,
-    );
+    ));
 
-    final Event e3 = Event(
+    events.add(Event(
       id: '-YHJNDRSDDF',
       code: 'T03',
       type: 'TALLER',
@@ -63,9 +63,53 @@ class DatePageState extends State<DatePage> {
         Person(name: 'Kimberly Camacho'),
       ],
       isFavorite: true,
-    );
+    ));
 
-    events.addAll([e1, e2, e3]);
+    events.add(Event(
+      id: '-SHT665wst6yh4',
+      code: 'P01',
+      type: 'PONENCIA',
+      location: 'Centro de las Artes',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática',
+      people: [
+        Person(name: 'Julian Salinas'),
+        Person(name: 'Aquiles Van Stengel'),
+        Person(name: 'Luna Pancrasia'),
+      ],
+      isFavorite: true,
+    ));
+
+    events.add(Event(
+      id: '-SDFGH2h456hwsef4154',
+      code: 'C02',
+      type: 'CONFERENCIA',
+      location: 'Auditorio B1',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus si',
+      people: [
+        Person(name: 'Josseline Alfaro'),
+      ],
+      isFavorite: false,
+    ));
+
+    events.add(Event(
+      id: '-YHJNDhtsthRSDDF',
+      code: 'T03',
+      type: 'TALLER',
+      location: 'Laboratorio H',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      people: [
+        Person(name: 'Mayorlan Nunes'),
+        Person(name: 'Kimberly Camacho'),
+      ],
+      isFavorite: true,
+    ));
+
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letsattend/app.dart';
@@ -7,6 +8,8 @@ import 'package:letsattend/providers/scheme.dart';
 
 
 void main() {
+
+  Jiffy.locale('es');
 
   /// Access variables at the top of the three
   /// by using the provider pattern

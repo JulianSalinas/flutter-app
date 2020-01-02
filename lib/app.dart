@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/colors/ui_gradients.dart';
 import 'package:letsattend/screens/schedule/date_page.dart';
 import 'package:letsattend/screens/schedule/schedule.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class App extends StatelessWidget {
     final themeData = ThemeData(
       brightness: scheme.nightMode ? Brightness.dark : Brightness.light,
       primarySwatch: Colors.red,
+      focusColor: Colors.white,
     );
 
     final routes = {

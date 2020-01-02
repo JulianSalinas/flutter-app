@@ -46,7 +46,7 @@ class NightSwitch extends StatelessWidget {
       height: 48,
       child: content,
       padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-      color: scheme.nightMode ? UIColors.midnightCity : Colors.white
+      color: Colors.transparent,
     );
 
     /// It's wrapped 'cause it creates the effect of being static
