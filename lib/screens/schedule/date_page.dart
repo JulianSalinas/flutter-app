@@ -21,6 +21,21 @@ class DatePageState extends State<DatePage> {
     super.initState();
 
     events.add(Event(
+      id: '-YHDF',
+      code: 'T03',
+      type: 'FERIA',
+      location: 'Laboratorio H',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de',
+      people: [
+        Person(name: 'Mayorlan Nunes'),
+        Person(name: 'Kimberly Camacho'),
+      ],
+      isFavorite: true,
+    ));
+
+    events.add(Event(
       id: '-SHT6654',
       code: 'P01',
       type: 'PONENCIA',
@@ -99,6 +114,21 @@ class DatePageState extends State<DatePage> {
       id: '-YHJNDhtsthRSDDF',
       code: 'T03',
       type: 'TALLER',
+      location: 'Laboratorio H',
+      start: DateTime.now(),
+      end: DateTime.now(),
+      title: 'Competencias profesionales de profesores de matemática (prospectiva): aproximaciones cognitivas versus situadas',
+      people: [
+        Person(name: 'Mayorlan Nunes'),
+        Person(name: 'Kimberly Camacho'),
+      ],
+      isFavorite: true,
+    ));
+
+    events.add(Event(
+      id: '-YHJNDhtsthRwergshtSDDF',
+      code: 'T03',
+      type: 'FERIA',
       location: 'Laboratorio H',
       start: DateTime.now(),
       end: DateTime.now(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/colors/flat_ui.dart';
+import 'package:letsattend/colors/ui_gradients.dart';
 
 class UIColors {
   /// Colors for social media widgets
@@ -15,8 +16,8 @@ class UIColors {
 
   /// Colors for the events
   static const ponencia = FlatUI.nephritis;
-  static const conferencia = FlatUI.peterRiver;
+  static const conferencia = FlatUI.belizeHole;
   static const taller = Colors.red;
-  static const feria = FlatUI.wisteria;
+  static const feria = FlatUI.pumpkin;
   static const merienda = FlatUI.sunflower;
 }

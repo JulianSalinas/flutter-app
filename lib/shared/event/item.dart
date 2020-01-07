@@ -29,6 +29,13 @@ class Item extends StatelessWidget {
     this.onFavoriteChanged
   });
 
+  openDetail(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Detail(event: event)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -129,15 +136,7 @@ class Item extends StatelessWidget {
     );
 
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Detail(
-              event: event,
-            ),
-          ),
-        );
-      },
+      onTap: () => openDetail(context),
       child: Container(height: 154, child: stackContainer),
     );
 

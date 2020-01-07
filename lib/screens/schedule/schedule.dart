@@ -15,9 +15,12 @@ class Schedule extends StatefulWidget {
   ScheduleState createState() => ScheduleState();
 }
 
-class ScheduleState extends State<Schedule> with SingleTickerProviderStateMixin {
+class ScheduleState extends State<Schedule> with TickerProviderStateMixin {
 
   TabController tabCtrl;
+  AnimationController menuCtrl;
+
+  bool isMenuOpen = false;
 
   static final DateTime seedDate = DateTime.now();
 
@@ -32,12 +35,17 @@ class ScheduleState extends State<Schedule> with SingleTickerProviderStateMixin 
   @override
   void initState() {
     super.initState();
-    tabCtrl = new TabController(vsync: this, length: dates.length);
+    tabCtrl = TabController(vsync: this, length: dates.length);
+    menuCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
   }
 
   @override
   void dispose() {
     tabCtrl.dispose();
+    menuCtrl.dispose();
     super.dispose();
   }
 
@@ -102,15 +110,33 @@ class ScheduleState extends State<Schedule> with SingleTickerProviderStateMixin 
       collapseMode: CollapseMode.parallax,
     );
 
-    final appBar = SliverAppBar(
-      expandedHeight: 240,
+    final appBar = AppBar(
+//      expandedHeight: 240,
       title: ModernText('Cronograma', color: Colors.white,),
       centerTitle: true,
       flexibleSpace: spaceBar,
       bottom: tabBar,
       elevation: 0,
-      floating: false,
+//      floating: false,
       backgroundColor: UIGradients.kashmir[1],
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          onPressed: () => print('view'),
+        ),
+      ],
+      leading: IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_close,
+          progress: menuCtrl,
+        ),
+        onPressed: () {
+          setState(() {
+            isMenuOpen = !isMenuOpen;
+            isMenuOpen ? menuCtrl.reverse() : menuCtrl.forward();
+          });
+        },
+      )
     );
 
     final scrollView = NestedScrollView(
@@ -119,12 +145,8 @@ class ScheduleState extends State<Schedule> with SingleTickerProviderStateMixin 
     );
 
     return  Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(child: scrollView,),
-          NightSwitch(),
-        ],
-      ),
+      appBar: appBar,
+      body: content,
     );
 
   }
