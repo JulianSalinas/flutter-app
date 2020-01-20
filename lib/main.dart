@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:letsattend/core/services/database/database_service.dart';
-import 'package:letsattend/core/services/database/firebase_service.dart';
+
+import 'package:letsattend/controllers/speakers_controller.dart';
 import 'package:letsattend/locator.dart';
 
-import 'package:letsattend/ui/views/home/home.dart';
-import 'package:letsattend/ui/views/speakers/speaker_list.dart';
+import 'package:letsattend/views/speakers/speaker_view.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letsattend/core/services/auth/auth_service.dart';
-import 'package:letsattend/core/services/theme_service.dart';
+import 'package:letsattend/controllers/auth_controller.dart';
+import 'package:letsattend/controllers/theme_controller.dart';
 
-import 'core/services/auth/firebase_auth_service.dart';
+import 'services/auth_service.dart';
 
 void main() {
 
@@ -33,14 +32,14 @@ class App extends StatelessWidget {
 
     /// [See] https://pub.dev/packages/provider
     final providers = [
-      ChangeNotifierProvider<AuthService>(
-        create: (context) => locator<FirebaseAuthService>(),
+      ChangeNotifierProvider<AuthController>(
+        create: (context) => locator<AuthController>(),
       ),
-      ChangeNotifierProvider<ThemeService>(
-        create: (context) => locator<ThemeService>(),
+      ChangeNotifierProvider<ThemeController>(
+        create: (context) => locator<ThemeController>(),
       ),
-      ChangeNotifierProvider<DatabaseService>(
-        create: (context) => locator<FirebaseService>(),
+      ChangeNotifierProvider<SpeakersController>(
+        create: (context) => locator<SpeakersController>(),
       )
     ];
 
@@ -62,7 +61,7 @@ class ThemedApp extends StatelessWidget {
     // TODO Get current theme
 
     final routes = {
-      '/': (context) => People(),
+      '/': (context) => SpeakerList(),
     };
 
     return MaterialApp(

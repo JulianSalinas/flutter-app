@@ -1,12 +1,19 @@
 import 'package:get_it/get_it.dart';
-import 'package:letsattend/core/services/theme_service.dart';
-import 'package:letsattend/core/services/database/firebase_service.dart';
-import 'package:letsattend/core/services/auth/firebase_auth_service.dart';
+import 'package:letsattend/controllers/auth_controller.dart';
+
+import 'package:letsattend/controllers/theme_controller.dart';
+import 'package:letsattend/controllers/speakers_controller.dart';
+import 'package:letsattend/services/speakers_service.dart';
+import 'package:letsattend/services/auth_service.dart';
 
 GetIt locator = GetIt.asNewInstance();
 
 void setupLocator() {
-  locator.registerLazySingleton(() => ThemeService());
-  locator.registerLazySingleton(() => FirebaseService());
-  locator.registerLazySingleton(() => FirebaseAuthService());
+
+  locator.registerLazySingleton(() => ThemeController());
+  locator.registerLazySingleton(() => AuthController());
+
+  locator.registerFactory(() => SpeakersController());
+  locator.registerLazySingleton(() => SpeakersService());
+
 }
