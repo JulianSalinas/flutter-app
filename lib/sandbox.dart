@@ -60,7 +60,7 @@ class EmptySpeakersView extends StatelessWidget {
     );
 
     final emptyList = ListView.builder(
-      itemCount: 10,
+      itemCount: (MediaQuery.of(context).size.height / 64.0).floor(),
       itemBuilder: (_, index) => titleWithShimmer,
     );
 
