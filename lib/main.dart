@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
-import 'package:letsattend/controllers/speakers_controller.dart';
+import 'package:letsattend/view_models/speakers_model.dart';
 import 'package:letsattend/locator.dart';
 
 import 'package:letsattend/views/speakers/speaker_view.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letsattend/controllers/auth_controller.dart';
-import 'package:letsattend/controllers/theme_controller.dart';
+import 'package:letsattend/view_models/auth_model.dart';
+import 'package:letsattend/view_models/theme_model.dart';
 
 import 'services/auth_service.dart';
 
@@ -32,14 +32,14 @@ class App extends StatelessWidget {
 
     /// [See] https://pub.dev/packages/provider
     final providers = [
-      ChangeNotifierProvider<AuthController>(
-        create: (context) => locator<AuthController>(),
+      ChangeNotifierProvider<AuthModel>(
+        create: (context) => locator<AuthModel>(),
       ),
-      ChangeNotifierProvider<ThemeController>(
-        create: (context) => locator<ThemeController>(),
+      ChangeNotifierProvider<ThemeModel>(
+        create: (context) => locator<ThemeModel>(),
       ),
-      ChangeNotifierProvider<SpeakersController>(
-        create: (context) => locator<SpeakersController>(),
+      ChangeNotifierProvider<SpeakersModel>(
+        create: (context) => locator<SpeakersModel>(),
       )
     ];
 

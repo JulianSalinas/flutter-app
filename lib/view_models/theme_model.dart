@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class ThemeController with ChangeNotifier {
+class ThemeModel with ChangeNotifier {
 
   bool nightMode = true;
 

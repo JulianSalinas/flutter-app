@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/controllers/theme_controller.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/night_switch.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +19,7 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeController>(context);
+    final scheme = Provider.of<ThemeModel>(context);
 
     final haccess = (IconData icon, Color color) => Material(
       color: color,

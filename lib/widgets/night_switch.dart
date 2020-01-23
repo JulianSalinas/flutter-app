@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/controllers/theme_controller.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 
 /// Switch used to change the theme scheme
-/// It depends on the provider [theme_controller.dart]
+/// It depends on the provider [theme_model.dart]
 class NightSwitch extends StatelessWidget {
 
   final String text;
@@ -21,7 +21,7 @@ class NightSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
 
     /// Gets the properties for the switch
-    final scheme = Provider.of<ThemeController>(context);
+    final scheme = Provider.of<ThemeModel>(context);
 
     /// Cupertino switch also works on Android
     final switchComponent = Switch(

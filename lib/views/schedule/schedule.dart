@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/schedule/date_page.dart';
 import 'package:letsattend/views/schedule/date_tab.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letsattend/controllers/theme_controller.dart';
+import 'package:letsattend/view_models/theme_model.dart';
 
 
 class Schedule extends StatefulWidget {
@@ -51,7 +51,7 @@ class ScheduleState extends State<Schedule> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeController>(context);
+    final scheme = Provider.of<ThemeModel>(context);
     final labelColor = scheme.nightMode ? Colors.white : FlatUI.kashmir[0];
 
     final tabs = dates.map((DateTime dateTime) {

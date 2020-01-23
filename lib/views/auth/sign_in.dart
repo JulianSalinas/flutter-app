@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/controllers/auth_controller.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/view_models/auth_model.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/auth/auth_form.dart';
 import 'package:letsattend/widgets/modern_button.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class LoginState extends State<Login> {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  submit(AuthController auth) => (String email, String password) {
+  submit(AuthModel auth) => (String email, String password) {
     print('email: $email, password: $password');
 //    auth.signInWithEmailAndPassword(email, password);
   };
@@ -99,7 +99,7 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
 
-    final auth = Provider.of<AuthController>(context);
+    final auth = Provider.of<AuthModel>(context);
     // final scheme = Provider.of<Scheme>(context);
 
     final headline = TypewriterAnimatedTextKit(

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 
 /// Custom button with icon that adapts itself according
 /// to the active scheme
-/// It depends on the provider [theme_controller.dart]
+/// It depends on the provider [theme_model.dart]
 class ModernButton extends StatelessWidget {
 
   final String text;

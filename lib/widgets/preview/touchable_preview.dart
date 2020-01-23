@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/preview.dart';
-import 'package:letsattend/controllers/theme_controller.dart';
+import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/widgets/preview/fullscreen_web_view.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class TouchablePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeController>(context);
+    final scheme = Provider.of<ThemeModel>(context);
 
     if(preview.image != null)
       return TouchableImage(imageUrl: preview.image);

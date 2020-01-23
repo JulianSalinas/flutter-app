@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/colors.dart';
-import 'package:letsattend/utils.dart';
+import 'package:letsattend/shared/utils.dart';
+import 'package:letsattend/shared/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Speaker {
 

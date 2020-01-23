@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/speaker.dart';
 
 class Event {

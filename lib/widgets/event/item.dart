@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
-import 'package:letsattend/controllers/theme_controller.dart';
+import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/views/detail/detail.dart';
 import 'package:letsattend/widgets/event/item_favorite.dart';
 import 'package:letsattend/widgets/hero_text.dart';
@@ -39,7 +39,7 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeController>(context);
+    final scheme = Provider.of<ThemeModel>(context);
 
     final decoration = ItemLine(
       isFirst: isFirst,

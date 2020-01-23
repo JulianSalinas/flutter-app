@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 
 class Favorite extends StatefulWidget {
 

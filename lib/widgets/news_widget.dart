@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/preview/touchable_preview.dart';
 
 class NewsWidget extends StatelessWidget {

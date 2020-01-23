@@ -6,7 +6,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:letsattend/colors.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_button.dart';
 import 'package:letsattend/widgets/modern_input.dart';
 

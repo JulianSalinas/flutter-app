@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:letsattend/models/filter.dart';
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/services/firestore_service.dart';
 
@@ -14,13 +12,13 @@ class SpeakersService extends FirestoreService<Speaker> {
   }
 
   @override
-  Stream<List<Speaker>> getSpeakersStream(Filter filter) {
+  Stream<List<Speaker>> createSpeakersStream() {
     return super
         .db
         .collection(source)
-        .orderBy('name', descending: !filter.asc)
+        .orderBy('name', descending: false)
         .snapshots()
-        .map((snapshot) => fromSnapshot(snapshot).where(filter.apply).toList());
+        .map((snapshot) => fromSnapshot(snapshot).toList());
   }
 
 }

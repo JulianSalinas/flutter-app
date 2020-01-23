@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:letsattend/models/speaker.dart';
-import 'package:letsattend/colors.dart';
-import 'package:letsattend/utils.dart';
+import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/shared/utils.dart';
 
 void main() {
 
