@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/shared/utils.dart';
 
@@ -46,6 +45,32 @@ void main() {
 
     test('Whatever string', () {
       expect(getColorFor('Aquiles', colors), FlatUI.alizarin);
+    });
+
+  });
+
+  group('Testing containsWord(word, content)', () {
+
+    var content = 'Julian Salinas del Instituto Tecnológico';
+
+    test('Empty string', () {
+      expect(containsFilter('', content), false);
+    });
+
+    test('Null string', () {
+      expect(containsFilter(null, content), false);
+    });
+
+    test('Whatever string', () {
+      expect(containsFilter('salinas', content), true);
+    });
+
+    test('Two searched strings', () {
+      expect(containsFilter('rojas  julian', content), true);
+    });
+
+    test('Not contained string', () {
+      expect(containsFilter('steven', content), false);
     });
 
   });

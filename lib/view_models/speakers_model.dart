@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import 'package:letsattend/locator.dart';
+import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/services/speakers_service.dart';
 
@@ -16,8 +17,7 @@ class SpeakersModel with ChangeNotifier {
   bool _descending = true;
   List<Speaker> _speakers;
 
-
-  SpeakersModel(){
+  SpeakersModel() {
     _service.createSpeakersStream().listen(update);
   }
 
@@ -33,8 +33,7 @@ class SpeakersModel with ChangeNotifier {
   set filter(String filter) {
     _filter = filter.toLowerCase();
 
-    if(_typingTimer != null && _typingTimer.isActive)
-      _typingTimer.cancel();
+    if (_typingTimer != null && _typingTimer.isActive) _typingTimer.cancel();
 
     _typingTimer = Timer(Duration(milliseconds: 400), search);
   }
@@ -51,17 +50,16 @@ class SpeakersModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void stream(List<Speaker> speakers){
-    _controller.add(descending
-        ? speakers.toList()
-        : speakers.reversed.toList(),
+  void stream(List<Speaker> speakers) {
+    _controller.add(
+      descending ? speakers.toList() : speakers.reversed.toList(),
     );
   }
 
   bool isSearched(Speaker speaker) =>
       _filter == null ||
       _filter.isEmpty ||
-      (speaker.university?.toLowerCase() ?? speaker.country?.toLowerCase()).startsWith(_filter);
+      containsFilter(_filter, speaker.toString());
 
   Stream<List<Speaker>> get speakers {
     return _controller.stream;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Speaker {
 
@@ -46,7 +47,7 @@ class Speaker {
 
   @override
   String toString() {
-    return 'Speaker: $name';
+    return '${name ?? ''} ${country ?? '' } ${university ?? ''}';
   }
 
 }

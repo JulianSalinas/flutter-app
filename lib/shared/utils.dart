@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 
 /// Returns the first two initials from a name or
@@ -25,4 +26,19 @@ Color getColorFor(String text, Iterable<Color> colors) {
   int value = text.hashCode.abs();
   int remainder = value % colors.length;
   return colors.length > 0 ? colors.elementAt(remainder) : Colors.black;
+}
+
+bool containsFilter(String filter, String content){
+
+  if(filter == null || filter.isEmpty)
+    return false;
+
+  RegExp regex = new RegExp(r'(\w+)', caseSensitive: false);
+
+  String normFilter = removeDiacritics(filter.toLowerCase());
+  String normContent = removeDiacritics(content.toLowerCase());
+
+  var words = regex.allMatches(normFilter).map((word) => word.group(0));
+  return words.any((word) => normContent.contains(word));
+
 }

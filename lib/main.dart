@@ -4,7 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
 import 'package:letsattend/locator.dart';
 
-import 'package:letsattend/views/speakers/speaker_view.dart';
+import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letsattend/view_models/auth_model.dart';
@@ -61,7 +61,7 @@ class ThemedApp extends StatelessWidget {
     // TODO Get current theme
 
     final routes = {
-      '/': (context) => SpeakerList(),
+      '/': (context) => SpeakersView(),
     };
 
     return MaterialApp(

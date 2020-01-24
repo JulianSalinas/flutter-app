@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -6,14 +7,14 @@ import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/widgets/speaker_widget.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
+import 'package:letsattend/views/speakers/empty_speakers_view.dart';
 
-class SpeakerList extends StatefulWidget {
+class SpeakersView extends StatefulWidget {
   @override
-  SpeakerListState createState() => SpeakerListState();
+  SpeakersViewState createState() => SpeakersViewState();
 }
 
-class SpeakerListState extends State<SpeakerList> {
-
+class SpeakersViewState extends State<SpeakersView> {
   bool _isSearching = false;
   TextEditingController _searchQuery;
 
@@ -34,35 +35,63 @@ class SpeakerListState extends State<SpeakerList> {
   }
 
   void onTap(Speaker speaker) {
-    // TODO
+    print(speaker.toString());
   }
 
-  Widget buildSpeakers(_, List<Speaker> speakers){
+  Widget buildSpeakers(_, List<Speaker> speakers) {
 
     final itemCount = speakers.length * 2 - (speakers.length >= 1 ? 1 : 0);
 
-    final speakerWidget = (speaker) => SpeakerWidget(
-      key: Key(speaker.key),
-      speaker: speaker,
-      onTap: () => onTap(speaker),
-    );
+    final itemBuilder = (_, itemIndex) {
 
-    final itemBuilder = (_, index) {
-      if (index.isOdd) return Divider(height: 0);
-      return speakerWidget(speakers[index ~/ 2]);
+      if (itemIndex.isOdd)
+        return Divider(height: 0);
+
+      int i = itemIndex ~/ 2;
+      Speaker speaker = speakers[i];
+
+      final safeInitial = (Speaker speaker) =>
+          speaker.name.length >= 1 ? speaker.name[0].toUpperCase() : '#';
+
+      final speakerWidget = SpeakerWidget(
+        key: Key(speaker.key),
+        speaker: speaker,
+        onTap: () => onTap(speaker),
+      );
+
+      final headerText = Text(
+        safeInitial(speaker),
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      );
+
+      final tintedHeader = Container(
+        color: Colors.grey.withOpacity(0.05),
+        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+        child: Row(children: <Widget>[headerText]),
+      );
+
+      final speakerWithHeader = (Speaker speaker) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [tintedHeader, speakerWidget],
+      );
+
+      if (i == 0 || (safeInitial(speaker) != safeInitial(speakers[i - 1])))
+        return speakerWithHeader(speaker);
+
+      return speakerWidget;
+
     };
 
     return ListView.builder(
-      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-      itemCount: itemCount,
-      itemBuilder: itemBuilder
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+        itemCount: itemCount,
+        itemBuilder: itemBuilder,
     );
 
   }
 
   @override
   Widget build(BuildContext context) {
-
     final model = Provider.of<SpeakersModel>(context);
 
     final filterIcon = Icon(
@@ -98,9 +127,7 @@ class SpeakerListState extends State<SpeakerList> {
       onChanged: (query) => model.filter = query,
     );
 
-    final buttons = _isSearching
-        ? [closeButton]
-        : [filterButton, searchButton];
+    final buttons = _isSearching ? [closeButton] : [filterButton, searchButton];
 
     final appBar = AppBar(
       actions: buttons,
@@ -109,17 +136,13 @@ class SpeakerListState extends State<SpeakerList> {
     );
 
     final builder = (_, snapshot) {
-
-      if (snapshot.hasError)
-        return new Text('Error: ${snapshot.error}');
+      if (snapshot.hasError) return Text('Error: ${snapshot.error}');
 
       final isWaiting = snapshot.connectionState == ConnectionState.waiting;
 
-      if (isWaiting && !snapshot.hasData)
-        return Center(child: CircularProgressIndicator());
+      if (isWaiting && !snapshot.hasData) return EmptySpeakersView();
 
-      if (snapshot.hasData)
-        return buildSpeakers(_, snapshot.data);
+      if (snapshot.hasData) return buildSpeakers(_, snapshot.data);
 
       return Text('Nothing to show: ${snapshot.error}');
     };
