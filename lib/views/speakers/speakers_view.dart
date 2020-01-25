@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:letsattend/widgets/flexible_space.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +9,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/widgets/speaker_widget.dart';
-import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
 import 'package:letsattend/views/speakers/empty_speakers_view.dart';
@@ -17,6 +19,7 @@ class SpeakersView extends StatefulWidget {
 }
 
 class SpeakersViewState extends State<SpeakersView> {
+
   bool _isSearching = false;
   TextEditingController _searchQuery;
 
@@ -45,9 +48,7 @@ class SpeakersViewState extends State<SpeakersView> {
     final itemCount = speakers.length * 2 - (speakers.length >= 1 ? 1 : 0);
 
     final itemBuilder = (_, itemIndex) {
-
-      if (itemIndex.isOdd)
-        return Divider(height: 0);
+      if (itemIndex.isOdd) return Divider(height: 0);
 
       int i = itemIndex ~/ 2;
       Speaker speaker = speakers[i];
@@ -73,15 +74,14 @@ class SpeakersViewState extends State<SpeakersView> {
       );
 
       final speakerWithHeader = (Speaker speaker) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [tintedHeader, speakerWidget],
-      );
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [tintedHeader, speakerWidget],
+          );
 
       if (i == 0 || (safeInitial(speaker) != safeInitial(speakers[i - 1])))
         return speakerWithHeader(speaker);
 
       return speakerWidget;
-
     };
 
     final listDelegate = SliverChildBuilderDelegate(
@@ -90,13 +90,12 @@ class SpeakersViewState extends State<SpeakersView> {
     );
 
     return SliverList(delegate: listDelegate);
-
   }
 
   @override
   Widget build(BuildContext context) {
+
     final speakerModel = Provider.of<SpeakersModel>(context);
-    final themeModel = Provider.of<ThemeModel>(context);
 
     final filterIcon = Icon(
       speakerModel.descending
@@ -134,22 +133,13 @@ class SpeakersViewState extends State<SpeakersView> {
 
     final buttons = _isSearching ? [closeButton] : [filterButton, searchButton];
 
-    final appBarGradient =  Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [Colors.red, Colors.deepOrange],
-        ),
-      ),
-    );
-
     final appBar = SliverAppBar(
-      floating: true,
-      actions: buttons,
-      centerTitle: true,
-      title: _isSearching ? searchInput : ModernText('Expositores'),
-      flexibleSpace: themeModel.nightMode ? null : appBarGradient,
+        floating: true,
+        actions: buttons,
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: _isSearching ? searchInput : ModernText('Expositores'),
+        flexibleSpace: FlexibleSpace(),
     );
 
     final builder = (_, snapshot) {
@@ -174,6 +164,7 @@ class SpeakersViewState extends State<SpeakersView> {
     return Scaffold(
       drawer: DrawerView(),
       body: customScroll,
+      extendBodyBehindAppBar: true,
     );
 
   }
