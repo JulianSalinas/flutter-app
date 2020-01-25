@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-
-import 'package:letsattend/view_models/speakers_model.dart';
-import 'package:letsattend/locator.dart';
-
 import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:provider/provider.dart';
 
+import 'package:letsattend/locator.dart';
 import 'package:letsattend/view_models/auth_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
-
-import 'services/auth_service.dart';
+import 'package:letsattend/view_models/speakers_model.dart';
 
 void main() {
 
@@ -58,18 +54,21 @@ class ThemedApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // TODO Get current theme
+    ThemeModel themeModel = Provider.of<ThemeModel>(context);
 
     final routes = {
       '/': (context) => SpeakersView(),
     };
 
+    final themeData = ThemeData(
+      brightness: themeModel.brightness,
+      primarySwatch: Colors.red,
+    );
+
     return MaterialApp(
       title: 'Let\'s Attend',
       routes: routes,
-      theme: ThemeData(
-        brightness: Brightness.dark
-      ),
+      theme: themeData,
       debugShowCheckedModeBanner: false,
     );
 

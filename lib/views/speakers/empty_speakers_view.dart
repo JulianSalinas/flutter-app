@@ -50,13 +50,12 @@ class EmptySpeakersView extends StatelessWidget {
       child: Padding(padding: EdgeInsets.symmetric(vertical: 8), child: emptyTile),
     );
 
-    final emptyList = ListView.builder(
-      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-      itemCount: (MediaQuery.of(context).size.height / 64.0).floor(),
-      itemBuilder: (_, index) => titleWithShimmer,
+    final emptyList = SliverChildBuilderDelegate(
+      (_, index) => titleWithShimmer,
+      childCount: (MediaQuery.of(context).size.height / 64.0).floor(),
     );
 
-    return emptyList;
+    return SliverList(delegate: emptyList,);
 
   }
 }

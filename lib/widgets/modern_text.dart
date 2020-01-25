@@ -25,10 +25,7 @@ class ModernText extends StatelessWidget {
     );
 
     /// Material wrappers solves a bug when it is inside Hero widget
-    return Material(
-      color: Colors.transparent,
-      child: Text(text.toUpperCase(), style: textStyle),
-    );
+    return Text(text.toUpperCase(), style: textStyle);
 
   }
 

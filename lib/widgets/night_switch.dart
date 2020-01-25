@@ -21,12 +21,12 @@ class NightSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
 
     /// Gets the properties for the switch
-    final scheme = Provider.of<ThemeModel>(context);
+    final themeModel = Provider.of<ThemeModel>(context);
 
     /// Cupertino switch also works on Android
     final switchComponent = Switch(
-      value: scheme.nightMode,
-      onChanged: scheme.onChangeNightMode,
+      value: themeModel.nightMode,
+      onChanged: (bool active) => themeModel.nightMode = active,
       activeColor: FlatUI.pomegranate,
     );
 

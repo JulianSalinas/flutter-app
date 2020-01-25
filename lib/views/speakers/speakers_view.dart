@@ -1,11 +1,13 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/widgets/speaker_widget.dart';
+import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
 import 'package:letsattend/views/speakers/empty_speakers_view.dart';
 
@@ -66,7 +68,7 @@ class SpeakersViewState extends State<SpeakersView> {
 
       final tintedHeader = Container(
         color: Colors.grey.withOpacity(0.05),
-        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 22),
         child: Row(children: <Widget>[headerText]),
       );
 
@@ -82,27 +84,29 @@ class SpeakersViewState extends State<SpeakersView> {
 
     };
 
-    return ListView.builder(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
-        itemCount: itemCount,
-        itemBuilder: itemBuilder,
+    final listDelegate = SliverChildBuilderDelegate(
+      itemBuilder,
+      childCount: itemCount,
     );
+
+    return SliverList(delegate: listDelegate);
 
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<SpeakersModel>(context);
+    final speakerModel = Provider.of<SpeakersModel>(context);
+    final themeModel = Provider.of<ThemeModel>(context);
 
     final filterIcon = Icon(
-      model.descending
+      speakerModel.descending
           ? MaterialCommunityIcons.sort_ascending
           : MaterialCommunityIcons.sort_descending,
     );
 
     final filterButton = IconButton(
         icon: filterIcon,
-        onPressed: () => model.descending = !model.descending);
+        onPressed: () => speakerModel.descending = !speakerModel.descending);
 
     final searchButton = IconButton(
       icon: Icon(Icons.search),
@@ -111,7 +115,7 @@ class SpeakersViewState extends State<SpeakersView> {
 
     final closeButton = IconButton(
       icon: Icon(Icons.close),
-      onPressed: () => closeSearch(model),
+      onPressed: () => closeSearch(speakerModel),
     );
 
     final searchDecoration = InputDecoration(
@@ -124,15 +128,28 @@ class SpeakersViewState extends State<SpeakersView> {
       autofocus: true,
       controller: _searchQuery,
       decoration: searchDecoration,
-      onChanged: (query) => model.filter = query,
+      style: TextStyle(color: Colors.white),
+      onChanged: (query) => speakerModel.filter = query,
     );
 
     final buttons = _isSearching ? [closeButton] : [filterButton, searchButton];
 
-    final appBar = AppBar(
+    final appBarGradient =  Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [Colors.red, Colors.deepOrange],
+        ),
+      ),
+    );
+
+    final appBar = SliverAppBar(
+      floating: true,
       actions: buttons,
-      title: _isSearching ? searchInput : ModernText('Expositores'),
       centerTitle: true,
+      title: _isSearching ? searchInput : ModernText('Expositores'),
+      flexibleSpace: themeModel.nightMode ? null : appBarGradient,
     );
 
     final builder = (_, snapshot) {
@@ -147,9 +164,16 @@ class SpeakersViewState extends State<SpeakersView> {
       return Text('Nothing to show: ${snapshot.error}');
     };
 
+    final customScroll = CustomScrollView(
+      slivers: <Widget>[
+        appBar,
+        StreamBuilder(stream: speakerModel.speakers, builder: builder),
+      ],
+    );
+
     return Scaffold(
-      appBar: appBar,
-      body: StreamBuilder(stream: model.speakers, builder: builder),
+      drawer: DrawerView(),
+      body: customScroll,
     );
 
   }
