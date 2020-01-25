@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/views/drawer/drawer_clipper.dart';
+import 'package:letsattend/views/drawer/drawer_option.dart';
 import 'package:provider/provider.dart';
 
 class DrawerView extends StatelessWidget {
@@ -73,19 +74,19 @@ class DrawerView extends StatelessWidget {
           drawerUsername,
           drawerEmail,
           SizedBox(height: 24.0),
-          _buildRow(Icons.home, 'Principal'),
+          DrawerOption(icon: Icons.home, title: 'Principal'),
           divider,
-          _buildRow(MaterialCommunityIcons.calendar, 'Cronograma'),
+          DrawerOption(icon: MaterialCommunityIcons.calendar, title: 'Cronograma'),
           divider,
-          _buildRow(Icons.message, 'Chat', showBadge: true),
+          DrawerOption(icon: Icons.message, title: 'Chat', showBadge: true),
           divider,
-          _buildRow(Icons.notifications, 'Noticias', showBadge: true),
+          DrawerOption(icon: Icons.notifications, title: 'Noticias', showBadge: true),
           divider,
-          _buildRow(Icons.people, 'Expositores'),
+          DrawerOption(icon: Icons.people, title: 'Expositores', route: '/speakers',),
           divider,
-          _buildRow(Icons.settings, 'Configuración'),
+          DrawerOption(icon: Icons.settings, title: 'Configuración'),
           divider,
-          _buildRow(Icons.email, 'Contácto'),
+          DrawerOption(icon: Icons.email, title: 'Contácto'),
           divider,
           Container(
             child: Row(
@@ -144,47 +145,4 @@ class DrawerView extends StatelessWidget {
 
   }
 
-  Widget _buildRow(IconData icon, String title, {bool showBadge = false}) {
-    final TextStyle tStyle = TextStyle(fontSize: 16.0);
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 6.0),
-        child: Row(children: [
-          Icon(
-            icon,
-          ),
-          SizedBox(width: 12.0),
-          Text(
-            title,
-            style: tStyle,
-          ),
-          Spacer(),
-          if (showBadge)
-            Material(
-              color: Colors.deepOrange,
-              elevation: 5.0,
-              shadowColor: Colors.red,
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Text(
-                  '+15',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            )
-        ]),
-      ),
-    );
-  }
 }

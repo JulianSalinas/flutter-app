@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/night_switch.dart';
 import 'package:provider/provider.dart';
 
@@ -79,6 +80,7 @@ class HomeState extends State<Home> {
     );
 
     return Scaffold(
+      drawer: DrawerView(),
       body: Column(
         children: <Widget>[
           Expanded(child: temporal,),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:letsattend/views/home/home.dart';
 import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:provider/provider.dart';
 
@@ -57,7 +58,8 @@ class ThemedApp extends StatelessWidget {
     ThemeModel themeModel = Provider.of<ThemeModel>(context);
 
     final routes = {
-      '/': (context) => SpeakersView(),
+      '/': (context) => Home(),
+      '/speakers': (_) => SpeakersView(),
     };
 
     final themeData = ThemeData(
