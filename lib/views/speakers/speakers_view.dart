@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:letsattend/locator.dart';
 import 'package:letsattend/widgets/flexible_space.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +9,22 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
-import 'package:letsattend/widgets/speaker_widget.dart';
+import 'package:letsattend/views/speakers/speaker_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
-import 'package:letsattend/views/speakers/empty_speakers_view.dart';
+import 'package:letsattend/views/speakers/speakers_empty.dart';
+
+class Speakers extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<SpeakersModel>(
+      create: (context) => locator<SpeakersModel>(),
+      child: Consumer<SpeakersModel>(builder: (context, model, child) => SpeakersView()),
+    );
+  }
+
+}
 
 class SpeakersView extends StatefulWidget {
   @override
@@ -147,7 +160,7 @@ class SpeakersViewState extends State<SpeakersView> {
 
       final isWaiting = snapshot.connectionState == ConnectionState.waiting;
 
-      if (isWaiting && !snapshot.hasData) return EmptySpeakersView();
+      if (isWaiting && !snapshot.hasData) return SpeakersEmpty();
 
       if (snapshot.hasData) return buildSpeakers(_, snapshot.data);
 

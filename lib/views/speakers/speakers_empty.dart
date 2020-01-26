@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/widgets/shimmer.dart';
 
-class EmptySpeakersView extends StatelessWidget {
+class SpeakersEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

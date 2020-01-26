@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/view_models/navigation_model.dart';
+import 'package:letsattend/views/speakers/speakers_view.dart';
+import 'package:provider/provider.dart';
 
 class DrawerOption extends StatelessWidget {
 
@@ -18,13 +21,14 @@ class DrawerOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    NavigationModel navigationModel = Provider.of<NavigationModel>(context);
+
     final TextStyle tStyle = TextStyle(fontSize: 16.0);
 
     return InkWell(
       onTap: () {
-        Navigator.pop(context);
-        if(route != null)
-          Navigator.pushReplacementNamed(context, route);
+        navigationModel.goBack(); // close menu
+        navigationModel.pushReplacement(route);
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 6.0),

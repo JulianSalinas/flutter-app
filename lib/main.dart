@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:letsattend/views/home/home.dart';
-import 'package:letsattend/views/speakers/speakers_view.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:letsattend/router.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/view_models/auth_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
-import 'package:letsattend/view_models/speakers_model.dart';
+import 'package:letsattend/view_models/navigation_model.dart';
 
 void main() {
 
@@ -35,9 +34,9 @@ class App extends StatelessWidget {
       ChangeNotifierProvider<ThemeModel>(
         create: (context) => locator<ThemeModel>(),
       ),
-      ChangeNotifierProvider<SpeakersModel>(
-        create: (context) => locator<SpeakersModel>(),
-      )
+      ChangeNotifierProvider<NavigationModel>(
+        create: (context) => locator<NavigationModel>(),
+      ),
     ];
 
     /// Renders the applications with the theme data
@@ -57,20 +56,17 @@ class ThemedApp extends StatelessWidget {
 
     ThemeModel themeModel = Provider.of<ThemeModel>(context);
 
-    final routes = {
-      '/': (context) => Home(),
-      '/speakers': (_) => SpeakersView(),
-    };
-
-    final themeData = ThemeData(
+    final theme = ThemeData(
       brightness: themeModel.brightness,
       primarySwatch: Colors.red,
     );
 
     return MaterialApp(
       title: 'Let\'s Attend',
-      routes: routes,
-      theme: themeData,
+      theme: theme,
+      initialRoute: HomeRoute,
+      onGenerateRoute: generateRoute,
+      navigatorKey: locator<NavigationModel>().navigatorKey,
       debugShowCheckedModeBanner: false,
     );
 

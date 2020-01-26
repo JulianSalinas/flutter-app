@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:letsattend/router.dart' as router;
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/views/drawer/drawer_clipper.dart';
 import 'package:letsattend/views/drawer/drawer_option.dart';
@@ -74,7 +75,7 @@ class DrawerView extends StatelessWidget {
           drawerUsername,
           drawerEmail,
           SizedBox(height: 24.0),
-          DrawerOption(icon: Icons.home, title: 'Principal'),
+          DrawerOption(icon: Icons.home, title: 'Principal', route: router.HomeRoute),
           divider,
           DrawerOption(icon: MaterialCommunityIcons.calendar, title: 'Cronograma'),
           divider,
@@ -82,7 +83,7 @@ class DrawerView extends StatelessWidget {
           divider,
           DrawerOption(icon: Icons.notifications, title: 'Noticias', showBadge: true),
           divider,
-          DrawerOption(icon: Icons.people, title: 'Expositores', route: '/speakers',),
+          DrawerOption(icon: Icons.people, title: 'Expositores', route: router.SpeakersRoute,),
           divider,
           DrawerOption(icon: Icons.settings, title: 'Configuración'),
           divider,
