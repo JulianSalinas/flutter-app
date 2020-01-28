@@ -52,7 +52,7 @@ class ScheduleState extends State<Schedule> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
 
     final scheme = Provider.of<ThemeModel>(context);
-    final labelColor = scheme.nightMode ? Colors.white : FlatUI.kashmir[0];
+    final labelColor = scheme.nightMode ? Colors.white : SharedColors.kashmir[0];
 
     final tabs = dates.map((DateTime dateTime) {
       return DateTab(dateTime: dateTime);
@@ -90,7 +90,7 @@ class ScheduleState extends State<Schedule> with TickerProviderStateMixin {
     final appBarGradient = LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
-      colors: FlatUI.kashmir,
+      colors: SharedColors.kashmir,
     );
 
     final appBarContent = Container(
@@ -117,7 +117,7 @@ class ScheduleState extends State<Schedule> with TickerProviderStateMixin {
       bottom: tabBar,
       elevation: 0,
 //      floating: false,
-      backgroundColor: FlatUI.kashmir[1],
+      backgroundColor: SharedColors.kashmir[1],
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.filter_list),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/shared/colors.dart';
@@ -5,54 +6,71 @@ import 'package:letsattend/models/speaker.dart';
 
 class Event {
 
-  // Provided by database
-  String key;
+  final String key;
+  final String code;
 
-  // Provided by user
-  String code;
+  final String title;
+  final String type;
+  final String location;
+  final String description;
 
-  String title;
-  String type;
-  String location;
-  String description;
+  final DateTime end;
+  final DateTime start;
 
-  // Scheduled event
-  DateTime end;
-  DateTime start;
+  /// There are assigned in the service
+  List<Speaker> speakers;
 
-  List<Speaker> people;
+  /// Is false until the value is assigned
   bool isFavorite;
 
   Event({
-    this.key,
-    this.title,
-    this.type,
-    this.location,
     this.code,
-    this.end,
-    this.start,
-    this.people,
-    this.isFavorite
+    this.location,
+    this.description,
+    @required this.key,
+    @required this.title,
+    @required this.type,
+    @required this.start,
+    @required this.end,
+    @required this.isFavorite
   });
 
-  Event.empty();
+  factory Event.fromMap(String key, Map snapshot) => Event(
+    key: key,
+    title: snapshot['title'] ?? 'SIN TÍTULO',
+    type: snapshot['type'] ?? 'DESCONOCIDO',
+    start: snapshot['start'],
+    end: snapshot['end'],
+    code: snapshot['code'] ?? '#',
+    location: snapshot['location'] ?? 'DESCONOCIDA',
+    description: snapshot['description'],
+    isFavorite: false,
+  );
+
+  factory Event.fromFirestore(DocumentSnapshot snapshot) {
+    return Event.fromMap(snapshot.documentID, snapshot.data);
+  }
 
   Color getColor(){
-//    if (type == 'PONENCIA')
-//      return UIColors.ponencia;
-//    else if (type == 'CONFERENCIA')
-//      return UIColors.conferencia;
-//    else if (type == 'TALLER')
-//      return UIColors.taller;
-//    else if (type == 'FERIA')
-//      return UIColors.feria;
-//    else
-//      return UIColors.merienda;
-    return Colors.green;
+    switch(this.type){
+      case 'CONFERENCIA':
+        return SharedColors.greenSea;
+      case 'TALLER':
+        return SharedColors.pomegranate;
+      case 'PONENCIA':
+        return SharedColors.wisteria;
+      default:
+        return SharedColors.facebook;
+    }
   }
 
   String getImage(){
     return 'assets/tec_edificio_a4.jpg';
+  }
+
+  @override
+  String toString() {
+    return '$type $code $title';
   }
 
 }

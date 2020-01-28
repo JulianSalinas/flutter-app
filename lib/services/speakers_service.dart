@@ -12,7 +12,7 @@ class SpeakersService extends FirestoreService<Speaker> {
   }
 
   @override
-  Stream<List<Speaker>> createSpeakersStream() {
+  Stream<List<Speaker>> createStream() {
     return super
         .db
         .collection(source)

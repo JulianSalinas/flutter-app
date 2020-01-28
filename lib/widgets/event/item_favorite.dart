@@ -56,7 +56,7 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
     final icon = Icon(
       widget.isFavorite ? AntDesign.star : AntDesign.staro,
       size: 20,
-      color: FlatUI.sunflower,
+      color: SharedColors.sunflower,
     );
 
     final button = IconButton(

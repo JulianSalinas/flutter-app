@@ -20,7 +20,7 @@ class NewsWidget extends StatelessWidget {
       'Hace 3 horas',
       style: TextStyle(
         fontSize: 12,
-        color: FlatUI.peterRiver,
+        color: SharedColors.peterRiver,
       ),
     );
 
@@ -46,7 +46,7 @@ class NewsWidget extends StatelessWidget {
       height: 6,
       margin: EdgeInsets.only(top: 4),
       decoration: BoxDecoration(
-        color: FlatUI.peterRiver,
+        color: SharedColors.peterRiver,
         shape: BoxShape.circle,
       ),
     );

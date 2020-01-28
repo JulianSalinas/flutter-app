@@ -84,7 +84,7 @@ class Item extends StatelessWidget {
     );
 
     final itemPeople = ItemPeople(
-      people: event.people
+      people: event.speakers
     );
 
     final itemFavorite = Favorite(

@@ -95,7 +95,7 @@ class TouchablePreview extends StatelessWidget {
     );
 
     final container = Container(
-      color: scheme.nightMode ? FlatUI.nightOverlay : FlatUI.lightOverlay,
+      color: scheme.nightMode ? SharedColors.nightOverlay : SharedColors.lightOverlay,
       child: IntrinsicHeight(child: decoratedContent),
     );
 

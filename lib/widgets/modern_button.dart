@@ -16,7 +16,7 @@ class ModernButton extends StatelessWidget {
   ModernButton(
     this.text, {
     this.icon,
-    this.color = FlatUI.emerald,
+    this.color = SharedColors.emerald,
     @required this.onPressed,
   });
 

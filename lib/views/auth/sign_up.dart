@@ -97,7 +97,7 @@ class SignUpState extends State<SignUp> {
     final createButton = Hero(
         tag: 'sign-up-button',
         child: ModernButton('CREAR E INGRESAR',
-            color: FlatUI.midnightBlue,
+            color: SharedColors.midnightBlue,
             onPressed: signUpWithEmailAndPassword,
         ),
     );
@@ -111,7 +111,7 @@ class SignUpState extends State<SignUp> {
         tag: 'alternative-button',
         child: CupertinoButton(
             child: Text('¿Ya tienes una cuenta?',
-                style: TextStyle(color: FlatUI.peterRiver)),
+                style: TextStyle(color: SharedColors.peterRiver)),
             onPressed: () => Navigator.pop(context)));
 
     final loginContent = [

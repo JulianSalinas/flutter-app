@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:letsattend/view_models/auth_model.dart';
+import 'package:letsattend/view_models/schedule_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/view_models/speakers_model.dart';
 import 'package:letsattend/services/speakers_service.dart';
@@ -14,6 +15,9 @@ void setupLocator() {
 
   locator.registerFactory(() => SpeakersModel());
   locator.registerLazySingleton(() => SpeakersService());
+
+  locator.registerFactory(() => ScheduleModel());
+  locator.registerLazySingleton(() => ScheduleModel());
 
   locator.registerLazySingleton(() => NavigationModel());
 

@@ -18,7 +18,7 @@ class SpeakersModel with ChangeNotifier {
   List<Speaker> _speakers;
 
   SpeakersModel() {
-    _service.createSpeakersStream().listen(update);
+    _service.createStream().listen(update);
   }
 
   Future<List<Speaker>> filtered() async {

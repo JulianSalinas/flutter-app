@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-class FlatUI {
+class SharedColors {
 
-  static final values = [
-    greenSea,
-    nephritis,
-    belizeHole,
-    orange,
-    midnightBlue,
-    wisteria,
-    pumpkin
-  ];
+  /// Colors for social media widgets
+  static const google = Color(0xffd34836);
+  static const facebook = Color(0xff3B5998);
 
+  /// Utilities colors
+  static const nightOverlay = Color(0x0FFFFFFF);
+  static const lightOverlay = Color(0x0F000000);
+
+
+  /// Flat colors
+  ///
   /// Between green and blue
   static const turquoise = Color(0xff1abc9c);
   static const greenSea = Color(0xff16a085);
@@ -44,26 +45,28 @@ class FlatUI {
   static const alizarin = Color(0xffe74c3c);
   static const pomegranate = Color(0xffd34836);
 
-  /// Colors for social media widgets
-  static const google = Color(0xffd34836);
-  static const facebook = Color(0xff3B5998);
+  /// Collection chosen flat colors
+  static final flat = [
+    greenSea,
+    nephritis,
+    belizeHole,
+    orange,
+    midnightBlue,
+    wisteria,
+    pumpkin
+  ];
 
-  /// Solid ui.colors for multiple use cases
-  static const darkReal = Color(0xff141E30);
-  static const midnightCity = Color(0xff232526);
-
-  static const nightOverlay = Color(0x0FFFFFFF);
-  static const lightOverlay = Color(0x0F000000);
-
-//  /// Background color used for DARK mode
-//  static const darkReal = [Color(0xff141E30), Color(0xff243B55)];
-//
-//  static const midnightCity = [Color(0xff232526), Color(0xff232526)];
-
-  /// Foreground color used for DARK mode
+  /// Gradients
+  static const darkReal = [Color(0xff141E30), Color(0xff243B55)];
+  static const midnightCity = [Color(0xff232526), Color(0xff232526)];
   static const kashmir = [Color(0xff614385), Color(0xff516395)];
-
-  // Foreground color used for LIGHT mode
   static const crimsonTide = [Color(0xff642B73), Color(0xffC6426E)];
+
+  static final gradients = [
+    darkReal,
+    midnightCity,
+    kashmir,
+    crimsonTide,
+  ];
 
 }

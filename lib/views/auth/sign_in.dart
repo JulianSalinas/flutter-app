@@ -116,14 +116,14 @@ class LoginState extends State<Login> {
 
     final googleButton = ModernButton(
       'Ingresar con Google',
-      color: FlatUI.google,
+      color: SharedColors.google,
       onPressed: () => print('Google'),
       icon: FontAwesome.google,
     );
 
     final retrieveText = Text(
       '¿Has olvidado tu contraseña?',
-      style: TextStyle(color: FlatUI.peterRiver),
+      style: TextStyle(color: SharedColors.peterRiver),
     );
 
     final retrieveButton = CupertinoButton(

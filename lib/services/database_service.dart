@@ -1,5 +1,5 @@
 abstract class DatabaseService<T> {
 
-  Stream<List<T>> createSpeakersStream();
+  Stream<List<T>> createStream();
 
 }

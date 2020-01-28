@@ -20,7 +20,7 @@ class DetailContent extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final itemPeople = ItemPeople(
-        people: event.people
+        people: event.speakers
     );
 
     return SingleChildScrollView(

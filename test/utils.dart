@@ -32,19 +32,19 @@ void main() {
 
   group('Testing getColorFor(text, ui.colors)', () {
 
-    var colors = [FlatUI.emerald, FlatUI.peterRiver, FlatUI.alizarin];
+    var colors = [SharedColors.emerald, SharedColors.peterRiver, SharedColors.alizarin];
 
     test('Empty string', () {
-      expect(getColorFor('', colors), FlatUI.peterRiver);
+      expect(getColorFor('', colors), SharedColors.peterRiver);
     });
 
     test('Null string', () {
       print(getColorFor(null, colors));
-      expect(getColorFor(null, colors), FlatUI.peterRiver);
+      expect(getColorFor(null, colors), SharedColors.peterRiver);
     });
 
     test('Whatever string', () {
-      expect(getColorFor('Aquiles', colors), FlatUI.alizarin);
+      expect(getColorFor('Aquiles', colors), SharedColors.alizarin);
     });
 
   });

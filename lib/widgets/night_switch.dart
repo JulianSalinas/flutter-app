@@ -27,7 +27,7 @@ class NightSwitch extends StatelessWidget {
     final switchComponent = Switch(
       value: themeModel.nightMode,
       onChanged: (bool active) => themeModel.nightMode = active,
-      activeColor: FlatUI.pomegranate,
+      activeColor: SharedColors.pomegranate,
     );
 
     final description = [

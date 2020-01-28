@@ -82,7 +82,7 @@ class AuthFormState extends State<AuthForm> {
 
     final submitButton = ModernButton(
       widget.submitText,
-      color: FlatUI.midnightBlue,
+      color: SharedColors.midnightBlue,
       onPressed: /*validating ? null :*/ submit,
     );
 

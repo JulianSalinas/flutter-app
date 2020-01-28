@@ -29,7 +29,7 @@ class ModernInput extends StatelessWidget {
 
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(32.0),
-      borderSide: BorderSide(color: FlatUI.midnightBlue, width: 2.0),
+      borderSide: BorderSide(color: SharedColors.midnightBlue, width: 2.0),
     );
 
     final prefix = Padding(

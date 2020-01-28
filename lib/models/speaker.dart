@@ -22,7 +22,7 @@ class Speaker {
   });
 
   Color get color {
-    return getColorFor(name, FlatUI.values);
+    return getColorFor(name, SharedColors.flat);
   }
 
   String get letter {

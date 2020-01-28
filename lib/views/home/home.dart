@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:letsattend/view_models/navigation_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/night_switch.dart';
 import 'package:provider/provider.dart';
+
+import 'package:letsattend/router.dart' as router;
 
 class Home extends StatefulWidget {
 
@@ -22,11 +25,13 @@ class HomeState extends State<Home> {
 
     final scheme = Provider.of<ThemeModel>(context);
 
-    final haccess = (IconData icon, Color color) => Material(
+    final navigationModel = Provider.of<NavigationModel>(context);
+
+    final haccess = (IconData icon, Color color, Function onTap) => Material(
       color: color,
       borderRadius: BorderRadius.all(Radius.circular(8.0)),
       child: InkWell(
-        onTap: () => print('holis'),
+        onTap: onTap,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: Container(
           padding: EdgeInsets.all(20),
@@ -37,11 +42,11 @@ class HomeState extends State<Home> {
       elevation: 16.0,
     );
 
-    final access = (IconData icon, Color color) => Material(
+    final access = (IconData icon, Color color, Function onTap) => Material(
       color: scheme.nightMode ? color : Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(8.0)),
       child: InkWell(
-        onTap: () => print('holis'),
+        onTap: onTap,
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
         child: Container(
           padding: EdgeInsets.all(20),
@@ -64,13 +69,15 @@ class HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              haccess(Icons.event, FlatUI.alizarin),
+              haccess(Icons.event, SharedColors.alizarin, () {
+                navigationModel.pushReplacement(router.ScheduleRoute);
+              }),
               SizedBox(width: 8,),
-              access(Icons.people, FlatUI.midnightBlue),
+              access(Icons.people, SharedColors.midnightBlue, null),
               SizedBox(width: 8,),
-              access(Ionicons.md_qr_scanner, FlatUI.midnightBlue),
+              access(Ionicons.md_qr_scanner, SharedColors.midnightBlue, null),
               SizedBox(width: 8,),
-              access(Icons.chat, FlatUI.midnightBlue),
+              access(Icons.chat, SharedColors.midnightBlue, null),
             ],
           ),
           SizedBox(height: 32,),
