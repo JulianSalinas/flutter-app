@@ -13,12 +13,17 @@ class Speaker {
   final String country;
   final String university;
 
+  bool isPartial;
+  DocumentReference reference;
+
   Speaker({
+    @required this.key,
+    @required this.name,
     this.about,
     this.country,
     this.university,
-    @required this.key,
-    @required this.name,
+    this.reference,
+    this.isPartial = false,
   });
 
   Color get color {
@@ -31,6 +36,13 @@ class Speaker {
 
   String get initials {
     return getInitialsFrom(name);
+  }
+
+  factory Speaker.partial(String key, Map snapshot) {
+    Speaker speaker = Speaker.fromMap(key, snapshot);
+    speaker.isPartial = true;
+    speaker.reference = snapshot['reference'];
+    return speaker;
   }
 
   factory Speaker.fromMap(String key, Map snapshot) => Speaker(

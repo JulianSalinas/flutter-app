@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 
-class DateTab extends StatelessWidget {
+class ScheduleTab extends StatelessWidget {
 
   static const double WIDTH = 148;
 
-  final DateTime dateTime;
-  final String dateString;
+  final String text;
 
-  DateTab({
-    this.dateTime,
-    this.dateString,
-  });
+  ScheduleTab(this.text);
 
   @override
   Widget build(BuildContext context) {
 
     final content = Align(
-      child: Text(dateString ?? Jiffy(dateTime).format('EEEE do').toUpperCase()),
+      child: Text(text ?? 'INDEFINIDO'),
       alignment: Alignment.center,
     );
 
     final container = Container(
       child: content,
-      width: DateTab.WIDTH,
+      width: ScheduleTab.WIDTH,
     );
 
     return Tab(child: container);

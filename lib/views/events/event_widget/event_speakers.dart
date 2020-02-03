@@ -3,46 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:letsattend/models/speaker.dart';
 
 class ItemPeople extends StatelessWidget {
-
-  final List<Speaker> people;
+  final List<Speaker> speakers;
 
   const ItemPeople({
     Key key,
-    @required this.people,
+    @required this.speakers,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final personInitials = (Speaker person) => Text(
-      person.letter,
-      style: TextStyle(fontSize: 10, color: Colors.white),
-    );
+          person.letter,
+          style: TextStyle(fontSize: 10, color: Colors.white),
+        );
 
     final personAvatar = (Speaker person) => CircleAvatar(
-      radius: 9,
-      backgroundColor: person.color,
-      child: personInitials(person),
-    );
+          radius: 9,
+          backgroundColor: person.color,
+          child: personInitials(person),
+        );
 
     List<Widget> peopleWidgets = <Widget>[];
 
-    for (int i = 0; i < people.length; i++){
-
+    for (int i = 0; i < speakers.length; i++) {
       peopleWidgets.add(Container(
-          margin: EdgeInsets.only(left: i * 14.0),
-          child: personAvatar(people[i])
+        margin: EdgeInsets.only(left: i * 14.0),
+        child: personAvatar(speakers[i]),
       ));
-
     }
 
-    String mainPerson = people[0].name;
-    String morePeople = people.length > 1 ? 'y ${people.length - 1} más' : '';
+    String mainPerson = speakers[0].name;
+    String morePeople = speakers.length > 1 ? 'y ${speakers.length - 1} más' : '';
 
-    final description = Text(
-      'por $mainPerson $morePeople',
-      style: TextStyle(fontSize: 12)
-    );
+    final description =
+        Text('por $mainPerson $morePeople', style: TextStyle(fontSize: 12));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +46,5 @@ class ItemPeople extends StatelessWidget {
         Opacity(opacity: 0.6, child: description),
       ],
     );
-
   }
-
 }

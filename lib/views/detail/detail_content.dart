@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/event.dart';
-import 'package:letsattend/widgets/event/item_people.dart';
+import 'package:letsattend/views/events/event_widget/event_speakers.dart';
 import 'package:letsattend/widgets/hero_text.dart';
 import 'package:lipsum/lipsum.dart' as lipsum;
 
@@ -20,7 +20,7 @@ class DetailContent extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final itemPeople = ItemPeople(
-        people: event.speakers
+        speakers: event.speakers
     );
 
     return SingleChildScrollView(

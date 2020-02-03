@@ -3,7 +3,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/widgets/clock/clock.dart';
-import 'package:letsattend/widgets/event/item_favorite.dart';
+import 'package:letsattend/views/events/event_widget/event_favorite.dart';
 import 'package:letsattend/widgets/hero_text.dart';
 
 
@@ -89,7 +89,7 @@ class DetailHeader extends StatelessWidget {
       top: 80,
       right: 0,
       bottom: 120,
-      child: Clock(event.start),
+      child: Clock(event.start.toDate()),
     );
 
     final filter = Container(color: Colors.black38);

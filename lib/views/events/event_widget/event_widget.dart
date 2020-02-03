@@ -4,14 +4,14 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/views/detail/detail.dart';
-import 'package:letsattend/widgets/event/item_favorite.dart';
+import 'package:letsattend/views/events/event_widget/event_favorite.dart';
 import 'package:letsattend/widgets/hero_text.dart';
 import 'package:provider/provider.dart';
-import 'item_line.dart';
-import 'item_people.dart';
+import 'event_leading.dart';
+import 'event_speakers.dart';
 
 
-class Item extends StatelessWidget {
+class EventWidget extends StatelessWidget {
 
   final Event event;
 
@@ -21,7 +21,7 @@ class Item extends StatelessWidget {
 
   final Function onFavoriteChanged;
 
-  Item({
+  EventWidget({
     @required this.event,
     this.isFirst = false,
     this.isLast = false,
@@ -83,8 +83,12 @@ class Item extends StatelessWidget {
       ],
     );
 
-    final itemPeople = ItemPeople(
-      people: event.speakers
+    final itemPeople =  event.speakers.length > 0 ? ItemPeople(
+      speakers: event.speakers
+    ): Row(
+      children: <Widget>[
+        SizedBox.shrink(),
+      ],
     );
 
     final itemFavorite = Favorite(

@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class DrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     ThemeModel themeModel = Provider.of<ThemeModel>(context);
 
     final String image =
@@ -46,10 +45,12 @@ class DrawerView extends StatelessWidget {
           colors: [Colors.red, Colors.orangeAccent],
         ),
       ),
-      child: false ? avatar : CircleAvatar(
-        radius: 40,
-        backgroundImage: NetworkImage(image),
-      ),
+      child: false
+          ? avatar
+          : CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(image),
+            ),
     );
 
     final drawerUsername = Text(
@@ -75,19 +76,45 @@ class DrawerView extends StatelessWidget {
           drawerUsername,
           drawerEmail,
           SizedBox(height: 24.0),
-          DrawerOption(icon: Icons.home, title: 'Principal', route: router.HomeRoute),
+          DrawerOption(
+            icon: Icons.home,
+            title: 'Principal',
+            route: router.HomeRoute,
+          ),
           divider,
-          DrawerOption(icon: MaterialCommunityIcons.calendar, title: 'Cronograma'),
+          DrawerOption(
+            icon: MaterialCommunityIcons.calendar,
+            title: 'Cronograma',
+            route: router.ScheduleRoute,
+          ),
           divider,
-          DrawerOption(icon: Icons.message, title: 'Chat', showBadge: true),
+          DrawerOption(
+            icon: Icons.message,
+            title: 'Chat',
+            showBadge: true,
+          ),
           divider,
-          DrawerOption(icon: Icons.notifications, title: 'Noticias', showBadge: true),
+          DrawerOption(
+            icon: Icons.notifications,
+            title: 'Noticias',
+            showBadge: true,
+          ),
           divider,
-          DrawerOption(icon: Icons.people, title: 'Expositores', route: router.SpeakersRoute,),
+          DrawerOption(
+            icon: Icons.people,
+            title: 'Expositores',
+            route: router.SpeakersRoute,
+          ),
           divider,
-          DrawerOption(icon: Icons.settings, title: 'Configuración'),
+          DrawerOption(
+            icon: Icons.settings,
+            title: 'Configuración',
+          ),
           divider,
-          DrawerOption(icon: Icons.email, title: 'Contácto'),
+          DrawerOption(
+            icon: Icons.email,
+            title: 'Contácto',
+          ),
           divider,
           Container(
             child: Row(
@@ -117,11 +144,10 @@ class DrawerView extends StatelessWidget {
       child: SafeArea(child: drawerContent),
     );
 
-    final blurColor = themeModel.nightMode
-        ? Theme.of(context).canvasColor
-        : Colors.white;
+    final blurColor =
+        themeModel.nightMode ? Theme.of(context).canvasColor : Colors.white;
 
-    final blurDecoration =  BoxDecoration(
+    final blurDecoration = BoxDecoration(
       color: blurColor.withOpacity(themeModel.nightMode ? 0.6 : 0.9),
     );
 
@@ -134,7 +160,7 @@ class DrawerView extends StatelessWidget {
       children: [blurBackdrop, drawerContainer],
     );
 
-    final drawerClipPath =  ClipPath(
+    final drawerClipPath = ClipPath(
       clipper: DrawerClipper(),
       child: Drawer(child: blurDrawerContainer),
     );
@@ -143,7 +169,5 @@ class DrawerView extends StatelessWidget {
       data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
       child: drawerClipPath,
     );
-
   }
-
 }

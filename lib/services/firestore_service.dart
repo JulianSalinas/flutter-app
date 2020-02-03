@@ -5,12 +5,12 @@ abstract class FirestoreService<T> extends DatabaseService {
 
   Firestore get db => Firestore.instance;
 
-  T fromFirestore(DocumentSnapshot snapshot);
+  Future<T> fromFirestore(DocumentSnapshot snapshot);
 
-  Iterable<T> fromSnapshot(QuerySnapshot snapshot){
+  Future<Iterable<T>> fromSnapshot(QuerySnapshot snapshot) async {
     String from = snapshot.metadata.isFromCache ? 'CACHE' : 'NETWORK';
     print('${T.toString()}s: Loaded from $from');
-    return snapshot.documents.map(fromFirestore);
+    return Future.wait(snapshot.documents.map(fromFirestore));
   }
 
 }

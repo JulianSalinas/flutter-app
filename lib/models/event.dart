@@ -7,40 +7,36 @@ import 'package:letsattend/models/speaker.dart';
 class Event {
 
   final String key;
-  final String code;
-
   final String title;
   final String type;
+  final Timestamp end;
+  final Timestamp start;
+
+  final String code;
   final String location;
   final String description;
 
-  final DateTime end;
-  final DateTime start;
-
-  /// There are assigned in the service
-  List<Speaker> speakers;
-
-  /// Is false until the value is assigned
   bool isFavorite;
+  List<Speaker> speakers = [];
 
   Event({
-    this.code,
-    this.location,
-    this.description,
     @required this.key,
     @required this.title,
     @required this.type,
-    @required this.start,
     @required this.end,
-    @required this.isFavorite
+    @required this.start,
+    this.code,
+    this.location,
+    this.description,
+    this.isFavorite = false,
   });
 
   factory Event.fromMap(String key, Map snapshot) => Event(
     key: key,
     title: snapshot['title'] ?? 'SIN TÍTULO',
     type: snapshot['type'] ?? 'DESCONOCIDO',
-    start: snapshot['start'],
     end: snapshot['end'],
+    start: snapshot['start'],
     code: snapshot['code'] ?? '#',
     location: snapshot['location'] ?? 'DESCONOCIDA',
     description: snapshot['description'],

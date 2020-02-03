@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/views/home/home.dart';
-import 'package:letsattend/views/schedule/schedule.dart';
+import 'package:letsattend/views/schedule/schedule_view.dart';
 import 'package:letsattend/views/speakers/speakers_view.dart';
 
 const String HomeRoute = '/';

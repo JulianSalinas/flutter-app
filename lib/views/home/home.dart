@@ -73,7 +73,9 @@ class HomeState extends State<Home> {
                 navigationModel.pushReplacement(router.ScheduleRoute);
               }),
               SizedBox(width: 8,),
-              access(Icons.people, SharedColors.midnightBlue, null),
+              access(Icons.people, SharedColors.midnightBlue, () {
+                navigationModel.pushReplacement(router.SpeakersRoute);
+              }),
               SizedBox(width: 8,),
               access(Ionicons.md_qr_scanner, SharedColors.midnightBlue, null),
               SizedBox(width: 8,),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/view_models/theme_model.dart';
-import 'package:letsattend/widgets/event/item_point.dart';
+import 'package:letsattend/views/events/event_widget/event_point.dart';
 import 'package:provider/provider.dart';
 
 class ItemLine extends StatelessWidget {

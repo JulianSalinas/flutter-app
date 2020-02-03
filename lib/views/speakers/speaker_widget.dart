@@ -31,15 +31,18 @@ class SpeakerWidget extends StatelessWidget {
         ? speaker.university
         : 'Desde ${speaker.country}';
 
+    final subtitleText = Text(
+      subtitle,
+      overflow: TextOverflow.ellipsis,
+    );
+
     return ListTile(
       leading: avatar,
       title: Text(speaker.name),
-      subtitle: Text(
-        subtitle,
-        overflow: TextOverflow.ellipsis,
-      ),
+      subtitle: subtitleText,
       onTap: onTap,
     );
+
   }
 
 }

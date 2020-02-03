@@ -7,7 +7,7 @@ class SpeakersService extends FirestoreService<Speaker> {
   final String source = 'meetings/edepa6/speakers';
 
   @override
-  Speaker fromFirestore(DocumentSnapshot snapshot) {
+  Future<Speaker> fromFirestore(DocumentSnapshot snapshot) async {
     return Speaker.fromFirestore(snapshot);
   }
 
@@ -18,7 +18,7 @@ class SpeakersService extends FirestoreService<Speaker> {
         .collection(source)
         .orderBy('name', descending: false)
         .snapshots()
-        .map((snapshot) => fromSnapshot(snapshot).toList());
+        .asyncMap((snapshot) async => await fromSnapshot(snapshot));
   }
 
 }

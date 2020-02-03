@@ -55,16 +55,17 @@ class ScheduleModel with ChangeNotifier {
   }
 
   void stream(List<Event> events) {
-    Map<dynamic, List<Event>> group = _orderedByType
+    Map<String, List<Event>> group = _orderedByType
         ? groupBy(events, (event) => event.type)
-        : groupBy(events, (event) => Jiffy(event.start).startOf('day'));
+        : groupBy(events, (event) => Jiffy(event.start.toDate())
+        . format('EEEE d').toUpperCase());
     _controller.add(group);
   }
 
-  bool isSearched(Event speaker) =>
+  bool isSearched(Event event) =>
       _filter == null ||
       _filter.isEmpty ||
-      containsFilter(_filter, speaker.toString());
+      containsFilter(_filter, event.toString());
 
   Stream<Map<dynamic, List<Event>>> get events {
     return _controller.stream;
