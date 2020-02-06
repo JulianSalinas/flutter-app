@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:letsattend/models/person.dart';
 
-import 'package:letsattend/shared/utils.dart';
-import 'package:letsattend/shared/colors.dart';
-
-class Speaker {
+class Speaker extends Person {
 
   final String key;
 
@@ -24,19 +22,7 @@ class Speaker {
     this.university,
     this.reference,
     this.isPartial = false,
-  });
-
-  Color get color {
-    return getColorFor(name, SharedColors.flat);
-  }
-
-  String get initial {
-    return initials[0];
-  }
-
-  String get initials {
-    return getInitialsFrom(name);
-  }
+  }) : super(name == null ? '#': name);
 
   factory Speaker.partial(String key, Map snapshot) {
     Speaker speaker = Speaker.fromMap(key, snapshot);

@@ -35,4 +35,10 @@ abstract class StreamModel<T extends StreamService> with ChangeNotifier {
     return controller.stream;
   }
 
+  @override
+  void dispose() {
+    _controller?.close();
+    super.dispose();
+  }
+
 }

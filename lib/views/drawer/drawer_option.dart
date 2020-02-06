@@ -1,72 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/view_models/navigation_model.dart';
-import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:provider/provider.dart';
+import 'package:letsattend/views/drawer/drawer_badge.dart';
+import 'package:letsattend/view_models/navigation_model.dart';
 
 class DrawerOption extends StatelessWidget {
+
+  final IconData icon;
+  final String title;
+  final String route;
+  final String badge;
+  final Function onTap;
 
   const DrawerOption({
     Key key,
     @required this.icon,
     @required this.title,
-    this.showBadge = false,
     this.route,
+    this.onTap,
+    this.badge,
   }) : super(key: key);
-
-  final IconData icon;
-  final String title;
-  final bool showBadge;
-  final String route;
 
   @override
   Widget build(BuildContext context) {
 
     NavigationModel navigationModel = Provider.of<NavigationModel>(context);
 
-    final TextStyle tStyle = TextStyle(fontSize: 16.0);
+    final onTap = this.onTap ?? () {
+      navigationModel.goBack(); // close menu
+      navigationModel.pushReplacement(route);
+    };
+
+    final content = Row(children: [
+      Icon(icon),
+      SizedBox(width: 12.0),
+      Text(title, style: TextStyle(fontSize: 16.0)),
+      Spacer(),
+      if (badge != null) DrawerBadge(badge)
+    ]);
+
+    final container = Container(
+      padding: EdgeInsets.symmetric(vertical: 6.0),
+      child: content,
+    );
 
     return InkWell(
-      onTap: () {
-        navigationModel.goBack(); // close menu
-        navigationModel.pushReplacement(route);
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 6.0),
-        child: Row(children: [
-          Icon(
-            icon,
-          ),
-          SizedBox(width: 12.0),
-          Text(
-            title,
-            style: tStyle,
-          ),
-          Spacer(),
-          if (showBadge)
-            Material(
-              color: Colors.deepOrange,
-              elevation: 5.0,
-              shadowColor: Colors.red,
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Text(
-                  '+15',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            )
-        ]),
-      ),
+      onTap: onTap,
+      child: container,
     );
+
   }
+
 }
