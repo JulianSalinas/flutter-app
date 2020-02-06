@@ -19,6 +19,7 @@ class EventsViewState extends State<EventsView> {
 
     return ListView.builder(
       itemCount: widget.events.length,
+      padding: EdgeInsets.only(top: 4),
       itemBuilder: (context, index) => EventWidget(
         event: widget.events.elementAt(index),
         isFirst: index == 0,

@@ -45,12 +45,15 @@ class EventWidget extends StatelessWidget {
       isFirst: isFirst,
       isLast: isLast,
       isOdd: isOdd,
-      color: event.getColor(),
+      color: event.color,
     );
 
     final itemType = Text(
       '${event.code}. ${event.type} ',
-      style: TextStyle(color: event.getColor()),
+      style: TextStyle(
+        color: event.color,
+        fontWeight: FontWeight.bold
+      ),
     );
 
     final itemDate = Opacity(

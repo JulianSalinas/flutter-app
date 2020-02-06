@@ -11,20 +11,8 @@ import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/views/speakers/speaker_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/view_models/speakers_model.dart';
+import 'package:letsattend/view_models/orderable_model.dart';
 import 'package:letsattend/views/speakers/speakers_empty.dart';
-
-class Speakers extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SpeakersModel>(
-      create: (context) => locator<SpeakersModel>(),
-      child: Consumer<SpeakersModel>(builder: (context, model, child) => SpeakersView()),
-    );
-  }
-
-}
 
 class SpeakersView extends StatefulWidget {
   @override
@@ -46,7 +34,7 @@ class SpeakersViewState extends State<SpeakersView> {
     setState(() => _isSearching = true);
   }
 
-  void closeSearch(SpeakersModel model) {
+  void closeSearch(OrderableModel model) {
     model.filter = '';
     _searchQuery.clear();
     setState(() => _isSearching = false);
@@ -108,17 +96,17 @@ class SpeakersViewState extends State<SpeakersView> {
   @override
   Widget build(BuildContext context) {
 
-    final speakerModel = Provider.of<SpeakersModel>(context);
+    final speakersModel = Provider.of<OrderableModel>(context);
 
     final filterIcon = Icon(
-      speakerModel.descending
+      speakersModel.descending
           ? MaterialCommunityIcons.sort_ascending
           : MaterialCommunityIcons.sort_descending,
     );
 
     final filterButton = IconButton(
         icon: filterIcon,
-        onPressed: () => speakerModel.descending = !speakerModel.descending);
+        onPressed: () => speakersModel.descending = !speakersModel.descending);
 
     final searchButton = IconButton(
       icon: Icon(Icons.search),
@@ -127,7 +115,7 @@ class SpeakersViewState extends State<SpeakersView> {
 
     final closeButton = IconButton(
       icon: Icon(Icons.close),
-      onPressed: () => closeSearch(speakerModel),
+      onPressed: () => closeSearch(speakersModel),
     );
 
     final searchDecoration = InputDecoration(
@@ -141,7 +129,7 @@ class SpeakersViewState extends State<SpeakersView> {
       controller: _searchQuery,
       decoration: searchDecoration,
       style: TextStyle(color: Colors.white),
-      onChanged: (query) => speakerModel.filter = query,
+      onChanged: (query) => speakersModel.filter = query,
     );
 
     final buttons = _isSearching ? [closeButton] : [filterButton, searchButton];
@@ -170,7 +158,7 @@ class SpeakersViewState extends State<SpeakersView> {
     final customScroll = CustomScrollView(
       slivers: <Widget>[
         appBar,
-        StreamBuilder(stream: speakerModel.speakers, builder: builder),
+        StreamBuilder(stream: speakersModel.stream, builder: builder,),
       ],
     );
 

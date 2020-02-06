@@ -47,26 +47,24 @@ class Event {
     return Event.fromMap(snapshot.documentID, snapshot.data);
   }
 
-  Color getColor(){
-    switch(this.type){
-      case 'CONFERENCIA':
-        return SharedColors.greenSea;
-      case 'TALLER':
-        return SharedColors.pomegranate;
-      case 'PONENCIA':
-        return SharedColors.wisteria;
-      default:
-        return SharedColors.facebook;
-    }
+  static Map<String, Color> colors = {
+    'CONFERENCIA' : Color(0xff21bf73),
+    'TALLER': Color(0xfff5587b), // Approved
+    'PONENCIA': Color(0xffff8a5c), // Approved
+    'FERIA_EDEPA': Color(0xff9399ff),
+  };
+
+  Color get color {
+    return Event.colors[type] ?? SharedColors.kashmir;
   }
 
-  String getImage(){
+  String get image {
     return 'assets/tec_edificio_a4.jpg';
   }
 
   @override
   String toString() {
-    return '$type $code $title';
+    return 'Event: $type $code $title';
   }
 
 }

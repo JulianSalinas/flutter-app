@@ -30,7 +30,7 @@ class Speaker {
     return getColorFor(name, SharedColors.flat);
   }
 
-  String get letter {
+  String get initial {
     return initials[0];
   }
 
@@ -52,14 +52,14 @@ class Speaker {
     country: snapshot['country'],
     university: snapshot['university'],
   );
-  
+
   factory Speaker.fromFirestore(DocumentSnapshot snapshot) {
     return Speaker.fromMap(snapshot.documentID, snapshot.data);
   }
 
   @override
   String toString() {
-    return '${name ?? ''} ${country ?? '' } ${university ?? ''}';
+    return 'Speaker: ${name ?? ''} ${country ?? '' } ${university ?? ''}';
   }
 
 }

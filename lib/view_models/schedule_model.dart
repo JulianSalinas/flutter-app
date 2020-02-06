@@ -1,74 +1,37 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
-import "package:collection/collection.dart";
 import 'package:jiffy/jiffy.dart';
-
-import 'package:letsattend/locator.dart';
-import 'package:letsattend/shared/utils.dart';
+import "package:collection/collection.dart";
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/services/events_service.dart';
+import 'package:letsattend/view_models/stream_model.dart';
 
-class ScheduleModel with ChangeNotifier {
+class ScheduleModel extends StreamModel<EventsService> {
 
-  final EventsService _service = locator<EventsService>();
-
-  StreamController<Map<dynamic, List<Event>>> _controller =
-      new StreamController();
-
-  String _filter;
-  Timer _typingTimer;
-
-  List<Event> _events;
   bool _orderedByType = false;
 
   get orderedByType => _orderedByType;
 
   set orderedByType(bool orderedByType) {
     _orderedByType = orderedByType;
-    stream(_events);
-    notifyListeners();
+    notify(collection);
   }
 
-  ScheduleModel() {
-    _service.createStream().listen(update);
+  @override
+  void update(dynamic collection) async {
+    super.update(collection);
+    notify(await collection);
   }
 
-  Future<List<Event>> filtered() async {
-    return _events.where(isSearched).toList();
-  }
-
-  void update(List<Event> speakers) async {
-    _events = speakers;
-    search();
-  }
-
-  set filter(String filter) {
-    _filter = filter.toLowerCase();
-
-    if (_typingTimer != null && _typingTimer.isActive) _typingTimer.cancel();
-
-    _typingTimer = Timer(Duration(milliseconds: 400), search);
-  }
-
-  void search() async {
-    stream(await filtered());
-  }
-
-  void stream(List<Event> events) {
+  @override
+  void notify(dynamic collection) {
     Map<String, List<Event>> group = _orderedByType
-        ? groupBy(events, (event) => event.type)
-        : groupBy(events, (event) => Jiffy(event.start.toDate())
-        . format('EEEE d').toUpperCase());
-    _controller.add(group);
+        ? groupBy(collection, (event) => event.type)
+        : groupBy(collection, (event) =>
+        Jiffy(event.start.toDate()).format('EEEE d').toUpperCase());
+    controller.add(group);
   }
 
-  bool isSearched(Event event) =>
-      _filter == null ||
-      _filter.isEmpty ||
-      containsFilter(_filter, event.toString());
-
-  Stream<Map<dynamic, List<Event>>> get events {
-    return _controller.stream;
+  Stream<dynamic> get stream {
+    return controller.stream;
   }
 
 }

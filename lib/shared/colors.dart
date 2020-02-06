@@ -61,6 +61,8 @@ class SharedColors {
   static const midnightCity = [Color(0xff232526), Color(0xff232526)];
   static const kashmir = [Color(0xff614385), Color(0xff516395)];
   static const crimsonTide = [Color(0xff642B73), Color(0xffC6426E)];
+  static const sunrise = [Color(0xffFF512F), Color(0xffF09819)];
+  static const shifter = [Color(0xffbc4e9c), Color(0xff89216B)];
 
   static final gradients = [
     darkReal,

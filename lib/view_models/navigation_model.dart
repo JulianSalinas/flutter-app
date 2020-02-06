@@ -11,7 +11,9 @@ class NavigationModel with ChangeNotifier {
 
   Future<dynamic> pushReplacement(String routeName, {dynamic arguments}) {
     return _navigateTo(
-        routeName, navigatorKey.currentState.pushReplacementNamed);
+      routeName,
+      navigatorKey.currentState.pushReplacementNamed,
+    );
   }
 
   Future<dynamic> pushNamed(String routeName, {dynamic arguments}) {

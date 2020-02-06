@@ -4,11 +4,11 @@ import 'package:letsattend/models/post.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/preview/touchable_preview.dart';
 
-class NewsWidget extends StatelessWidget {
+class PostWidget extends StatelessWidget {
 
   final Post post;
 
-  const NewsWidget({
+  const PostWidget({
     Key key,
     @required this.post,
   }) : super(key: key);

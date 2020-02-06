@@ -10,71 +10,51 @@ import 'package:letsattend/views/events/events_view.dart';
 import 'package:letsattend/views/schedule/schedule_tab.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
-import 'dart:math' as math; // import this
+import 'dart:math' as math;
 import 'package:letsattend/view_models/theme_model.dart';
 
-class Schedule extends StatelessWidget {
-  Widget buildStream(BuildContext context, ScheduleModel model, _) {
-    return StreamBuilder(
-      stream: model.events,
-      builder: (context, snapshot) => ScheduleView(snapshot),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ScheduleModel>(
-      create: (context) => locator<ScheduleModel>(),
-      child: Consumer<ScheduleModel>(builder: buildStream),
-    );
-  }
-}
-
 class ScheduleView extends StatefulWidget {
-  final AsyncSnapshot<Map<dynamic, List<Event>>> snapshot;
-
-  ScheduleView(this.snapshot);
-
   @override
   ScheduleViewState createState() => ScheduleViewState();
 }
 
-class ScheduleViewState extends State<ScheduleView>
-    with TickerProviderStateMixin {
-  bool isMenuOpen = false;
-  AnimationController menuCtrl;
-
-  @override
-  void initState() {
-    super.initState();
-    menuCtrl = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    );
-  }
-
-  @override
-  void dispose() {
-    menuCtrl.dispose();
-    super.dispose();
-  }
-
-//    if (snapshot.hasError)
-//      return Text('Error: ${snapshot.error}');
-//
-//    final isWaiting = snapshot.connectionState == ConnectionState.waiting;
-//
-//    if (isWaiting && !snapshot.hasData)
-//      return Text('Loading data...');
-//
-//    if (snapshot.hasData)
-//      return buildBar()_, snapshot.data);
+class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
 
-    final themeModel = Provider.of<ThemeModel>(context);
-    final scheduleModel = Provider.of<ScheduleModel>(context);
+    final ScheduleModel scheduleModel = Provider.of<ScheduleModel>(context);
+
+    final streamBuilder = StreamBuilder(
+      stream: scheduleModel.stream,
+      builder: buildStream,
+    );
+
+    return Scaffold(
+      drawer: DrawerView(),
+      body: streamBuilder,
+      extendBodyBehindAppBar: true,
+    );
+
+  }
+
+  Widget buildStream(BuildContext context, AsyncSnapshot snapshot) {
+    if (snapshot.hasError)
+      return Center(child: Text('Error: ${snapshot.error}'));
+
+    if(snapshot.hasData)
+      return buildSchedule(context, snapshot.data);
+
+    if (snapshot.connectionState == ConnectionState.waiting)
+      return Center(child: CircularProgressIndicator());
+
+    return Text('Nothing to show: ${snapshot.error}');
+  }
+
+  Widget buildSchedule(BuildContext context, Map<dynamic, List<Event>> schedule){
+
+    final ScheduleModel scheduleModel = Provider.of<ScheduleModel>(context);
+    final ThemeModel themeModel = Provider.of<ThemeModel>(context);
 
     final labelColor =
         themeModel.nightMode ? Colors.white : SharedColors.kashmir[0];
@@ -91,9 +71,7 @@ class ScheduleViewState extends State<ScheduleView>
 
     final scheduleTab = (entry) => ScheduleTab(entry.key.toString());
 
-    final scheduleTabs = widget.snapshot.hasData
-        ? widget.snapshot.data.entries.map(scheduleTab).toList()
-        : [Text('NO EVENTOS')];
+    final scheduleTabs = schedule.entries.map(scheduleTab).toList();
 
     final tabBar = TabBar(
       tabs: scheduleTabs,
@@ -133,22 +111,10 @@ class ScheduleViewState extends State<ScheduleView>
           onPressed: () => scheduleModel.orderedByType = !scheduleModel.orderedByType,
         ),
         IconButton(
-          icon: Icon(Icons.filter_list),
+          icon: Icon(Icons.search),
           onPressed: () => print('view'),
         ),
       ],
-      leading: IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_close,
-          progress: menuCtrl,
-        ),
-        onPressed: () {
-          setState(() {
-            isMenuOpen = !isMenuOpen;
-            isMenuOpen ? menuCtrl.reverse() : menuCtrl.forward();
-          });
-        },
-      ),
     );
 
     final eventsView = (entry) {
@@ -159,27 +125,28 @@ class ScheduleViewState extends State<ScheduleView>
     };
 
     final tabBarView = TabBarView(
-      children: widget.snapshot.hasData
-          ? widget.snapshot.data.entries.map(eventsView).toList()
-          : [Text('NO EVENTOS')],
+      children: schedule.entries.map(eventsView).toList(),
     );
 
-    final customScroll = CustomScrollView(
-      slivers: [
-        appBar,
-        SliverFillRemaining(child: tabBarView),
-      ],
+    final customScroll = NestedScrollView(
+
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            child: appBar,
+          ),
+        ];
+      },
+      body: tabBarView,
+
     );
 
-    final tabController = DefaultTabController(
+    return DefaultTabController(
       child: customScroll,
-      length: widget.snapshot.hasData ? widget.snapshot.data.length : 1,
+      length: schedule.length,
     );
 
-    return Scaffold(
-      drawer: DrawerView(),
-      body: tabController,
-      extendBodyBehindAppBar: true,
-    );
   }
+
 }

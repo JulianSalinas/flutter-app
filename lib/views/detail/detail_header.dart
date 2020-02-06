@@ -24,7 +24,7 @@ class DetailHeader extends StatelessWidget {
 
     final label = Container(
       child: type,
-      color: event.getColor(),
+      color: event.color,
       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
     );
 
@@ -74,14 +74,14 @@ class DetailHeader extends StatelessWidget {
 
     final background = Image(
       fit: BoxFit.cover,
-      image: AssetImage(event.getImage()),
+      image: AssetImage(event.image),
     );
 
     final line = Positioned(
       left: 0,
       right: 0,
       bottom: 0,
-      child: Container(height: 0, color: event.getColor()), /// +1 to active
+      child: Container(height: 0, color: event.color), /// +1 to active
     );
 
     final clock = Positioned(

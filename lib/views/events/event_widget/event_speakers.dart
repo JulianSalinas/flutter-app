@@ -13,7 +13,7 @@ class ItemPeople extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final personInitials = (Speaker person) => Text(
-          person.letter,
+          person.initial,
           style: TextStyle(fontSize: 10, color: Colors.white),
         );
 
