@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:letsattend/models/person.dart';
-import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/shared/utils.dart';
 
 class User extends Person {
 

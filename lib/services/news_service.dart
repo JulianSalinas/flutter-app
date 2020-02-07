@@ -7,6 +7,7 @@ class NewsService extends FirestoreService<Post> {
   NewsService() : super(
     key: 'time',
     source: 'meetings/edepa6/news',
+    descending: true,
   );
 
   @override

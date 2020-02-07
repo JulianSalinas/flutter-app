@@ -6,10 +6,12 @@ abstract class FirestoreService<T> extends StreamService {
 
   final String key;
   final String source;
+  final bool descending;
 
   FirestoreService({
     @required this.key,
-    @required this.source
+    @required this.source,
+    this.descending,
   });
 
   Future<T> fromFirestore(DocumentSnapshot snapshot);
@@ -24,7 +26,7 @@ abstract class FirestoreService<T> extends StreamService {
   Stream<List<T>> get stream {
     return Firestore.instance
         .collection(source)
-        .orderBy(key, descending: false)
+        .orderBy(key, descending: descending)
         .snapshots()
         .asyncMap((snapshot) async => await fromSnapshot(snapshot));
   }

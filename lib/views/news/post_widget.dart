@@ -32,7 +32,7 @@ class PostWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         datetime,
-        SizedBox(height: 2),
+        SizedBox(height: 8),
         Text(post.title, style: Typography.englishLike2018.title),
         SizedBox(height: 4,),
         Text(post.description),

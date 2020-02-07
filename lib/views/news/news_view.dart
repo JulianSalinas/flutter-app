@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/view_models/filterable_model.dart';
@@ -36,7 +38,7 @@ class NewsViewState extends State<NewsView> {
     );
 
     final customScroll = CustomScrollView(
-      slivers: [sliverAppBar, streamBuilder],
+      slivers: <Widget>[sliverAppBar, streamBuilder],
     );
 
     return Scaffold(
@@ -49,25 +51,33 @@ class NewsViewState extends State<NewsView> {
 
   Widget buildStream(BuildContext context, AsyncSnapshot snapshot) {
     if (snapshot.hasError)
-      return Center(child: Text('Error: ${snapshot.error}'));
+      return SliverFillRemaining(child: Center(child: Text('Error: ${snapshot.error}')));
 
     if(snapshot.hasData)
       return buildNews(context, snapshot.data);
 
     if (snapshot.connectionState == ConnectionState.waiting)
-      return Center(child: CircularProgressIndicator());
+      return SliverFillRemaining(child: Center(child: CircularProgressIndicator()));
 
-    return Text('Nothing to show: ${snapshot.error}');
+    return SliverFillRemaining(child: Text('Nothing to show: ${snapshot.error}'));
   }
 
   Widget buildNews(BuildContext context, List<Post> posts) {
 
+    final postWidget = (context, itemIndex) => PostWidget(
+      key: Key(posts[itemIndex].key),
+      post: posts[itemIndex],
+    );
+
     final sliverListDelegate = SliverChildBuilderDelegate(
-      (context, itemIndex) => PostWidget(post: posts[itemIndex]),
+      postWidget,
       childCount: posts.length,
     );
 
-    return SliverList(delegate: sliverListDelegate);
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      sliver: SliverList(delegate: sliverListDelegate)
+    );
 
   }
 

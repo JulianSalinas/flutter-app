@@ -24,18 +24,14 @@ class DrawerUser extends StatelessWidget {
       child: closeButton,
     );
 
-    final initials = Text(
-      user.initials,
-      style: TextStyle(fontSize: 24, color: Colors.white),
-    );
-
-    final hasPhoto = user.photoUrl == null;
+    final hasPhoto = user.photoUrl != null;
 
     final circleAvatar = CircleAvatar(
       radius: 40,
       backgroundColor: user.color,
-      backgroundImage: hasPhoto ? NetworkImage(user.photoUrl) : null,
-      child: hasPhoto ? null : initials,
+      backgroundImage: hasPhoto
+          ? NetworkImage(user.photoUrl)
+          : AssetImage('assets/panda.png'),
     );
 
     final avatarDecoration = BoxDecoration(
@@ -46,7 +42,7 @@ class DrawerUser extends StatelessWidget {
     final drawerAvatar = Container(
       height: 90,
       alignment: Alignment.center,
-      decoration: hasPhoto ? avatarDecoration : null,
+      decoration: avatarDecoration,
       child: circleAvatar,
     );
 
@@ -55,9 +51,9 @@ class DrawerUser extends StatelessWidget {
       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
     );
 
-    final drawerEmail = Text(user.email ?? 'Bienvenido');
+    final drawerEmail = Text(user.email ?? 'Bienvenido al EDEPA');
 
-    final content = Column(
+    return Column(
       children: [
         closeSession,
         drawerAvatar,
@@ -67,7 +63,6 @@ class DrawerUser extends StatelessWidget {
       ],
     );
 
-    return Row(children: [content]);
   }
 
 }
