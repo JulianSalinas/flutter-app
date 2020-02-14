@@ -4,7 +4,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/view_models/schedule_model.dart';
+import 'package:letsattend/view_models/collections/schedule_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/events/events_view.dart';
 import 'package:letsattend/views/schedule/schedule_tab.dart';

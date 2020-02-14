@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/view_models/filterable_model.dart';
+import 'package:letsattend/view_models/collections/filterable_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
 import 'package:letsattend/widgets/flexible_space.dart';

@@ -5,7 +5,7 @@ import 'package:letsattend/models/message.dart';
 import 'package:letsattend/views/chat/bubble_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/modern_text.dart';
-import 'package:letsattend/view_models/chat_model.dart';
+import 'package:letsattend/view_models/collections/chat_model.dart';
 
 
 class ChatView extends StatelessWidget {

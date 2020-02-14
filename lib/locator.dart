@@ -1,51 +1,41 @@
 import 'package:get_it/get_it.dart';
 import 'package:letsattend/services/realtime/chat_service.dart';
 
-import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/services/events_service.dart';
-import 'package:letsattend/services/speakers_service.dart';
+import 'package:letsattend/services/realtime/news_service.dart';
+import 'package:letsattend/services/storage/events_service.dart';
+import 'package:letsattend/services/storage/speakers_service.dart';
 import 'package:letsattend/services/auth/firebase_auth_service.dart';
 
 import 'package:letsattend/view_models/auth_model.dart';
-import 'package:letsattend/view_models/chat_model.dart';
-import 'package:letsattend/view_models/theme_model.dart';
-import 'package:letsattend/view_models/schedule_model.dart';
-import 'package:letsattend/view_models/orderable_model.dart';
-import 'package:letsattend/view_models/filterable_model.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/view_models/navigation_model.dart';
+
+import 'package:letsattend/view_models/collections/chat_model.dart';
+import 'package:letsattend/view_models/collections/news_model.dart';
+import 'package:letsattend/view_models/collections/speakers_model.dart';
+import 'package:letsattend/view_models/collections/schedule_model.dart';
 
 GetIt locator = GetIt.instance;
 
 void setupLocator() {
 
   /// --- Theme management ---
-  locator.registerLazySingleton(() => ThemeModel());
+  locator.registerLazySingleton(() => SettingsModel());
 
+  /// --- Auth management ---
   locator.registerFactory<FirebaseAuthService>(() => FirebaseAuthService());
   locator.registerLazySingleton<AuthModel>(() => AuthModel());
 
   /// --- Speakers management ---
-  locator.registerFactory<OrderableModel>(
-    () => OrderableModel<SpeakersService>(),
-    instanceName: 'speakers',
-  );
-
+  locator.registerFactory<SpeakersModel>(() => SpeakersModel());
   locator.registerLazySingleton<SpeakersService>(() => SpeakersService());
 
   /// --- Schedule management ----
-  locator.registerFactory<ScheduleModel>(
-    () => ScheduleModel(),
-    instanceName: 'schedule',
-  );
-
+  locator.registerFactory<ScheduleModel>(() => ScheduleModel());
   locator.registerLazySingleton<EventsService>(() => EventsService());
 
   /// --- News management
-  locator.registerFactory<FilterableModel>(
-    () => FilterableModel<NewsService>(),
-    instanceName: 'news',
-  );
-
+  locator.registerFactory<NewsModel>(() => NewsModel());
   locator.registerLazySingleton<NewsService>(() => NewsService());
 
   /// --- Chat management

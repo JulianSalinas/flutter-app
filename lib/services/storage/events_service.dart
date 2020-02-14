@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/models/speaker.dart';
-import 'package:letsattend/services/firestore_service.dart';
+import 'package:letsattend/services/storage/firestore_service.dart';
 
 class EventsService extends FirestoreService<Event> {
 

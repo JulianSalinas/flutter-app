@@ -1,7 +1,4 @@
 import 'dart:ui';
-
-import 'package:letsattend/locator.dart';
-import 'package:letsattend/widgets/flexible_space.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +6,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/modern_text.dart';
+import 'package:letsattend/widgets/flexible_space.dart';
 import 'package:letsattend/views/speakers/speaker_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/view_models/orderable_model.dart';
 import 'package:letsattend/views/speakers/speakers_empty.dart';
+import 'package:letsattend/view_models/collections/speakers_model.dart';
 
 class SpeakersView extends StatefulWidget {
   @override
@@ -34,7 +32,7 @@ class SpeakersViewState extends State<SpeakersView> {
     setState(() => _isSearching = true);
   }
 
-  void closeSearch(OrderableModel model) {
+  void closeSearch(SpeakersModel model) {
     model.filter = '';
     _searchQuery.clear();
     setState(() => _isSearching = false);
@@ -96,7 +94,7 @@ class SpeakersViewState extends State<SpeakersView> {
   @override
   Widget build(BuildContext context) {
 
-    final speakersModel = Provider.of<OrderableModel>(context);
+    final speakersModel = Provider.of<SpeakersModel>(context);
 
     final filterIcon = Icon(
       speakersModel.descending

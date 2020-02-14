@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,7 +18,7 @@ class DrawerContent extends StatelessWidget {
   Widget build(BuildContext context) {
 
     AuthModel authModel = Provider.of<AuthModel>(context);
-    ThemeModel themeModel = Provider.of<ThemeModel>(context);
+    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
 
     final divider = Divider(
       color: Colors.grey.withOpacity(0.8),
@@ -36,8 +37,8 @@ class DrawerContent extends StatelessWidget {
     );
 
     final nightModeSwitch = Switch(
-      value: themeModel.nightMode,
-      onChanged: (bool active) => themeModel.nightMode = active,
+      value: settingsModel.nightMode,
+      onChanged: (bool active) => settingsModel.nightMode = active,
     );
 
     final nightModeContent = Row(
@@ -90,11 +91,13 @@ class DrawerContent extends StatelessWidget {
         DrawerOption(
           icon: Icons.settings,
           title: 'Configuración',
+          route: router.SettingsRoute,
         ),
         divider,
         DrawerOption(
           icon: Icons.email,
           title: 'Contácto',
+          route: router.AboutRoute,
         ),
         divider,
         Container(child: nightModeContent)

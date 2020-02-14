@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:letsattend/services/stream_service.dart';
+import 'package:letsattend/services/realtime/stream_service.dart';
 
 abstract class FirebaseService<T> extends StreamService<T> {
   
@@ -23,6 +23,7 @@ abstract class FirebaseService<T> extends StreamService<T> {
     _controller.add(_collection);
   }
 
+  @override
   void close() {
     _addSubscription.cancel();
     _controller.close();

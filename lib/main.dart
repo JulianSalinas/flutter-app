@@ -1,11 +1,11 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:letsattend/router.dart';
+
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/view_models/auth_model.dart';
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/view_models/navigation_model.dart';
 
 void main() {
@@ -31,8 +31,8 @@ class App extends StatelessWidget {
       ChangeNotifierProvider<AuthModel>(
         create: (context) => locator<AuthModel>(),
       ),
-      ChangeNotifierProvider<ThemeModel>(
-        create: (context) => locator<ThemeModel>(),
+      ChangeNotifierProvider<SettingsModel>(
+        create: (context) => locator<SettingsModel>(),
       ),
       ChangeNotifierProvider<NavigationModel>(
         create: (context) => locator<NavigationModel>(),
@@ -54,10 +54,10 @@ class ThemedApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ThemeModel themeModel = Provider.of<ThemeModel>(context);
+    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
 
     final theme = ThemeData(
-      brightness: themeModel.brightness,
+      brightness: settingsModel.brightness,
       primarySwatch: Colors.red,
     );
 

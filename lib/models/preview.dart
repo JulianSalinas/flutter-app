@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class Preview {
@@ -19,17 +18,23 @@ class Preview {
     this.thumbnail
   });
 
-  factory Preview.fromMap(String key, Map snapshot) => Preview(
-    key: 'preview-$key',
-    title: snapshot['title'],
-    description: snapshot['description'],
-    image: snapshot['image'],
-    url: snapshot['url'],
-    thumbnail: snapshot['thumbnail'],
-  );
-
-  factory Preview.fromFirestore(DocumentSnapshot snapshot) {
-    return Preview.fromMap(snapshot.documentID, snapshot.data);
+  factory Preview.fromMap(Map snapshot) {
+    return Preview(
+      key: 'preview-${snapshot['key']}',
+      title: snapshot['title'],
+      description: snapshot['description'],
+      image: snapshot['image'],
+      url: snapshot['url'],
+      thumbnail: snapshot['thumbnail'],
+    );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || other is Preview && key == other.key;
+  }
+
+  @override
+  int get hashCode => key.hashCode;
 
 }

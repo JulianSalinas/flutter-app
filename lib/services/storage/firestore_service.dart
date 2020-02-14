@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:letsattend/services/stream_service.dart';
+import 'package:letsattend/services/realtime/stream_service.dart';
 
 abstract class FirestoreService<T> extends StreamService {
 
@@ -29,6 +29,11 @@ abstract class FirestoreService<T> extends StreamService {
         .orderBy(key, descending: descending)
         .snapshots()
         .asyncMap((snapshot) async => await fromSnapshot(snapshot));
+  }
+
+  @override
+  void close() {
+    // TODO: implement close
   }
 
 }
