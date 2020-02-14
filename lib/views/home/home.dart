@@ -79,7 +79,9 @@ class HomeState extends State<Home> {
               SizedBox(width: 8,),
               access(Ionicons.md_qr_scanner, SharedColors.midnightBlue, null),
               SizedBox(width: 8,),
-              access(Icons.chat, SharedColors.midnightBlue, null),
+              access(Icons.chat, SharedColors.midnightBlue, () {
+                navigationModel.pushReplacement(router.ChatRoute);
+              }),
             ],
           ),
           SizedBox(height: 32,),

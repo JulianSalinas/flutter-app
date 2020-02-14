@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:letsattend/services/realtime/chat_service.dart';
 
 import 'package:letsattend/services/news_service.dart';
 import 'package:letsattend/services/events_service.dart';
@@ -6,6 +7,7 @@ import 'package:letsattend/services/speakers_service.dart';
 import 'package:letsattend/services/auth/firebase_auth_service.dart';
 
 import 'package:letsattend/view_models/auth_model.dart';
+import 'package:letsattend/view_models/chat_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/view_models/schedule_model.dart';
 import 'package:letsattend/view_models/orderable_model.dart';
@@ -45,6 +47,10 @@ void setupLocator() {
   );
 
   locator.registerLazySingleton<NewsService>(() => NewsService());
+
+  /// --- Chat management
+  locator.registerFactory<ChatModel>(() => ChatModel());
+  locator.registerLazySingleton<ChatService>(() => ChatService());
 
   /// --- Navigation management
   locator.registerLazySingleton(() => NavigationModel());

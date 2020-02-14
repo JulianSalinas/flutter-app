@@ -71,6 +71,7 @@ class DrawerContent extends StatelessWidget {
           icon: Icons.message,
           title: 'Chat',
           badge: '+15',
+          route: router.ChatRoute,
         ),
         divider,
         DrawerOption(

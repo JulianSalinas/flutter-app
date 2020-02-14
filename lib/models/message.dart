@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
 
   final String key;
 
-  final String time;
+  final int timestamp;
   final String content;
   final String senderId;
   final String senderName;
@@ -13,31 +12,30 @@ class Message {
 
   Message({
     @required this.key,
-    @required this.time,
+    @required this.timestamp,
     @required this.content,
     @required this.senderId,
     @required this.senderName,
     this.delivered = false,
   });
 
-  factory Message.fromMap(String key, Map snapshot) => Message(
-        key: key,
-        time: snapshot['time'],
-        content: snapshot['content'],
-        senderId: snapshot['userid'],
-        senderName: snapshot['username'],
-        delivered: snapshot['delivered'],
-      );
-
-  factory Message.fromFirebase(DocumentSnapshot snapshot) {
-    return Message.fromMap(snapshot.documentID, snapshot.data);
+  factory Message.fromMap(Map snapshot) {
+    return Message(
+      key: snapshot['key'],
+      timestamp: snapshot['time'],
+      content: snapshot['content'],
+      senderId: snapshot['userid'],
+      senderName: snapshot['username'],
+      delivered: snapshot['delivered'],
+    );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Message && runtimeType == other.runtimeType && key == other.key;
+  bool operator ==(Object other) {
+    return identical(this, other) || other is Message && key == other.key;
+  }
 
   @override
   int get hashCode => key.hashCode;
+
 }
