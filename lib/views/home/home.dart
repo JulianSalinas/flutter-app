@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/view_models/navigation_model.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
@@ -23,7 +24,7 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeModel>(context);
+    final settingsModel = Provider.of<SettingsModel>(context);
 
     final navigationModel = Provider.of<NavigationModel>(context);
 
@@ -43,7 +44,7 @@ class HomeState extends State<Home> {
     );
 
     final access = (IconData icon, Color color, Function onTap) => Material(
-      color: scheme.nightMode ? color : Colors.white,
+      color: settingsModel.nightMode ? color : Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(8.0)),
       child: InkWell(
         onTap: onTap,

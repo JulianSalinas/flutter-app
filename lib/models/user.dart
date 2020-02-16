@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letsattend/models/person.dart';
@@ -13,7 +14,7 @@ class User extends Person {
 
   User({
     @required this.uid,
-    @required this.providerId,
+    this.providerId,
     this.email,
     this.name,
     this.photoUrl,

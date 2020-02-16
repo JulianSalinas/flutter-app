@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/shared/colors.dart';
 
-abstract class Person {
+class Person {
 
   final String name;
 

@@ -69,7 +69,7 @@ class SignUpState extends State<SignUp> {
         child: ModernInput(
           hintText: 'Email',
           obscureText: false,
-          icon: MaterialCommunityIcons.mail_ru,
+          leading: Icon(MaterialCommunityIcons.mail_ru),
           controller: emailCtrl,
         ),
     );
@@ -79,7 +79,7 @@ class SignUpState extends State<SignUp> {
         child: ModernInput(
           hintText: 'Contraseña',
           obscureText: true,
-          icon: MaterialCommunityIcons.key,
+          leading: Icon(MaterialCommunityIcons.key),
           controller: passwordCtrl,
         ),
     );
@@ -89,7 +89,7 @@ class SignUpState extends State<SignUp> {
         child: ModernInput(
           obscureText: true,
           hintText: 'Confirmación',
-          icon: MaterialCommunityIcons.chevron_right_circle_outline,
+          leading: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
           controller: confirmationCtrl,
         ),
     );

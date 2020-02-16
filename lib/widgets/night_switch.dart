@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_text.dart';
@@ -21,12 +22,12 @@ class NightSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
 
     /// Gets the properties for the switch
-    final themeModel = Provider.of<ThemeModel>(context);
+    final settingsModel = Provider.of<SettingsModel>(context);
 
     /// Cupertino switch also works on Android
     final switchComponent = Switch(
-      value: themeModel.nightMode,
-      onChanged: (bool active) => themeModel.nightMode = active,
+      value: settingsModel.nightMode,
+      onChanged: (bool active) => settingsModel.nightMode = active,
       activeColor: SharedColors.pomegranate,
     );
 

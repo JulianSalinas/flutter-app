@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,7 +12,7 @@ class DrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ThemeModel themeModel = Provider.of<ThemeModel>(context);
+    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
 
     final drawerContainer = Container(
       width: 300,
@@ -21,10 +22,10 @@ class DrawerView extends StatelessWidget {
 
     final canvasColor = Theme.of(context).canvasColor;
 
-    final baseColor = themeModel.nightMode ? canvasColor : Colors.white;
+    final baseColor = settingsModel.nightMode ? canvasColor : Colors.white;
 
     final transparentDecoration = BoxDecoration(
-      color: baseColor.withOpacity(themeModel.nightMode ? 0.6 : 0.9),
+      color: baseColor.withOpacity(settingsModel.nightMode ? 0.6 : 0.9),
     );
 
     final transparentFilter = BackdropFilter(

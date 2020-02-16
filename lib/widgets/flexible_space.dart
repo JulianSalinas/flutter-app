@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'package:letsattend/view_models/theme_model.dart';
 
@@ -12,12 +14,11 @@ class FlexibleSpace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final themeModel = Provider.of<ThemeModel>(context);
+    final settingsModel = Provider.of<SettingsModel>(context);
 
     final backdrop = ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-        child: Container(color: Colors.black.withOpacity(0)),
       ),
     );
 
@@ -26,12 +27,12 @@ class FlexibleSpace extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [Colors.red, Colors.deepOrange],
+          colors: SharedColors.flareOrange,
         ),
       ),
     );
 
-    return themeModel.nightMode ? backdrop : gradient;
+    return settingsModel.nightMode ? backdrop : gradient;
 
   }
 

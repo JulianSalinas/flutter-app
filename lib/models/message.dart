@@ -22,12 +22,22 @@ class Message {
   factory Message.fromMap(Map snapshot) {
     return Message(
       key: snapshot['key'],
-      timestamp: snapshot['time'],
+      timestamp: snapshot['time'] ?? DateTime.now().millisecondsSinceEpoch,
       content: snapshot['content'],
       senderId: snapshot['userid'],
       senderName: snapshot['username'],
-      delivered: snapshot['delivered'],
+      delivered: snapshot['delivered'] ?? false,
     );
+  }
+
+  toJson() {
+    return {
+      'time': DateTime.now().millisecondsSinceEpoch,
+      'content': content,
+      'userid': senderId,
+      'username': senderName,
+      'delivered': delivered,
+    };
   }
 
   @override

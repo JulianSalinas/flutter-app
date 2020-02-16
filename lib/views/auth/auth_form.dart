@@ -61,7 +61,7 @@ class AuthFormState extends State<AuthForm> {
       hintText: 'Email',
       errorText: emailError,
       controller: emailCtrl,
-      icon: MaterialCommunityIcons.mail_ru,
+      leading: Icon(MaterialCommunityIcons.mail_ru),
     );
 
     final passwordField = ModernInput(
@@ -69,7 +69,7 @@ class AuthFormState extends State<AuthForm> {
       hintText: 'Contraseña',
       errorText: passwordError,
       controller: passwordCtrl,
-      icon: MaterialCommunityIcons.key,
+      leading: Icon(MaterialCommunityIcons.key),
     );
 
     final confirmationField = ModernInput(
@@ -77,7 +77,7 @@ class AuthFormState extends State<AuthForm> {
       hintText: 'Confirmación',
       errorText: confirmationError,
       controller: confirmationCtrl,
-      icon: MaterialCommunityIcons.chevron_right_circle_outline,
+      leading: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
     );
 
     final submitButton = ModernButton(

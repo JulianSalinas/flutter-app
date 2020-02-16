@@ -63,6 +63,8 @@ class SharedColors {
   static const crimsonTide = [Color(0xff642B73), Color(0xffC6426E)];
   static const shifter = [Color(0xffbc4e9c), Color(0xff89216B)];
   static const sunrise = [Colors.red, Colors.orangeAccent];
+  static const burningOrange = [Color(0xffFF416C), Color(0xffFF5F6D)];
+  static const flareOrange = [Colors.red, Colors.deepOrange];
 
   static final gradients = [
     darkReal,
