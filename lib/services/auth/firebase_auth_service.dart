@@ -15,7 +15,8 @@ class FirebaseAuthService extends AuthService {
 
   @override
   Stream<User> get onAuthStateChanged {
-    return _auth.onAuthStateChanged.map((user) => User.fromFirebase(user));
+    return _auth.onAuthStateChanged
+        .map((user) => user == null ? null : User.fromFirebase(user));
   }
 
   Future<User> startSign(String email, String password, Function get) async {

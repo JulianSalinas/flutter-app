@@ -3,27 +3,55 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/view_models/auth_model.dart';
+import 'package:letsattend/models/user.dart';
+import 'package:letsattend/router.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/view_models/auth/auth_state.dart';
 import 'package:letsattend/views/auth/auth_form.dart';
 import 'package:letsattend/widgets/modern_button.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Login extends StatefulWidget {
+class SignIn extends StatefulWidget {
   @override
-  LoginState createState() => LoginState();
+  SignInState createState() => SignInState();
 }
 
-class LoginState extends State<Login> {
+class SignInState extends State<SignIn> {
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  signIn(String email, String password) async {
 
-  submit(AuthModel auth) => (String email, String password) {
-    print('email: $email, password: $password');
-//    auth.signInWithEmailAndPassword(email, password);
-  };
+    final auth = Provider.of<AuthModel>(context);
+
+    /// If for some unusual reason (or test) user is already logged
+    /// but is still in the sign in page, we should sign out
+    if(auth.status == AuthStatus.LOGGED_IN) {
+      await auth.signOut();
+    }
+
+    auth.signIn(email, password).then(signInSuccess, onError: signInError);
+  }
+
+  signInSuccess(User user){
+    print('Logged as: $user');
+    Navigator.pushReplacementNamed(context, Router.HOME_ROUTE);
+  }
+
+  signInError(Object error) {
+    if (error.runtimeType == PlatformException) {
+      PlatformException exception = error;
+      switch(exception.code){
+        case 'ERROR_WRONG_PASSWORD':
+          return print('Contraseña incorrecta');
+        case 'ERROR_INVALID_EMAIL':
+          return print('Correo no válido');
+        case 'ERROR_USER_NOT_FOUND':
+          return print('Usuario no encontrado');
+      }
+    }
+  }
 
   /// TODO: Change method for one real
   retrieveForgottenPassword() {
@@ -77,30 +105,8 @@ class LoginState extends State<Login> {
     }
   }
 
-  loginSuccess(AuthResult result) {
-    FirebaseUser user = result.user;
-    print(user);
-  }
-
-  loginFailure(Object error) {
-    if (error.runtimeType == PlatformException) {
-      PlatformException exception = error;
-
-      if (exception.code == 'ERROR_WRONG_PASSWORD') {
-        print('Contraseña incorrecta');
-      } else if (exception.code == 'ERROR_INVALID_EMAIL') {
-        print('Correo no válido');
-      } else if (exception.code == 'ERROR_USER_NOT_FOUND') {
-        print('Usuario no encontrado');
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-
-    final auth = Provider.of<AuthModel>(context);
-    // final scheme = Provider.of<Scheme>(context);
 
     final headline = TypewriterAnimatedTextKit(
       duration: Duration(seconds: 9),
@@ -111,7 +117,7 @@ class LoginState extends State<Login> {
     final authForm = AuthForm(
       confirmation: false,
       submitText: 'Ingresar',
-      submit: submit(auth),
+      submit: signIn,
     );
 
     final googleButton = ModernButton(
@@ -149,8 +155,8 @@ class LoginState extends State<Login> {
     );
 
     final container = Container(
-        width: 280,
-        child: wrapper,
+      width: 280,
+      child: wrapper,
     );
 
     return Scaffold(body: SafeArea(child: container));

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:letsattend/router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +162,7 @@ class SpeakersViewState extends State<SpeakersView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: DrawerView(Router.SPEAKERS_ROUTE),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

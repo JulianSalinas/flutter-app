@@ -1,15 +1,13 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:letsattend/view_models/navigation_model.dart';
-import 'package:letsattend/view_models/settings_model.dart';
-import 'package:letsattend/view_models/theme_model.dart';
-import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/night_switch.dart';
-import 'package:provider/provider.dart';
 
-import 'package:letsattend/router.dart' as router;
+import 'package:letsattend/router.dart';
+import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/widgets/night_switch.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 
 class Home extends StatefulWidget {
 
@@ -25,8 +23,6 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     final settingsModel = Provider.of<SettingsModel>(context);
-
-    final navigationModel = Provider.of<NavigationModel>(context);
 
     final haccess = (IconData icon, Color color, Function onTap) => Material(
       color: color,
@@ -71,17 +67,17 @@ class HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               haccess(Icons.event, SharedColors.alizarin, () {
-                navigationModel.pushReplacement(router.ScheduleRoute);
+                Navigator.pushReplacementNamed(context, Router.SCHEDULE_ROUTE);
               }),
               SizedBox(width: 8,),
               access(Icons.people, SharedColors.midnightBlue, () {
-                navigationModel.pushReplacement(router.SpeakersRoute);
+                Navigator.pushReplacementNamed(context, Router.SPEAKERS_ROUTE);
               }),
               SizedBox(width: 8,),
               access(Ionicons.md_qr_scanner, SharedColors.midnightBlue, null),
               SizedBox(width: 8,),
               access(Icons.chat, SharedColors.midnightBlue, () {
-                navigationModel.pushReplacement(router.ChatRoute);
+                Navigator.pushReplacementNamed(context, Router.CHAT_ROUTE);
               }),
             ],
           ),
@@ -92,7 +88,7 @@ class HomeState extends State<Home> {
     );
 
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: DrawerView(Router.HOME_ROUTE),
       body: Column(
         children: <Widget>[
           Expanded(child: temporal,),

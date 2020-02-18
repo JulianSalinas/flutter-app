@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:letsattend/views/drawer/drawer_badge.dart';
-import 'package:letsattend/view_models/navigation_model.dart';
 
 class DrawerOption extends StatelessWidget {
 
@@ -23,11 +21,10 @@ class DrawerOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    NavigationModel navigationModel = Provider.of<NavigationModel>(context);
 
     final onTap = this.onTap ?? () {
-      navigationModel.goBack(); // close menu
-      navigationModel.pushReplacement(route);
+      Navigator.pop(context); // close menu
+      Navigator.pushReplacementNamed(context, route);
     };
 
     final content = Row(children: [

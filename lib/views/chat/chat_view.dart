@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:letsattend/router.dart';
 import 'package:letsattend/models/message.dart';
 import 'package:letsattend/views/chat/empty_bubble.dart';
 import 'package:letsattend/views/chat/bubble_widget.dart';
@@ -13,9 +14,7 @@ import 'package:letsattend/view_models/collections/chat_model.dart';
 
 class ChatView extends StatefulWidget {
 
-  static const SCREEN_KEY = 'chat-view';
-
-  ChatView() : super(key: Key(SCREEN_KEY));
+  ChatView() : super(key: Key('screen${Router.CHAT_ROUTE}'));
 
   @override
   _ChatViewState createState() => _ChatViewState();
@@ -109,7 +108,7 @@ class _ChatViewState extends State<ChatView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: DrawerView(Router.CHAT_ROUTE),
       appBar: appBar,
       body: body,
     );
@@ -136,7 +135,7 @@ class _ChatViewState extends State<ChatView> {
     );
 
     final padding = EdgeInsets.symmetric(
-      vertical: 8.0,
+      vertical: 16.0,
       horizontal: 16.0,
     );
 
@@ -153,7 +152,7 @@ class _ChatViewState extends State<ChatView> {
   Widget buildError() {
 
     final text = Text(
-      'ERROR',
+      'ERROR INESPERADO',
       style: TextStyle(fontSize: 24),
     );
 
@@ -164,7 +163,7 @@ class _ChatViewState extends State<ChatView> {
   Widget buildEmpty() {
 
     final text = Text(
-      'VACIO',
+      'NO HAY MENSAJES AÚN',
       style: TextStyle(fontSize: 24),
     );
 
@@ -175,7 +174,7 @@ class _ChatViewState extends State<ChatView> {
   Widget buildTemplate() {
 
     final padding = EdgeInsets.symmetric(
-      vertical: 8.0,
+      vertical: 16.0,
       horizontal: 16.0,
     );
 

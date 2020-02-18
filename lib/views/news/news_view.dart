@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
+import 'package:letsattend/router.dart';
 import 'package:letsattend/view_models/collections/filterable_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
@@ -42,7 +43,7 @@ class NewsViewState extends State<NewsView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: DrawerView(Router.NEWS_ROUTE),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

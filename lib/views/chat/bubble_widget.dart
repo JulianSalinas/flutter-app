@@ -59,7 +59,7 @@ class BubbleWidget extends StatelessWidget {
       color: settingsModel.nightMode
           ? null
           : isOwned
-          ? Theme.of(context).disabledColor.withOpacity(0.2)
+          ? Theme.of(context).disabledColor.withOpacity(0.05)
           : null,
       borderRadius: borderRadius,
       gradient: settingsModel.nightMode

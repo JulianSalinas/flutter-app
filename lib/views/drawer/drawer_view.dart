@@ -1,13 +1,15 @@
 import 'dart:ui';
-import 'package:letsattend/view_models/settings_model.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:provider/provider.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_clipper.dart';
 import 'package:letsattend/views/drawer/drawer_content.dart';
 
 class DrawerView extends StatelessWidget {
+
+  final String currentRoute;
+  DrawerView(this.currentRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class DrawerView extends StatelessWidget {
     final drawerContainer = Container(
       width: 300,
       padding: EdgeInsets.only(left: 16, right: 40),
-      child: SafeArea(child: DrawerContent()),
+      child: SafeArea(child: DrawerContent(currentRoute)),
     );
 
     final canvasColor = Theme.of(context).canvasColor;

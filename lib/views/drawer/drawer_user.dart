@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/user.dart';
 import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
+import 'package:provider/provider.dart';
 
 class DrawerUser extends StatelessWidget {
 
@@ -14,9 +16,11 @@ class DrawerUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final auth = Provider.of<AuthModel>(context);
+
     final closeButton = IconButton(
       icon: Icon(Icons.power_settings_new),
-      onPressed: () {},
+      onPressed: () => auth.signOut(),
     );
 
     final closeSession = Container(

@@ -1,18 +1,20 @@
 import 'dart:ui';
-import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+import 'package:letsattend/router.dart';
 import 'package:letsattend/models/user.dart';
-import 'package:letsattend/router.dart' as router;
-import 'package:letsattend/view_models/auth_model.dart';
-import 'package:letsattend/view_models/theme_model.dart';
-import 'package:letsattend/views/drawer/drawer_option.dart';
 import 'package:letsattend/views/drawer/drawer_user.dart';
+import 'package:letsattend/views/drawer/drawer_option.dart';
+import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 
 class DrawerContent extends StatelessWidget {
+
+  final String currentRoute;
+  DrawerContent(this.currentRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -59,45 +61,45 @@ class DrawerContent extends StatelessWidget {
         DrawerOption(
           icon: Icons.home,
           title: 'Principal',
-          route: router.HomeRoute,
+          route: Router.HOME_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: MaterialCommunityIcons.calendar,
           title: 'Cronograma',
-          route: router.ScheduleRoute,
+          route: Router.SCHEDULE_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: Icons.message,
           title: 'Chat',
           badge: '+15',
-          route: router.ChatRoute,
+          route: Router.CHAT_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: Icons.notifications,
           title: 'Noticias',
           badge: '+5',
-          route: router.NewsRoute,
+          route: Router.NEWS_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: Icons.people,
           title: 'Expositores',
-          route: router.SpeakersRoute,
+          route: Router.SPEAKERS_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: Icons.settings,
           title: 'Configuración',
-          route: router.SettingsRoute,
+          route: Router.SETTINGS_ROUTE,
         ),
         divider,
         DrawerOption(
           icon: Icons.email,
           title: 'Contácto',
-          route: router.AboutRoute,
+          route: Router.ABOUT_ROUTE,
         ),
         divider,
         Container(child: nightModeContent)

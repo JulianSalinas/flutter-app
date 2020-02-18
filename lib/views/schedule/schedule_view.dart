@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
+import 'package:letsattend/router.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/view_models/collections/schedule_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
@@ -31,7 +32,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
     );
 
     return Scaffold(
-      drawer: DrawerView(),
+      drawer: DrawerView(Router.SCHEDULE_ROUTE),
       body: streamBuilder,
       extendBodyBehindAppBar: true,
     );
