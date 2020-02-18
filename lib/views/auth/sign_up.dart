@@ -58,7 +58,7 @@ class SignUpState extends State<SignUp> {
     final headlineText = Hero(
         tag: 'headline-text',
         child: TypewriterAnimatedTextKit(
-            duration: Duration(seconds: 9),
+            speed: Duration(seconds: 9),
             text: ['ES HORA DE', 'CREAR UNA CUENTA', '...O YA TIENES UNA?'],
             textStyle: Theme.of(context).textTheme.headline,
         ),

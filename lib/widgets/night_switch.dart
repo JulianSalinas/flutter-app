@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/view_models/settings_model.dart';
-import 'package:letsattend/view_models/theme_model.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';

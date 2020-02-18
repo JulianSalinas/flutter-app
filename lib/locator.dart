@@ -7,13 +7,13 @@ import 'package:letsattend/services/storage/speakers_service.dart';
 import 'package:letsattend/services/auth/firebase_auth_service.dart';
 import 'package:letsattend/services/users.dart';
 
+import 'package:letsattend/view_models/user_model.dart';
 import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/view_models/collections/chat_model.dart';
 import 'package:letsattend/view_models/collections/news_model.dart';
 import 'package:letsattend/view_models/collections/speakers_model.dart';
 import 'package:letsattend/view_models/collections/schedule_model.dart';
-import 'package:letsattend/view_models/user_model.dart';
 
 GetIt locator = GetIt.instance;
 

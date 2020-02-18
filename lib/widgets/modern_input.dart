@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
 
@@ -40,13 +39,11 @@ class ModernInput extends StatelessWidget {
 
     final prefix = Padding(
       child: leading,
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      padding: EdgeInsets.fromLTRB(20, 0, 12, 0),
     );
 
     final decoration = InputDecoration(
-      border: border,
       enabledBorder: border,
-      disabledBorder: border,
       focusedBorder: border,
       prefixIcon: prefix,
       hintText: hintText,
@@ -54,7 +51,7 @@ class ModernInput extends StatelessWidget {
       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
     );
 
-    final textField = TextField(
+    final textField = TextFormField(
       minLines: 1,
       maxLines: multiline ? 3 : 1,
       decoration: decoration,

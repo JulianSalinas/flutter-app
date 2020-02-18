@@ -3,29 +3,73 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/user.dart';
-import 'package:letsattend/view_models/auth/auth_state.dart';
+import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:letsattend/services/auth/firebase_auth_service.dart';
+
 
 class AuthModel with ChangeNotifier {
 
   final FirebaseAuthService _service = locator<FirebaseAuthService>();
 
-  AuthStatus status = AuthStatus.NOT_DETERMINED;
+  User _user;
+  User get user => _user;
 
-  Future<User> get user async {
-    return _service.user;
+  AuthStatus _status = AuthStatus.Uninitialized;
+  AuthStatus get status => _status;
+
+  AuthModel() {
+    _service.onAuthStateChanged.listen(_onAuthStateChanged);
   }
 
-  Future<User> signIn(String email, String password) async {
-    return _service.signIn(email, password);
+  Future<void> _onAuthStateChanged(User user) async {
+    _user = user;
+    _status = user == null
+        ? AuthStatus.Unauthenticated
+        : AuthStatus.Authenticated;
+    notifyListeners();
   }
 
-  Future<User> signInAnonymously() async {
-    return _service.signInAnonymously();
+  Future<void> signIn(String email, String password) async {
+    try {
+      _status = AuthStatus.Authenticating;
+      notifyListeners();
+      await _service.signIn(email, password);
+    }
+    catch(e) {
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
+    }
   }
 
-  Future<User> signUp(String email, String password) async {
-    return _service.signUp(email, password);
+  Future<void> signInAnonymously() async {
+    try {
+      _status = AuthStatus.Authenticating;
+      notifyListeners();
+      await _service.signInAnonymously();
+    }
+    catch(e) {
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signUp(String email, String password) async {
+    try {
+      _status = AuthStatus.Authenticating;
+      notifyListeners();
+      await _service.signUp(email, password);
+    }
+    catch(e) {
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
+    }
+  }
+
+  Future signOut() async {
+    _service.signOut();
+    _status = AuthStatus.Unauthenticated;
+    notifyListeners();
+    return Future.delayed(Duration.zero);
   }
 
   Future resetPassword(String email) async {
@@ -35,13 +79,5 @@ class AuthModel with ChangeNotifier {
   Future<User> signInWithGoogle() async {
     return _service.signInWithGoogle();
   }
-
-  Future<void> signOut() async {
-    await _service.signOut();
-    status = AuthStatus.NOT_LOGGED_IN;
-  }
-
-  Stream<User> get onAuthChanged => _service.onAuthStateChanged;
-
 
 }

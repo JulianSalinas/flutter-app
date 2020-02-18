@@ -1,5 +1,0 @@
-enum AuthStatus {
-  LOGGED_IN,
-  NOT_LOGGED_IN,
-  NOT_DETERMINED,
-}

@@ -19,7 +19,7 @@ class DrawerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    AuthModel authModel = Provider.of<AuthModel>(context);
+    AuthModel auth = Provider.of<AuthModel>(context);
     SettingsModel settingsModel = Provider.of<SettingsModel>(context);
 
     final divider = Divider(
@@ -31,11 +31,8 @@ class DrawerContent extends StatelessWidget {
       providerId: 'local-app',
     );
 
-    final drawerUser = FutureBuilder<User>(
-      future: authModel.user,
-      builder: (context, snapshot) => DrawerUser(
-        user: snapshot.hasData ? snapshot.data : emptyUser,
-      ),
+    final drawerUser = DrawerUser(
+      user: auth.user == null ? emptyUser : auth.user,
     );
 
     final nightModeSwitch = Switch(

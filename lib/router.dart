@@ -7,13 +7,10 @@ import 'package:letsattend/views/auth/sign_up.dart';
 import 'package:letsattend/views/chat/chat_view.dart';
 import 'package:letsattend/views/news/news_view.dart';
 import 'package:letsattend/views/about/about_view.dart';
-import 'package:letsattend/views/sample.dart';
 import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:letsattend/views/schedule/schedule_view.dart';
 import 'package:letsattend/views/settings/setttings_view.dart';
 
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:letsattend/view_models/auth/auth_state.dart';
 import 'package:letsattend/view_models/collections/chat_model.dart';
 import 'package:letsattend/view_models/collections/news_model.dart';
 import 'package:letsattend/view_models/collections/schedule_model.dart';
@@ -31,22 +28,7 @@ class Router {
   static const String SETTINGS_ROUTE = '/settings';
   static const String ABOUT_ROUTE = '/about';
 
-  AuthModel auth;
-  Router(this.auth);
-
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-
-    AuthStatus status = auth.status;
-
-    if (settings.name == HOME_ROUTE && status == AuthStatus.NOT_DETERMINED) {
-      return MaterialPageRoute(builder: (context) => Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ));
-    }
-
-    if (settings.name == HOME_ROUTE && status == AuthStatus.NOT_LOGGED_IN){
-      return MaterialPageRoute(builder: (context) => SignIn());
-    }
 
     switch (settings.name) {
       case HOME_ROUTE:

@@ -1,5 +1,6 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:flutter/material.dart';
+import 'package:letsattend/router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letsattend/app.dart';
@@ -22,6 +23,8 @@ void main() {
 
 class LetAttendApp extends StatelessWidget {
 
+  final router = Router();
+
   @override
   Widget build(BuildContext context) {
 
@@ -38,7 +41,22 @@ class LetAttendApp extends StatelessWidget {
     /// Renders the applications with the theme data
     return MultiProvider(
       providers: providers,
-      child: Material(child: ThemedApp()),
+      child: Consumer(
+        builder: (context, SettingsModel settings, _) {
+
+          return MaterialApp(
+            title: 'Let\'s Attend',
+            home: ThemedApp(),
+            theme: ThemeData(
+              brightness: settings.brightness,
+              primarySwatch: Colors.red,
+            ),
+            onGenerateRoute: router.onGenerateRoute,
+            debugShowCheckedModeBanner: false,
+          );
+
+        },
+      ),
     );
 
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:provider/provider.dart';
-import 'package:letsattend/view_models/theme_model.dart';
 
 class FlexibleSpace extends StatelessWidget {
 

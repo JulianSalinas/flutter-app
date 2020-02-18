@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:letsattend/view_models/theme_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -18,8 +15,6 @@ class FullscreenWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final scheme = Provider.of<ThemeModel>(context);
 
     final webview = WebView(
       initialUrl: url,
