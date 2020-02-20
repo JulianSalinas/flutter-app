@@ -6,6 +6,7 @@ import 'package:letsattend/router.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/payload.dart';
+import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/widgets/modern_input.dart';
 import 'package:letsattend/widgets/modern_button.dart';
 import 'package:letsattend/widgets/liquid_animation.dart';
@@ -143,10 +144,13 @@ class PasswordResetViewState extends State<PasswordResetView> {
       ),
     );
 
-    final wave = LiquidAnimation(
-      boxHeight: 48,
-      waveColor: SharedColors.alizarin,
-      boxBackgroundColor: Colors.transparent,
+    final wave = Hero(
+      tag: 'liquid-animation',
+      child: LiquidAnimation(
+        boxHeight: 48,
+        waveColor: SharedColors.alizarin,
+        boxBackgroundColor: Colors.transparent,
+      ),
     );
 
     final container = Container(
@@ -164,6 +168,8 @@ class PasswordResetViewState extends State<PasswordResetView> {
 
     final appBar = AppBar(
       elevation: 0,
+      title: ModernText('CONTRASEÑA'),
+      centerTitle: true,
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Icon(Icons.arrow_back),

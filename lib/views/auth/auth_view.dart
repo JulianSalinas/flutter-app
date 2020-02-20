@@ -1,3 +1,4 @@
+import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -115,10 +116,13 @@ class AuthViewState extends State<AuthView> {
       ),
     );
 
-    final wave = LiquidAnimation(
-      boxHeight: 48,
-      waveColor: SharedColors.alizarin,
-      boxBackgroundColor: Colors.transparent,
+    final wave = Hero(
+      tag: 'liquid-animation',
+      child: LiquidAnimation(
+        boxHeight: 48,
+        waveColor: SharedColors.alizarin,
+        boxBackgroundColor: Colors.transparent,
+      ),
     );
 
     final container = Container(
@@ -136,6 +140,8 @@ class AuthViewState extends State<AuthView> {
 
     final appBar = AppBar(
       elevation: 0,
+      title: ModernText('Bienvenido'),
+      centerTitle: true,
       backgroundColor: Colors.transparent,
       iconTheme: IconThemeData(
         color: settings.nightMode ? Colors.white : Colors.black,

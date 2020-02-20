@@ -84,7 +84,7 @@ class _LiquidAnimationState extends State<LiquidAnimation>
     _waveColor = widget.waveColor ?? Colors.blueAccent;
 
     _loadValue = Tween<double>(
-      begin: 0.0,
+      begin: 90.0,
       end: 100.0,
     ).animate(_loadController);
 

@@ -1,3 +1,4 @@
+import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -199,10 +200,13 @@ class SignInViewState extends State<SignInView> {
       ),
     );
 
-    final wave = LiquidAnimation(
-      boxHeight: 48,
-      waveColor: SharedColors.alizarin,
-      boxBackgroundColor: Colors.transparent,
+    final wave = Hero(
+      tag: 'liquid-animation',
+      child: LiquidAnimation(
+        boxHeight: 48,
+        waveColor: SharedColors.alizarin,
+        boxBackgroundColor: Colors.transparent,
+      ),
     );
 
     final container = Container(
@@ -220,6 +224,8 @@ class SignInViewState extends State<SignInView> {
 
     final appBar = AppBar(
       elevation: 0,
+      title: ModernText('INICIAR SESIÓN'),
+      centerTitle: true,
       backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
