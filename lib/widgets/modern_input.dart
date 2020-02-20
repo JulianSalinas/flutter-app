@@ -48,7 +48,7 @@ class ModernInput extends StatelessWidget {
 
     final prefix = Padding(
       child: leading,
-      padding: EdgeInsets.fromLTRB(20, 0, 12, 0),
+      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
     );
 
     final decoration = InputDecoration(

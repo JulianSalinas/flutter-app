@@ -8,10 +8,10 @@ class PostWidget extends StatelessWidget {
 
   final Post post;
 
-  const PostWidget({
+  PostWidget({
     Key key,
     @required this.post,
-  }) : super(key: key);
+  }) : super(key: key ?? Key(post.key));
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +23,21 @@ class PostWidget extends StatelessWidget {
         color: SharedColors.peterRiver,
       ),
     );
-
-    final preview = post.preview != null ?
-      TouchablePreview(preview: post.preview) :
-      SizedBox.shrink();
+//
+//    final preview = post.preview != null ?
+//      TouchablePreview(preview: post.preview) :
+//      SizedBox.shrink();
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         datetime,
         SizedBox(height: 8),
-        Text(post.title, style: Typography.englishLike2018.title),
+        Text(post.title ?? 'bugtitle', style: Typography.englishLike2018.title),
         SizedBox(height: 4,),
-        Text(post.description),
+        Text(post.description ?? 'bugdescription'),
         SizedBox(height: 8,),
-        preview
+//        preview ?? null,
       ],
     );
 

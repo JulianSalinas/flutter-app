@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 import 'package:letsattend/router.dart';
 import 'package:letsattend/models/message.dart';
@@ -9,6 +10,7 @@ import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/modern_text.dart';
 import 'package:letsattend/widgets/modern_input.dart';
 import 'package:letsattend/widgets/flexible_space.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/view_models/collections/chat_model.dart';
 
 
@@ -25,16 +27,18 @@ class _ChatViewState extends State<ChatView> {
   TextEditingController _editingController = TextEditingController();
 
   Message createMessage() {
+    final auth = Provider.of<AuthModel>(context, listen: false);
+    assert(auth.user != null);
     Map snapshot = Map();
-    snapshot['userid'] = 'LUIOPQWSDDGHJW';
-    snapshot['username'] = 'Julian Salinas';
+    snapshot['userid'] = auth.user.uid;
+    snapshot['username'] = auth.user.name;
     snapshot['content'] = _editingController.text;
     return Message.fromMap(snapshot);
   }
 
   void sendMessage() {
     if (_editingController.text.trim().isEmpty) return;
-    final chatModel = Provider.of<ChatModel>(context);
+    final chatModel = Provider.of<ChatModel>(context, listen: false);
     chatModel.sendMessage(createMessage().toJson());
     _editingController.text = '';
   }
@@ -42,10 +46,10 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
 
-    final chatModel = Provider.of<ChatModel>(context);
+    final chat = Provider.of<ChatModel>(context);
 
     final streamBuilder = StreamBuilder(
-      stream: chatModel.stream,
+      stream: chat.stream,
       builder: (_, snapshot) => buildView(snapshot),
     );
 
@@ -129,9 +133,16 @@ class _ChatViewState extends State<ChatView> {
 
   Widget buildList(List<Message> messages) {
 
+    final auth = Provider.of<AuthModel>(context, listen: false);
+
     final postWidget = (context, itemIndex) => BubbleWidget(
       message: messages[itemIndex],
-      isOwned: itemIndex % 2 == 0,
+      isOwned: auth.user.uid == messages[itemIndex].senderId,
+      startSequence: itemIndex == messages.length - 1
+          || messages[itemIndex].senderId != messages[itemIndex + 1].senderId,
+      useTimestamp: itemIndex == messages.length - 1
+          || Jiffy(DateTime.fromMillisecondsSinceEpoch(messages[itemIndex].timestamp)).startOf('day')
+          != Jiffy(DateTime.fromMillisecondsSinceEpoch(messages[itemIndex + 1].timestamp)).startOf('day'),
     );
 
     final padding = EdgeInsets.symmetric(
@@ -144,7 +155,7 @@ class _ChatViewState extends State<ChatView> {
       padding: padding,
       itemBuilder: postWidget,
       itemCount: messages.length,
-      separatorBuilder: (_, index) => SizedBox(height: 16),
+      separatorBuilder: (_, index) => SizedBox(height: 12),
     );
 
   }

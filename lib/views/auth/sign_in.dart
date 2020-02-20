@@ -24,6 +24,8 @@ class SignInView extends StatefulWidget {
 
 class SignInViewState extends State<SignInView> {
 
+  bool obscurePassword = true;
+
   String emailError;
   String passwordError;
 
@@ -122,16 +124,29 @@ class SignInViewState extends State<SignInView> {
       errorText: emailError,
       controller: emailCtrl,
       keyboardType: TextInputType.text,
-      leading: Icon(MaterialCommunityIcons.at),
+      leading: IconButton(
+        icon: Icon(MaterialCommunityIcons.at),
+        onPressed: () { },
+      ),
+    );
+
+    final visibilityIcon = Icon(obscurePassword
+        ? MaterialIcons.visibility_off
+        : MaterialIcons.visibility,
+    );
+
+    final visibilityButton = IconButton(
+      icon: visibilityIcon,
+      onPressed: () => setState(() => obscurePassword = !obscurePassword),
     );
 
     final passwordField = ModernInput(
-      obscureText: true,
+      obscureText: obscurePassword,
       hintText: 'Contraseña',
       errorText: passwordError,
       controller: passwordCtrl,
+      leading: visibilityButton,
       keyboardType: TextInputType.text,
-      leading: Icon(MaterialCommunityIcons.key),
     );
 
     final submitButton = ModernButton(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/router.dart';
 import 'package:letsattend/view_models/collections/filterable_model.dart';
+import 'package:letsattend/view_models/collections/news_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
 import 'package:letsattend/widgets/flexible_space.dart';
@@ -21,10 +22,10 @@ class NewsViewState extends State<NewsView> {
   @override
   Widget build(BuildContext context) {
 
-    final newsModel = Provider.of<FilterableModel>(context);
+    final news = Provider.of<NewsModel>(context);
 
     final streamBuilder = StreamBuilder(
-      stream: newsModel.stream,
+      stream: news.stream,
       builder: buildStream,
     );
 
@@ -63,8 +64,7 @@ class NewsViewState extends State<NewsView> {
 
   Widget buildNews(BuildContext context, List<Post> posts) {
 
-    final postWidget = (context, itemIndex) => PostWidget(
-      key: Key(posts[itemIndex].key),
+    final postWidget = (_, itemIndex) => PostWidget(
       post: posts[itemIndex],
     );
 

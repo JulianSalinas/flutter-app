@@ -39,7 +39,7 @@ void setupLocator() {
 
   /// --- News management
   locator.registerFactory<NewsModel>(() => NewsModel());
-  locator.registerLazySingleton<NewsService>(() => NewsService());
+  locator.registerFactory<NewsService>(() => NewsService());
 
   /// --- Chat management
   locator.registerFactory<ChatModel>(() => ChatModel());
