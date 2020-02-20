@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/user.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:provider/provider.dart';
 
 class DrawerUser extends StatelessWidget {
 
@@ -15,18 +13,6 @@ class DrawerUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final auth = Provider.of<AuthModel>(context);
-
-    final closeButton = IconButton(
-      icon: Icon(Icons.power_settings_new),
-      onPressed: () => auth.signOut(),
-    );
-
-    final closeSession = Container(
-      alignment: Alignment.centerRight,
-      child: closeButton,
-    );
 
     final hasPhoto = user.photoUrl != null;
 
@@ -51,7 +37,7 @@ class DrawerUser extends StatelessWidget {
     );
 
     final drawerName = Text(
-      user.name ?? 'Anónimo',
+      user.name ?? 'Bienvenido',
       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
     );
 
@@ -59,11 +45,10 @@ class DrawerUser extends StatelessWidget {
 
     return Column(
       children: [
-        closeSession,
         drawerAvatar,
         SizedBox(height: 12.0),
         drawerName,
-        drawerEmail,
+        if (!user.isAnonymous) drawerEmail,
       ],
     );
 

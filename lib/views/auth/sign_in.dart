@@ -1,3 +1,7 @@
+import 'package:letsattend/router.dart';
+import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,15 +11,15 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_input.dart';
 import 'package:letsattend/widgets/modern_button.dart';
-import 'package:letsattend/services/auth/auth_code.dart';
+import 'package:letsattend/models/payload.dart';
 import 'package:letsattend/view_models/auth/auth_model.dart';
 
-class SignIn extends StatefulWidget {
+class SignInView extends StatefulWidget {
   @override
-  SignInState createState() => SignInState();
+  SignInViewState createState() => SignInViewState();
 }
 
-class SignInState extends State<SignIn> {
+class SignInViewState extends State<SignInView> {
 
   String emailError;
   String passwordError;
@@ -41,78 +45,30 @@ class SignInState extends State<SignIn> {
   }
 
   void signIn() async {
+
     final auth = Provider.of<AuthModel>(context, listen: false);
     String email = emailCtrl.text.trim();
     String password = passwordCtrl.text.trim();
-    auth.signIn(email, password).catchError(signInError);
-  }
+    final payload = await auth.signIn(email, password);
 
-  signInError(Object error) {
-
-    if(error.runtimeType != PlatformException) {
-      print('Unexpected error while Sign In');
-      return;
+    if(payload.hasError) {
+      if(payload.errorCode == AuthPayload.ERROR_WRONG_PASSWORD)
+        setState(() => passwordError = 'Contraseña incorrecta');
+      else if (payload.errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+        setState(() => emailError = 'El correo es inválido');
+      else if (payload.errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
+        setState(() => emailError = 'El usuario no ha sido registrado');
+    }
+    else {
+      Navigator.of(context).pop();
     }
 
-    PlatformException exception = error;
-    if(exception.code == AuthCode.ERROR_WRONG_PASSWORD)
-      passwordError = 'Contraseña incorrecta';
-    else if (exception.code == AuthCode.ERROR_INVALID_EMAIL)
-      emailError = 'El correo no existe';
-    else if (exception.code == AuthCode.ERROR_USER_NOT_FOUND)
-      emailError = 'El usuario no existe';
-  }
-
-  /// TODO: Change method for one real
-  retrieveForgottenPassword() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Recuperar contraseña'),
-            content: Text('¿Desea enviar la contraseña a su correo?'),
-            actions: <Widget>[
-              new FlatButton(
-                  child: new Text('CANCELAR'),
-                  onPressed: Navigator.of(context).pop),
-              new FlatButton(
-                  child: new Text('ENVIAR'), onPressed: sendPasswordResetEmail)
-            ],
-          );
-        });
-  }
-
-  sendPasswordResetEmail() {
-//    Navigator.of(context).pop();
-//    auth
-//        .sendPasswordResetEmail(email: emailCtrl.text)
-//        .then(retrieveSuccess, onError: retrieveFailure);
-  }
-
-  retrieveSuccess(Object result) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text('Recuperar contraseña'),
-              content: Text('Tu contraseña se ha enviado a tu correo'),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text('ENTENDIDO'),
-                  onPressed: Navigator.of(context).pop,
-                )
-              ]);
-        });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final headline = TypewriterAnimatedTextKit(
-      speed: Duration(milliseconds: 200),
-      text: ['BIENVENIDO', 'INICIA SESIÓN', '...O REGISTRATE'],
-      textStyle: Theme.of(context).textTheme.headline,
-    );
+    final settings = Provider.of<SettingsModel>(context);
 
     final emailField = ModernInput(
       hintText: 'Email',
@@ -133,33 +89,44 @@ class SignInState extends State<SignIn> {
 
     final submitButton = ModernButton(
       'INGRESAR',
-      color: SharedColors.midnightBlue,
+      color: SharedColors.alizarin,
       onPressed: signIn,
     );
 
     final googleButton = ModernButton(
       'Ingresar con Google',
-      color: SharedColors.google,
+      color: Colors.white,
+      textColor: SharedColors.google,
       onPressed: () => print('Google'),
       icon: FontAwesome.google,
     );
 
-    final retrieveText = Text(
+    final auxText = Text(
       '¿Has olvidado tu contraseña?',
-      style: TextStyle(color: SharedColors.peterRiver),
+      style: TextStyle(color: Colors.white38),
     );
 
-    final retrieveButton = MaterialButton(
-      child: retrieveText,
-      onPressed: retrieveForgottenPassword,
+    final auxButton = MaterialButton(
+      child: auxText,
+      onPressed: () {
+        Navigator.of(context).pushNamed(Router.PASSWORD_RESET_ROUTE);
+      },
+    );
+
+    final logo = Hero(
+      tag: 'app-logo',
+      child: FlutterLogo(
+        size: 132,
+        colors: Colors.deepOrange,
+      ),
     );
 
     final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        headline,
-        SizedBox(height: 16),
+        logo,
+        SizedBox(height: 32),
         emailField,
         SizedBox(height: 16),
         passwordField,
@@ -169,15 +136,50 @@ class SignInState extends State<SignIn> {
         Text('Ó puedes', textAlign: TextAlign.center),
         SizedBox(height: 16),
         googleButton,
-        retrieveButton
+        auxButton
       ],
     );
 
-    final container = Container(
+    final paddedContent = Padding(
       padding: EdgeInsets.all(48),
       child: content,
     );
 
-    return Scaffold(body: SafeArea(child: container));
+    final wave = TextLiquidFill(
+      key: Key('liquid-sign-in'),
+      text: '',
+      waveColor: SharedColors.alizarin,
+      boxBackgroundColor: Colors.transparent,
+      boxHeight: 48.0,
+    );
+
+    final container = Container(
+      child: Column(
+        children: [
+          Flexible(child: paddedContent),
+          wave,
+        ],
+      ),
+    );
+
+    final appBar = AppBar(
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: Navigator.of(context).pop,
+      ),
+      backgroundColor: Colors.transparent,
+      iconTheme: IconThemeData(
+        color: settings.nightMode ? Colors.white : Colors.black,
+      ),
+    );
+
+    return Scaffold(
+      body: SafeArea(child: container),
+      drawer: DrawerView(Router.LOGIN_ROUTE),
+      appBar: appBar,
+    );
+
   }
+
 }

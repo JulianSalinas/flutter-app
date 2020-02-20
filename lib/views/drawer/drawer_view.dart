@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_clipper.dart';
 import 'package:letsattend/views/drawer/drawer_content.dart';
@@ -14,20 +15,25 @@ class DrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
+    final theme = Theme.of(context);
+    final settings = Provider.of<SettingsModel>(context);
+
+    final safeContainer = SafeArea(
+      child: DrawerContent(currentRoute),
+    );
 
     final drawerContainer = Container(
       width: 300,
       padding: EdgeInsets.only(left: 16, right: 40),
-      child: SafeArea(child: DrawerContent(currentRoute)),
+      child: safeContainer,
     );
 
-    final canvasColor = Theme.of(context).canvasColor;
-
-    final baseColor = settingsModel.nightMode ? canvasColor : Colors.white;
+    final baseColor = settings.nightMode
+        ? theme.canvasColor
+        : Colors.white;
 
     final transparentDecoration = BoxDecoration(
-      color: baseColor.withOpacity(settingsModel.nightMode ? 0.6 : 0.9),
+      color: baseColor.withOpacity(settings.nightMode ? 0.6 : 0.9),
     );
 
     final transparentFilter = BackdropFilter(
@@ -39,15 +45,20 @@ class DrawerView extends StatelessWidget {
       children: [transparentFilter, drawerContainer],
     );
 
+    final drawer = Drawer(
+      child: transparentDrawerContainer,
+    );
+
     final drawerClipPath = ClipPath(
       clipper: DrawerClipper(),
-      child: Drawer(child: transparentDrawerContainer),
+      child: drawer,
     );
 
     return Theme(
-      data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+      data: theme.copyWith(canvasColor: Colors.transparent),
       child: drawerClipPath,
     );
 
   }
+
 }

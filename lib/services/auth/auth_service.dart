@@ -1,4 +1,5 @@
 import 'package:letsattend/models/user.dart';
+import 'package:letsattend/models/payload.dart';
 
 abstract class AuthService {
 
@@ -6,13 +7,15 @@ abstract class AuthService {
 
   Stream<User> get onAuthStateChanged;
 
-  Future<User> signIn(String email, String password);
+  Future<AuthPayload> signIn(String email, String password);
 
-  Future<User> signInAnonymously();
+  Future<AuthPayload> signInAnonymously();
 
-  Future<User> signUp(String email, String password);
+  Future<AuthPayload> signUp(String email, String password);
 
-  Future<void> resetPassword(String email);
+  Future<AuthPayload> signInWithGoogle();
+
+  Future<AuthPayload> resetPassword(String email);
 
   Future<void> signOut();
 

@@ -1,15 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
+
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/user.dart';
+import 'package:letsattend/models/payload.dart';
 import 'package:letsattend/view_models/auth/auth_status.dart';
-import 'package:letsattend/services/auth/firebase_auth_service.dart';
-
+import 'package:letsattend/services/auth/auth_firebase.dart';
 
 class AuthModel with ChangeNotifier {
 
-  final FirebaseAuthService _service = locator<FirebaseAuthService>();
+  final AuthFirebase _service = locator<AuthFirebase>();
 
   User _user;
   User get user => _user;
@@ -29,55 +29,38 @@ class AuthModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signIn(String email, String password) async {
-    try {
-      _status = AuthStatus.Authenticating;
-      notifyListeners();
-      await _service.signIn(email, password);
-    }
-    catch(e) {
-      _status = AuthStatus.Unauthenticated;
-      notifyListeners();
-    }
-  }
-
-  Future<void> signInAnonymously() async {
-    try {
-      _status = AuthStatus.Authenticating;
-      notifyListeners();
-      await _service.signInAnonymously();
-    }
-    catch(e) {
-      _status = AuthStatus.Unauthenticated;
-      notifyListeners();
-    }
-  }
-
-  Future<void> signUp(String email, String password) async {
-    try {
-      _status = AuthStatus.Authenticating;
-      notifyListeners();
-      await _service.signUp(email, password);
-    }
-    catch(e) {
-      _status = AuthStatus.Unauthenticated;
-      notifyListeners();
-    }
-  }
-
-  Future signOut() async {
-    _service.signOut();
-    _status = AuthStatus.Unauthenticated;
+  Future<AuthPayload> signIn(String email, String password) async {
+    _status = AuthStatus.Authenticating;
     notifyListeners();
+    return await _service.signIn(email, password);
+  }
+
+  Future<AuthPayload> signInAnonymously() async {
+    _status = AuthStatus.Authenticating;
+    notifyListeners();
+    return await _service.signInAnonymously();
+  }
+
+  Future<AuthPayload> signUp(String email, String password) async {
+    _status = AuthStatus.Authenticating;
+    notifyListeners();
+    return await _service.signUp(email, password);
+  }
+
+  Future<AuthPayload> signInWithGoogle() async {
+    _status = AuthStatus.Authenticating;
+    notifyListeners();
+    return await _service.signInWithGoogle();
+  }
+
+
+  Future<AuthPayload> resetPassword(String email) async {
+    return await _service.resetPassword(email);
+  }
+
+  Future<void> signOut() async {
+    await _service.signOut();
     return Future.delayed(Duration.zero);
-  }
-
-  Future resetPassword(String email) async {
-    return _service.resetPassword(email);
-  }
-
-  Future<User> signInWithGoogle() async {
-    return _service.signInWithGoogle();
   }
 
 }

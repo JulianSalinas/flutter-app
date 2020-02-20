@@ -8,7 +8,12 @@ import 'package:letsattend/locator.dart';
 import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 
-void main() {
+Future<void> main() async {
+
+  // Fix for: Unhandled Exception:
+  // ServicesBinding.defaultBinaryMessenger
+  // was accessed before the binding was initialized.
+  WidgetsFlutterBinding.ensureInitialized();
 
   /// To use human-readable dates
   Jiffy.locale('es');

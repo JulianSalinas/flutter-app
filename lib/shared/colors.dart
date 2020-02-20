@@ -5,6 +5,8 @@ class SharedColors {
   /// Colors for social media widgets
   static const google = Color(0xffd34836);
   static const facebook = Color(0xff3B5998);
+  static const edepa = Color(0xffe31837);
+  static const edepa_secondary = Color(0xffe9625a);
 
   /// Utilities colors
   static const nightOverlay = Color(0x0FFFFFFF);

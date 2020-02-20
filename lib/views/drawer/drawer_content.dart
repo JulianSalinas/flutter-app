@@ -20,7 +20,24 @@ class DrawerContent extends StatelessWidget {
   Widget build(BuildContext context) {
 
     AuthModel auth = Provider.of<AuthModel>(context);
-    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
+    SettingsModel settings = Provider.of<SettingsModel>(context);
+
+    final closeFunction = () async {
+      if(Scaffold.of(context).isDrawerOpen){
+        Navigator.of(context).pop();
+        await auth.signOut();
+      }
+    };
+
+    final closeButton = IconButton(
+      icon: Icon(Icons.power_settings_new),
+      onPressed: closeFunction,
+    );
+
+    final drawerClose = Container(
+      alignment: Alignment.centerRight,
+      child: closeButton,
+    );
 
     final divider = Divider(
       color: Colors.grey.withOpacity(0.8),
@@ -29,6 +46,7 @@ class DrawerContent extends StatelessWidget {
     final emptyUser = User(
       uid: 'loading-user',
       providerId: 'local-app',
+      isAnonymous: true,
     );
 
     final drawerUser = DrawerUser(
@@ -36,8 +54,8 @@ class DrawerContent extends StatelessWidget {
     );
 
     final nightModeSwitch = Switch(
-      value: settingsModel.nightMode,
-      onChanged: (bool active) => settingsModel.nightMode = active,
+      value: settings.nightMode,
+      onChanged: (bool active) => settings.nightMode = active,
     );
 
     final nightModeContent = Row(
@@ -53,40 +71,46 @@ class DrawerContent extends StatelessWidget {
 
     final content = Column(
       children: [
+        if (auth.user == null)
+          SizedBox(height: 48,),
+        if (auth.user != null)
+          drawerClose,
         drawerUser,
         SizedBox(height: 24.0),
-        DrawerOption(
-          icon: Icons.home,
-          title: 'Principal',
-          route: Router.HOME_ROUTE,
-        ),
-        divider,
-        DrawerOption(
-          icon: MaterialCommunityIcons.calendar,
-          title: 'Cronograma',
-          route: Router.SCHEDULE_ROUTE,
-        ),
-        divider,
-        DrawerOption(
-          icon: Icons.message,
-          title: 'Chat',
-          badge: '+15',
-          route: Router.CHAT_ROUTE,
-        ),
-        divider,
-        DrawerOption(
-          icon: Icons.notifications,
-          title: 'Noticias',
-          badge: '+5',
-          route: Router.NEWS_ROUTE,
-        ),
-        divider,
-        DrawerOption(
-          icon: Icons.people,
-          title: 'Expositores',
-          route: Router.SPEAKERS_ROUTE,
-        ),
-        divider,
+        if(auth.user != null) ...[
+          DrawerOption(
+            icon: Icons.home,
+            title: 'Principal',
+            route: Router.HOME_ROUTE,
+          ),
+          divider,
+          DrawerOption(
+            icon: MaterialCommunityIcons.calendar,
+            title: 'Cronograma',
+            route: Router.SCHEDULE_ROUTE,
+          ),
+          divider,
+          DrawerOption(
+            icon: Icons.message,
+            title: 'Chat',
+            badge: '+15',
+            route: Router.CHAT_ROUTE,
+          ),
+          divider,
+          DrawerOption(
+            icon: Icons.notifications,
+            title: 'Noticias',
+            badge: '+5',
+            route: Router.NEWS_ROUTE,
+          ),
+          divider,
+          DrawerOption(
+            icon: Icons.people,
+            title: 'Expositores',
+            route: Router.SPEAKERS_ROUTE,
+          ),
+          divider,
+        ],
         DrawerOption(
           icon: Icons.settings,
           title: 'Configuración',
@@ -104,5 +128,7 @@ class DrawerContent extends StatelessWidget {
     );
 
     return SingleChildScrollView(child: content);
+
   }
+
 }

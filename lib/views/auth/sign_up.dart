@@ -1,49 +1,31 @@
-import 'package:flutter/cupertino.dart';
+import 'package:letsattend/router.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/widgets/modern_button.dart';
 import 'package:letsattend/widgets/modern_input.dart';
+import 'package:letsattend/widgets/modern_button.dart';
+import 'package:letsattend/models/payload.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 
-class SignUp extends StatefulWidget {
+class SignUpView extends StatefulWidget {
   @override
-  SignUpState createState() => SignUpState();
+  SignUpViewState createState() => SignUpViewState();
 }
 
-class SignUpState extends State<SignUp> {
+class SignUpViewState extends State<SignUpView> {
+
+  String emailError;
+  String passwordError;
+  String confirmationError;
+
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final confirmationCtrl = TextEditingController();
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  signUpWithEmailAndPassword() {
-    print('handleEmailAndPasswordSignUp');
-    auth
-        .createUserWithEmailAndPassword(
-            email: emailCtrl.text, password: passwordCtrl.text)
-        .then(signUpSuccess)
-        .catchError(signUpFailure);
-  }
-
-  signUpSuccess(AuthResult result) {
-    print(result);
-  }
-
-  signUpFailure(Object error) {
-    if (error.runtimeType == PlatformException) {
-      PlatformException exception = error;
-      if (exception.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
-        print('El correo ya tiene una cuenta asociada');
-      } else if (exception.code == 'ERROR_INVALID_EMAIL') {
-        print('Correo no válido');
-      }
-    }
-  }
 
   @override
   void dispose() {
@@ -53,93 +35,128 @@ class SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+  void signUp() async {
+
+    if (passwordCtrl.text.trim() == confirmationCtrl.text.trim()){
+      setState(() => confirmationError = 'Este campo debe coincidir con la contraseña');
+      return;
+    }
+
+    final auth = Provider.of<AuthModel>(context, listen: false);
+    String email = emailCtrl.text.trim();
+    String password = passwordCtrl.text.trim();
+    final payload = await auth.signIn(email, password);
+
+    if(payload.hasError) {
+      if(payload.errorCode == AuthPayload.ERROR_EMAIL_ALREADY_IN_USE)
+        setState(() => passwordError = 'El usuario ya está registrado');
+      else if (payload.errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+        setState(() => emailError = 'El correo es inválido');
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    final headlineText = Hero(
-        tag: 'headline-text',
-        child: TypewriterAnimatedTextKit(
-            speed: Duration(seconds: 9),
-            text: ['ES HORA DE', 'CREAR UNA CUENTA', '...O YA TIENES UNA?'],
-            textStyle: Theme.of(context).textTheme.headline,
-        ),
+
+    final emailField = ModernInput(
+      hintText: 'Email',
+      errorText: emailError,
+      controller: emailCtrl,
+      keyboardType: TextInputType.text,
+      leading: Icon(MaterialCommunityIcons.at),
     );
 
-    final emailField = Hero(
-        tag: 'email-field',
-        child: ModernInput(
-          hintText: 'Email',
-          obscureText: false,
-          leading: Icon(MaterialCommunityIcons.mail_ru),
-          controller: emailCtrl,
-        ),
+    final passwordField = ModernInput(
+      obscureText: true,
+      hintText: 'Contraseña',
+      errorText: passwordError,
+      controller: passwordCtrl,
+      keyboardType: TextInputType.text,
+      leading: Icon(MaterialCommunityIcons.key),
     );
 
-    final passwordField = Hero(
-        tag: 'password-field',
-        child: ModernInput(
-          hintText: 'Contraseña',
-          obscureText: true,
-          leading: Icon(MaterialCommunityIcons.key),
-          controller: passwordCtrl,
-        ),
+    final confirmationField = ModernInput(
+      obscureText: true,
+      hintText: 'Confirmar contraseña',
+      errorText: confirmationError,
+      controller: confirmationCtrl,
+      keyboardType: TextInputType.text,
+      leading: Icon(AntDesign.lock),
     );
 
-    final confirmationField = Hero(
-        tag: 'confirmation-field',
-        child: ModernInput(
-          obscureText: true,
-          hintText: 'Confirmación',
-          leading: Icon(MaterialCommunityIcons.chevron_right_circle_outline),
-          controller: confirmationCtrl,
-        ),
+    final submitButton = ModernButton(
+      'REGISTRARSE',
+      color: SharedColors.alizarin,
+      onPressed: signUp,
     );
 
-    final createButton = Hero(
-        tag: 'sign-up-button',
-        child: ModernButton('CREAR E INGRESAR',
-            color: SharedColors.midnightBlue,
-            onPressed: signUpWithEmailAndPassword,
-        ),
+    final auxText = Text(
+      'Ya tengo una cuenta',
+      style: TextStyle(color: Colors.white38),
     );
 
-    final googleButton = Hero(
-        tag: 'google-button',
-        child: Visibility(
-            visible: false, maintainSize: false, child: SizedBox.shrink()));
+    final auxButton = MaterialButton(
+      child: auxText,
+      onPressed: Navigator.of(context).pop,
+    );
 
-    final backButton = Hero(
-        tag: 'alternative-button',
-        child: CupertinoButton(
-            child: Text('¿Ya tienes una cuenta?',
-                style: TextStyle(color: SharedColors.peterRiver)),
-            onPressed: () => Navigator.pop(context)));
+    final logo = Hero(
+      tag: 'app-logo',
+      child: FlutterLogo(
+        size: 132,
+        colors: Colors.deepOrange,
+      ),
+    );
 
-    final loginContent = [
-      headlineText,
-      SizedBox(height: 16),
-      emailField,
-      SizedBox(height: 16),
-      passwordField,
-      SizedBox(height: 16),
-      confirmationField,
-      SizedBox(height: 16),
-      createButton,
-      googleButton,
-      backButton
-    ];
-
-    final loginColumn = Column(
-      children: loginContent,
+    final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        logo,
+        SizedBox(height: 32),
+        emailField,
+        SizedBox(height: 16),
+        passwordField,
+        SizedBox(height: 16),
+        confirmationField,
+        SizedBox(height: 16),
+        submitButton,
+        auxButton
+      ],
     );
 
-    // IntrinsicWidth adjusts the column to its widest child
-    final loginContainer = Container(
-        child: IntrinsicWidth(child: loginColumn),
-        constraints: BoxConstraints(minWidth: 280, maxWidth: 280),
+    final paddedContent = Padding(
+      padding: EdgeInsets.all(48),
+      child: content,
     );
 
-    return Scaffold(body: SafeArea(child: loginContainer));
+    final wave = TextLiquidFill(
+      text: '',
+      waveColor: SharedColors.alizarin,
+      boxBackgroundColor: Colors.transparent,
+      boxHeight: 48.0,
+    );
+
+    final container = Container(
+      child: Column(
+        children: [Flexible(child: paddedContent), wave],
+      ),
+    );
+
+    return Scaffold(
+      drawer: DrawerView(Router.SIGN_UP_ROUTE),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {},
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
+      body: SafeArea(child: container),
+    );
+
   }
+
 }

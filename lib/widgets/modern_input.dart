@@ -30,11 +30,20 @@ class ModernInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    SettingsModel settingsModel = Provider.of<SettingsModel>(context);
+    SettingsModel settings = Provider.of<SettingsModel>(context);
+
+    final color = settings.nightMode
+        ? Theme.of(context).backgroundColor.withOpacity(0.3)
+        : Theme.of(context).disabledColor.withOpacity(0.1);
 
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(32.0),
       borderSide: BorderSide(style: BorderStyle.none),
+    );
+
+    final errorBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(32.0),
+      borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
     );
 
     final prefix = Padding(
@@ -43,8 +52,12 @@ class ModernInput extends StatelessWidget {
     );
 
     final decoration = InputDecoration(
+      filled: true,
+      fillColor: color,
+      focusedErrorBorder: errorBorder,
       enabledBorder: border,
       focusedBorder: border,
+      errorBorder: border,
       prefixIcon: prefix,
       hintText: hintText,
       errorText: errorText,
@@ -52,6 +65,7 @@ class ModernInput extends StatelessWidget {
     );
 
     final textField = TextFormField(
+      cursorColor: settings.nightMode ? Colors.white : Colors.black,
       minLines: 1,
       maxLines: multiline ? 3 : 1,
       decoration: decoration,
@@ -61,16 +75,13 @@ class ModernInput extends StatelessWidget {
       keyboardType: keyboardType,
     );
 
-    final color = settingsModel.nightMode
-        ? Theme.of(context).backgroundColor.withOpacity(0.3)
-        : Theme.of(context).disabledColor.withOpacity(0.1);
 
     return Container(
       child: textField,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.all(Radius.circular(64.0)),
-      ),
+//      decoration: BoxDecoration(
+//        color: color,
+//        borderRadius: BorderRadius.all(Radius.circular(64.0)),
+//      ),
     );
 
   }

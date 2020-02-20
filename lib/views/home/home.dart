@@ -1,3 +1,4 @@
+import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -54,6 +55,8 @@ class HomeState extends State<Home> {
       elevation: 16.0,
     );
 
+    AuthModel auth = Provider.of<AuthModel>(context);
+
     final temporal = Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -78,6 +81,14 @@ class HomeState extends State<Home> {
               SizedBox(width: 8,),
               access(Icons.chat, SharedColors.midnightBlue, () {
                 Navigator.pushReplacementNamed(context, Router.CHAT_ROUTE);
+              }),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              haccess(Icons.power_settings_new, SharedColors.alizarin, () async {
+                await auth.signOut();
               }),
             ],
           ),

@@ -1,7 +1,0 @@
-class AuthCode {
-
-  static const ERROR_WRONG_PASSWORD = 'ERROR_WRONG_PASSWORD';
-  static const ERROR_INVALID_EMAIL = 'ERROR_INVALID_EMAIL';
-  static const ERROR_USER_NOT_FOUND = 'ERROR_USER_NOT_FOUND';
-
-}

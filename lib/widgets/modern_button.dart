@@ -10,6 +10,7 @@ class ModernButton extends StatelessWidget {
 
   final String text;
   final Color color;
+  final Color textColor;
   final IconData icon;
   final Function onPressed;
 
@@ -17,6 +18,7 @@ class ModernButton extends StatelessWidget {
     this.text, {
     this.icon,
     this.color = SharedColors.emerald,
+    this.textColor,
     @required this.onPressed,
   });
 
@@ -25,13 +27,13 @@ class ModernButton extends StatelessWidget {
 
     final buttonIcon = icon == null ? SizedBox.shrink() : Icon(
       icon,
-      color: Colors.white,
+      color: textColor ?? Colors.white,
     );
 
     final content = [
       buttonIcon,
       SizedBox(width: icon == null ? 0 : 8),
-      ModernText(text.toUpperCase(), color: Colors.white),
+      ModernText(text.toUpperCase(), color: textColor ?? Colors.white,),
     ];
 
     final wrapper = Row(

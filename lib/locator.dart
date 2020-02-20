@@ -4,7 +4,7 @@ import 'package:letsattend/services/realtime/chat_service.dart';
 import 'package:letsattend/services/realtime/news_service.dart';
 import 'package:letsattend/services/storage/events_service.dart';
 import 'package:letsattend/services/storage/speakers_service.dart';
-import 'package:letsattend/services/auth/firebase_auth_service.dart';
+import 'package:letsattend/services/auth/auth_firebase.dart';
 import 'package:letsattend/services/users.dart';
 
 import 'package:letsattend/view_models/user_model.dart';
@@ -26,7 +26,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => SettingsModel());
 
   /// --- Auth management ---
-  locator.registerFactory<FirebaseAuthService>(() => FirebaseAuthService());
+  locator.registerFactory<AuthFirebase>(() => AuthFirebase());
   locator.registerLazySingleton<AuthModel>(() => AuthModel());
 
   /// --- Speakers management ---
