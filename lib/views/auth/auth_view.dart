@@ -1,14 +1,14 @@
-import 'package:letsattend/models/payload.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router.dart';
+import 'package:letsattend/models/payload.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/view_models/auth/auth_status.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
 import 'package:letsattend/widgets/modern_button.dart';
 import 'package:letsattend/widgets/liquid_animation.dart';
 
@@ -20,14 +20,19 @@ class AuthView extends StatefulWidget {
 class AuthViewState extends State<AuthView> {
 
   void signIn() async {
-    print('Sign In with Google');
     final auth = Provider.of<AuthModel>(context, listen: false);
     final payload = await auth.signInWithGoogle();
-    if(payload.hasError)
-      showDialog(context: context, child: buildAlert(context));
+    if(payload.hasError) _displayError(payload.errorCode);
   }
 
-  Widget buildAlert(BuildContext context){
+  void _displayError(String errorCode){
+    String message = errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED
+        ? 'Revise la conexión a internet.'
+        : 'No se ha podido iniciar sesión, intente con otra opción.';
+    showDialog(context: context, child: buildAlert(context, message));
+  }
+
+  Widget buildAlert(BuildContext context, String message){
 
     final textStyle = TextStyle(color: Colors.white);
 
@@ -40,14 +45,8 @@ class AuthViewState extends State<AuthView> {
     return AlertDialog(
       backgroundColor: Colors.red,
       actions: [closeButton],
-      title: Text(
-        'Alerta',
-        style: textStyle,
-      ),
-      content: Text(
-        'No se ha podido iniciar sesión, intente con otra opción.',
-        style: textStyle,
-      ),
+      title: Text('Atención', style: textStyle),
+      content: Text(message, style: textStyle),
     );
 
   }

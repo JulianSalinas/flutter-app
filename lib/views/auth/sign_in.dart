@@ -1,14 +1,14 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
 import 'package:letsattend/router.dart';
 import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/liquid_animation.dart';
-
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_input.dart';
@@ -44,16 +44,15 @@ class SignInViewState extends State<SignInView> {
   }
 
   void clearErrors(){
-    if(emailError != null || passwordError != null) {
-      setState(() {
-        emailError = null;
-        passwordError = null;
-      });
-    }
+    if(emailError == null && passwordError == null)
+      return;
+    setState(() {
+      emailError = null;
+      passwordError = null;
+    });
   }
 
   void signIn() async {
-
     clearErrors();
     final auth = Provider.of<AuthModel>(context, listen: false);
 
@@ -61,30 +60,38 @@ class SignInViewState extends State<SignInView> {
     String password = passwordCtrl.text.trim();
     final payload = await auth.signIn(email, password);
 
-    if(payload.hasError) {
-      if(payload.errorCode == AuthPayload.ERROR_WRONG_PASSWORD)
-        setState(() => passwordError = 'Contraseña incorrecta');
-      else if (payload.errorCode == AuthPayload.ERROR_INVALID_EMAIL)
-        setState(() => emailError = 'El correo es inválido');
-      else if (payload.errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
-        setState(() => emailError = 'El usuario no ha sido registrado');
-    }
-    else
-      Navigator.of(context).pop();
-
+    payload.hasError
+      ? _displayError(payload.errorCode)
+      : Navigator.of(context).pop();
   }
 
   void googleSignIn() async {
-    print('Sign In with Google');
     final auth = Provider.of<AuthModel>(context, listen: false);
     final payload = await auth.signInWithGoogle();
-    if(payload.hasError)
-      showDialog(context: context, child: buildAlert(context));
-    else
-      Navigator.of(context).pop();
+
+    payload.hasError
+        ? _displayError(payload.errorCode)
+        : Navigator.of(context).pop();
   }
 
-  Widget buildAlert(BuildContext context){
+  void _displayError(String errorCode){
+    if(errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED) {
+      String message = 'Revise la conexión a internet.';
+      showDialog(context: context, child: buildAlert(context, message));
+    }
+    else if(errorCode == AuthPayload.ERROR_WRONG_PASSWORD)
+      setState(() => passwordError = 'Contraseña incorrecta');
+    else if (errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+      setState(() => emailError = 'El correo es inválido');
+    else if (errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
+      setState(() => emailError = 'El usuario no ha sido registrado');
+    else{
+      String message = 'No se ha podido iniciar sesión, intente con otra opción.';
+      showDialog(context: context, child: buildAlert(context, message));
+    }
+  }
+
+  Widget buildAlert(BuildContext context, String message){
 
     final textStyle = TextStyle(color: Colors.white);
 
@@ -97,14 +104,8 @@ class SignInViewState extends State<SignInView> {
     return AlertDialog(
       backgroundColor: Colors.red,
       actions: [closeButton],
-      title: Text(
-        'Alerta',
-        style: textStyle,
-      ),
-      content: Text(
-        'No se ha podido iniciar sesión, intente con otra opción.',
-        style: textStyle,
-      ),
+      title: Text('Atención', style: textStyle),
+      content: Text(message, style: textStyle),
     );
 
   }

@@ -1,13 +1,14 @@
+import 'package:provider/provider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
 import 'package:letsattend/router.dart';
 import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/liquid_animation.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_input.dart';
@@ -47,15 +48,14 @@ class SignUpViewState extends State<SignUpView> {
   }
 
   void clearErrors() {
-    if (emailError != null ||
-        passwordError != null ||
-        confirmationError != null) {
-      setState(() {
-        emailError = null;
-        passwordError = null;
-        confirmationError = null;
-      });
-    }
+    if (emailError == null &&
+        passwordError == null &&
+        confirmationError == null) return;
+    setState(() {
+      emailError = null;
+      passwordError = null;
+      confirmationError = null;
+    });
   }
 
   void signUp() async {
@@ -75,15 +75,44 @@ class SignUpViewState extends State<SignUpView> {
 
     final payload = await auth.signUp(email, password);
 
-    if (payload.hasError) {
-      if (payload.errorCode == AuthPayload.ERROR_EMAIL_ALREADY_IN_USE)
-        setState(() => emailError = 'El usuario ya está registrado');
-      else if (payload.errorCode == AuthPayload.ERROR_INVALID_EMAIL)
-        setState(() => emailError = 'El correo es inválido');
+    payload.hasError
+        ? _displayError(payload.errorCode)
+        : Navigator.of(context).pop();
+
+  }
+
+  void _displayError(String errorCode){
+    if(errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED) {
+      String message = 'Revise la conexión a internet.';
+      showDialog(context: context, child: buildAlert(context, message));
     }
-    else {
-      Navigator.of(context).pop();
+    else if (errorCode == AuthPayload.ERROR_EMAIL_ALREADY_IN_USE)
+      setState(() => emailError = 'El usuario ya está registrado');
+    else if (errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+      setState(() => emailError = 'El correo es inválido');
+    else{
+      String message = 'No se ha podido registrar, ';
+      message += 'intente con otra opción ingresar con Google';
+      showDialog(context: context, child: buildAlert(context, message));
     }
+  }
+
+  Widget buildAlert(BuildContext context, String message){
+
+    final textStyle = TextStyle(color: Colors.white);
+
+    final closeButton = FlatButton(
+      child: Text('ENTENDIDO'),
+      color: Colors.white,
+      onPressed: Navigator.of(context).pop,
+    );
+
+    return AlertDialog(
+      backgroundColor: Colors.red,
+      actions: [closeButton],
+      title: Text('Atención', style: textStyle),
+      content: Text(message, style: textStyle),
+    );
 
   }
 
