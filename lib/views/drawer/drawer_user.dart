@@ -21,7 +21,7 @@ class DrawerUser extends StatelessWidget {
       backgroundColor: user.color,
       backgroundImage: hasPhoto
           ? NetworkImage(user.photoUrl)
-          : AssetImage('assets/panda.png'),
+          : AssetImage('assets/avatar/penguin.png'),
     );
 
     final avatarDecoration = BoxDecoration(

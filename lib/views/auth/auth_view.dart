@@ -1,13 +1,16 @@
+import 'package:letsattend/models/payload.dart';
+import 'package:letsattend/view_models/auth/auth_model.dart';
+import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:letsattend/router.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/modern_button.dart';
+import 'package:letsattend/widgets/liquid_animation.dart';
 
 class AuthView extends StatefulWidget {
   @override
@@ -16,9 +19,43 @@ class AuthView extends StatefulWidget {
 
 class AuthViewState extends State<AuthView> {
 
+  void signIn() async {
+    print('Sign In with Google');
+    final auth = Provider.of<AuthModel>(context, listen: false);
+    final payload = await auth.signInWithGoogle();
+    if(payload.hasError)
+      showDialog(context: context, child: buildAlert(context));
+  }
+
+  Widget buildAlert(BuildContext context){
+
+    final textStyle = TextStyle(color: Colors.white);
+
+    final closeButton = FlatButton(
+      child: Text('ENTENDIDO'),
+      color: Colors.white,
+      onPressed: Navigator.of(context).pop,
+    );
+
+    return AlertDialog(
+      backgroundColor: Colors.red,
+      actions: [closeButton],
+      title: Text(
+        'Alerta',
+        style: textStyle,
+      ),
+      content: Text(
+        'No se ha podido iniciar sesión, intente con otra opción.',
+        style: textStyle,
+      ),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    final auth = Provider.of<AuthModel>(context);
     final settings = Provider.of<SettingsModel>(context);
 
     final signInButton = ModernButton(
@@ -31,13 +68,15 @@ class AuthViewState extends State<AuthView> {
       'Ingresar con Google',
       color: Colors.white,
       textColor: SharedColors.google,
-      onPressed: () => print('Google'),
+      onPressed: signIn,
       icon: FontAwesome.google,
     );
 
     final signUpText = Text(
       '¿No tienes una cuenta?',
-      style: TextStyle(color: Colors.white38),
+      style: TextStyle(
+        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+      ),
     );
 
     final signUpButton = MaterialButton(
@@ -47,10 +86,7 @@ class AuthViewState extends State<AuthView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(
-        size: 132,
-        colors: Colors.deepOrange,
-      ),
+      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
     );
 
     final content = Column(
@@ -59,31 +95,42 @@ class AuthViewState extends State<AuthView> {
       children: [
         logo,
         SizedBox(height: 32),
-        signInButton,
-        SizedBox(height: 16),
-        googleButton,
-        signUpButton,
+        if(auth.status != AuthStatus.Authenticating)...[
+          signInButton,
+          SizedBox(height: 16),
+          googleButton,
+          signUpButton,
+        ]
+        else ... [
+          SizedBox(height: 16),
+          Center(child: CircularProgressIndicator()),
+        ],
+        SizedBox(height: 48),
       ],
     );
 
-    final paddedContent = Padding(
-      padding: EdgeInsets.all(48),
-      child: content,
+    final scrollableContent = Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(48),
+        child: content,
+      ),
     );
 
-    final wave = TextLiquidFill(
-      key: Key('liquid-auth'),
-      text: '',
+    final wave = LiquidAnimation(
+      boxHeight: 48,
       waveColor: SharedColors.alizarin,
       boxBackgroundColor: Colors.transparent,
-      boxHeight: 48.0,
     );
 
     final container = Container(
-      child: Column(
+      constraints: BoxConstraints.expand(),
+      child: Stack(
         children: [
-          Flexible(child: paddedContent),
-          wave,
+          scrollableContent,
+          Positioned(
+            bottom: 0,
+            child: wave,
+          ),
         ],
       ),
     );

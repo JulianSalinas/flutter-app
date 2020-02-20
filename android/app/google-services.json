@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "185946453107-ukkcv1qllp8ig9dtanmdrmpa92a6ffmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "imagisoft.letsattend",
+            "certificate_hash": "9e4949c7e839bb567c15cdf0db80c57503280db5"
+          }
+        },
+        {
           "client_id": "185946453107-j69j1coi3ul93he2b8c363jg9ndrepv3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

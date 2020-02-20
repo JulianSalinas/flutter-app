@@ -1,12 +1,14 @@
+import 'package:flutter/widgets.dart';
 import 'package:letsattend/router.dart';
+import 'package:letsattend/view_models/auth/auth_status.dart';
 import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/modern_text.dart';
+import 'package:letsattend/widgets/liquid_animation.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/modern_input.dart';
@@ -23,11 +25,9 @@ class SignInViewState extends State<SignInView> {
 
   String emailError;
   String passwordError;
-  String confirmationError;
 
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
-  final confirmationCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -40,13 +40,23 @@ class SignInViewState extends State<SignInView> {
   void dispose() {
     emailCtrl.dispose();
     passwordCtrl.dispose();
-    confirmationCtrl.dispose();
     super.dispose();
+  }
+
+  void clearErrors(){
+    if(emailError != null || passwordError != null) {
+      setState(() {
+        emailError = null;
+        passwordError = null;
+      });
+    }
   }
 
   void signIn() async {
 
+    clearErrors();
     final auth = Provider.of<AuthModel>(context, listen: false);
+
     String email = emailCtrl.text.trim();
     String password = passwordCtrl.text.trim();
     final payload = await auth.signIn(email, password);
@@ -59,15 +69,50 @@ class SignInViewState extends State<SignInView> {
       else if (payload.errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
         setState(() => emailError = 'El usuario no ha sido registrado');
     }
-    else {
+    else
       Navigator.of(context).pop();
-    }
+
+  }
+
+  void googleSignIn() async {
+    print('Sign In with Google');
+    final auth = Provider.of<AuthModel>(context, listen: false);
+    final payload = await auth.signInWithGoogle();
+    if(payload.hasError)
+      showDialog(context: context, child: buildAlert(context));
+    else
+      Navigator.of(context).pop();
+  }
+
+  Widget buildAlert(BuildContext context){
+
+    final textStyle = TextStyle(color: Colors.white);
+
+    final closeButton = FlatButton(
+      child: Text('ENTENDIDO'),
+      color: Colors.white,
+      onPressed: Navigator.of(context).pop,
+    );
+
+    return AlertDialog(
+      backgroundColor: Colors.red,
+      actions: [closeButton],
+      title: Text(
+        'Alerta',
+        style: textStyle,
+      ),
+      content: Text(
+        'No se ha podido iniciar sesión, intente con otra opción.',
+        style: textStyle,
+      ),
+    );
 
   }
 
   @override
   Widget build(BuildContext context) {
 
+    final auth = Provider.of<AuthModel>(context);
     final settings = Provider.of<SettingsModel>(context);
 
     final emailField = ModernInput(
@@ -97,13 +142,15 @@ class SignInViewState extends State<SignInView> {
       'Ingresar con Google',
       color: Colors.white,
       textColor: SharedColors.google,
-      onPressed: () => print('Google'),
+      onPressed: googleSignIn,
       icon: FontAwesome.google,
     );
 
     final auxText = Text(
       '¿Has olvidado tu contraseña?',
-      style: TextStyle(color: Colors.white38),
+      style: TextStyle(
+        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+      ),
     );
 
     final auxButton = MaterialButton(
@@ -115,10 +162,7 @@ class SignInViewState extends State<SignInView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(
-        size: 132,
-        colors: Colors.deepOrange,
-      ),
+      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
     );
 
     final content = Column(
@@ -131,53 +175,65 @@ class SignInViewState extends State<SignInView> {
         SizedBox(height: 16),
         passwordField,
         SizedBox(height: 16),
-        submitButton,
-        SizedBox(height: 16),
-        Text('Ó puedes', textAlign: TextAlign.center),
-        SizedBox(height: 16),
-        googleButton,
-        auxButton
+        if(auth.status != AuthStatus.Authenticating)...[
+          submitButton,
+          SizedBox(height: 16),
+          Text('Ó puedes', textAlign: TextAlign.center),
+          SizedBox(height: 16),
+          googleButton,
+          auxButton,
+        ]
+        else ... [
+          SizedBox(height: 16),
+          Center(child: CircularProgressIndicator()),
+        ],
+        SizedBox(height: 48),
       ],
     );
 
-    final paddedContent = Padding(
-      padding: EdgeInsets.all(48),
-      child: content,
+    final scrollableContent = Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(48),
+        child: content,
+      ),
     );
 
-    final wave = TextLiquidFill(
-      key: Key('liquid-sign-in'),
-      text: '',
+    final wave = LiquidAnimation(
+      boxHeight: 48,
       waveColor: SharedColors.alizarin,
       boxBackgroundColor: Colors.transparent,
-      boxHeight: 48.0,
     );
 
     final container = Container(
-      child: Column(
+      constraints: BoxConstraints.expand(),
+      child: Stack(
         children: [
-          Flexible(child: paddedContent),
-          wave,
+          scrollableContent,
+          Positioned(
+            bottom: 0,
+            child: wave,
+          ),
         ],
       ),
     );
 
     final appBar = AppBar(
       elevation: 0,
+      backgroundColor: Colors.transparent,
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: Navigator.of(context).pop,
       ),
-      backgroundColor: Colors.transparent,
       iconTheme: IconThemeData(
         color: settings.nightMode ? Colors.white : Colors.black,
       ),
     );
 
     return Scaffold(
+      appBar: appBar,
       body: SafeArea(child: container),
       drawer: DrawerView(Router.LOGIN_ROUTE),
-      appBar: appBar,
+      resizeToAvoidBottomInset : false,
     );
 
   }

@@ -1,6 +1,7 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/router.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letsattend/app.dart';
@@ -55,6 +56,8 @@ class LetAttendApp extends StatelessWidget {
             theme: ThemeData(
               brightness: settings.brightness,
               primarySwatch: Colors.red,
+              accentColor: settings.nightMode ? Colors.white : Colors.red,
+              textSelectionHandleColor: SharedColors.alizarin,
             ),
             onGenerateRoute: router.onGenerateRoute,
             debugShowCheckedModeBanner: false,

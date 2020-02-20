@@ -29,33 +29,50 @@ class AuthModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void _validatePayload(AuthPayload payload){
+    if(payload.hasError){
+      _status = AuthStatus.Unauthenticated;
+      notifyListeners();
+    }
+  }
+
   Future<AuthPayload> signIn(String email, String password) async {
     _status = AuthStatus.Authenticating;
     notifyListeners();
-    return await _service.signIn(email, password);
+    final payload = await _service.signIn(email, password);
+    _validatePayload(payload);
+    return payload;
   }
 
   Future<AuthPayload> signInAnonymously() async {
     _status = AuthStatus.Authenticating;
     notifyListeners();
-    return await _service.signInAnonymously();
+    final payload = await _service.signInAnonymously();
+    _validatePayload(payload);
+    return payload;
   }
 
   Future<AuthPayload> signUp(String email, String password) async {
     _status = AuthStatus.Authenticating;
     notifyListeners();
-    return await _service.signUp(email, password);
+    final payload = await _service.signUp(email, password);
+    _validatePayload(payload);
+    return payload;
   }
 
   Future<AuthPayload> signInWithGoogle() async {
     _status = AuthStatus.Authenticating;
     notifyListeners();
-    return await _service.signInWithGoogle();
+    final payload = await _service.signInWithGoogle();
+    _validatePayload(payload);
+    return payload;
   }
 
 
   Future<AuthPayload> resetPassword(String email) async {
-    return await _service.resetPassword(email);
+    final payload = await _service.resetPassword(email);
+    _validatePayload(payload);
+    return payload;
   }
 
   Future<void> signOut() async {

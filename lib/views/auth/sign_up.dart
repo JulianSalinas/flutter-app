@@ -1,5 +1,8 @@
 import 'package:letsattend/router.dart';
+import 'package:letsattend/view_models/auth/auth_status.dart';
+import 'package:letsattend/view_models/settings_model.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:letsattend/widgets/liquid_animation.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +31,14 @@ class SignUpViewState extends State<SignUpView> {
   final confirmationCtrl = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    emailCtrl.text = 'july12sali@gmail.com';
+    passwordCtrl.text = 'telacreistewe';
+    confirmationCtrl.text = 'telacreistewe';
+  }
+
+  @override
   void dispose() {
     emailCtrl.dispose();
     passwordCtrl.dispose();
@@ -35,29 +46,52 @@ class SignUpViewState extends State<SignUpView> {
     super.dispose();
   }
 
+  void clearErrors() {
+    if (emailError != null ||
+        passwordError != null ||
+        confirmationError != null) {
+      setState(() {
+        emailError = null;
+        passwordError = null;
+        confirmationError = null;
+      });
+    }
+  }
+
   void signUp() async {
 
-    if (passwordCtrl.text.trim() == confirmationCtrl.text.trim()){
-      setState(() => confirmationError = 'Este campo debe coincidir con la contraseña');
+    clearErrors();
+    final auth = Provider.of<AuthModel>(context, listen: false);
+
+    String email = emailCtrl.text.trim();
+    String password = passwordCtrl.text.trim();
+    String confirmation = confirmationCtrl.text.trim();
+
+    if (password != confirmation){
+      final message = 'Debes escribir la contraseña nuevamente';
+      setState(() => confirmationError = message);
       return;
     }
 
-    final auth = Provider.of<AuthModel>(context, listen: false);
-    String email = emailCtrl.text.trim();
-    String password = passwordCtrl.text.trim();
-    final payload = await auth.signIn(email, password);
+    final payload = await auth.signUp(email, password);
 
-    if(payload.hasError) {
-      if(payload.errorCode == AuthPayload.ERROR_EMAIL_ALREADY_IN_USE)
-        setState(() => passwordError = 'El usuario ya está registrado');
+    if (payload.hasError) {
+      if (payload.errorCode == AuthPayload.ERROR_EMAIL_ALREADY_IN_USE)
+        setState(() => emailError = 'El usuario ya está registrado');
       else if (payload.errorCode == AuthPayload.ERROR_INVALID_EMAIL)
         setState(() => emailError = 'El correo es inválido');
+    }
+    else {
+      Navigator.of(context).pop();
     }
 
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final auth = Provider.of<AuthModel>(context);
+    final settings = Provider.of<SettingsModel>(context);
 
     final emailField = ModernInput(
       hintText: 'Email',
@@ -93,7 +127,9 @@ class SignUpViewState extends State<SignUpView> {
 
     final auxText = Text(
       'Ya tengo una cuenta',
-      style: TextStyle(color: Colors.white38),
+      style: TextStyle(
+        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+      ),
     );
 
     final auxButton = MaterialButton(
@@ -103,10 +139,7 @@ class SignUpViewState extends State<SignUpView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(
-        size: 132,
-        colors: Colors.deepOrange,
-      ),
+      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
     );
 
     final content = Column(
@@ -121,40 +154,61 @@ class SignUpViewState extends State<SignUpView> {
         SizedBox(height: 16),
         confirmationField,
         SizedBox(height: 16),
-        submitButton,
-        auxButton
+        if(auth.status != AuthStatus.Authenticating)...[
+          submitButton,
+          auxButton,
+        ]
+        else ... [
+          SizedBox(height: 16),
+          Center(child: CircularProgressIndicator()),
+        ],
+        SizedBox(height: 48),
       ],
     );
 
-    final paddedContent = Padding(
-      padding: EdgeInsets.all(48),
-      child: content,
+    final scrollableContent = Center(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(48),
+        child: content,
+      ),
     );
 
-    final wave = TextLiquidFill(
-      text: '',
+    final wave = LiquidAnimation(
+      boxHeight: 48,
       waveColor: SharedColors.alizarin,
       boxBackgroundColor: Colors.transparent,
-      boxHeight: 48.0,
     );
 
     final container = Container(
-      child: Column(
-        children: [Flexible(child: paddedContent), wave],
+      constraints: BoxConstraints.expand(),
+      child: Stack(
+        children: [
+          scrollableContent,
+          Positioned(
+            bottom: 0,
+            child: wave,
+          ),
+        ],
+      ),
+    );
+
+    final appBar = AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: Navigator.of(context).pop,
+      ),
+      iconTheme: IconThemeData(
+        color: settings.nightMode ? Colors.white : Colors.black,
       ),
     );
 
     return Scaffold(
-      drawer: DrawerView(Router.SIGN_UP_ROUTE),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: appBar,
       body: SafeArea(child: container),
+      drawer: DrawerView(Router.SIGN_UP_ROUTE),
+      resizeToAvoidBottomInset : false,
     );
 
   }
