@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lipsum/lipsum.dart' as lipsum;
-import 'package:letsattend/widgets/shimmer.dart';
+import 'package:letsattend/widgets/animation/shimmer.dart';
 
 class EmptyBubble extends StatelessWidget {
 

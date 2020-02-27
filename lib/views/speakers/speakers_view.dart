@@ -1,17 +1,17 @@
 import 'dart:ui';
-import 'package:letsattend/router.dart';
+import 'package:letsattend/router/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/models/speaker.dart';
-import 'package:letsattend/widgets/modern_text.dart';
-import 'package:letsattend/widgets/flexible_space.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/views/speakers/speaker_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/speakers/speakers_empty.dart';
-import 'package:letsattend/view_models/collections/speakers_model.dart';
+import 'package:letsattend/blocs/speakers_bloc.dart';
 
 class SpeakersView extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class SpeakersViewState extends State<SpeakersView> {
     setState(() => _isSearching = true);
   }
 
-  void closeSearch(SpeakersModel model) {
+  void closeSearch(SpeakersBloc model) {
     model.filter = '';
     _searchQuery.clear();
     setState(() => _isSearching = false);
@@ -95,7 +95,7 @@ class SpeakersViewState extends State<SpeakersView> {
   @override
   Widget build(BuildContext context) {
 
-    final speakersModel = Provider.of<SpeakersModel>(context);
+    final speakersModel = Provider.of<SpeakersBloc>(context);
 
     final filterIcon = Icon(
       speakersModel.descending
@@ -138,8 +138,8 @@ class SpeakersViewState extends State<SpeakersView> {
         actions: buttons,
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: _isSearching ? searchInput : ModernText('Expositores'),
-        flexibleSpace: FlexibleSpace(),
+        title: _isSearching ? searchInput : FormalText('Expositores'),
+        flexibleSpace: ColoredFlex(),
     );
 
     final builder = (_, snapshot) {
@@ -162,7 +162,7 @@ class SpeakersViewState extends State<SpeakersView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Router.SPEAKERS_ROUTE),
+      drawer: DrawerView(Routes.SPEAKERS_ROUTE),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

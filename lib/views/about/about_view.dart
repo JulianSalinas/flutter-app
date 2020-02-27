@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
+import 'package:letsattend/views/drawer/drawer_view.dart';
 
-/// A simple colored screen with a centered text
 class AboutView extends StatelessWidget {
-
-  final String text;
-  final Color color;
-
-  AboutView({this.text, this.color});
-
   @override
   Widget build(BuildContext context) {
-
-    /// The text is big due to being directly in a container
     final textStyle = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
@@ -19,15 +14,29 @@ class AboutView extends StatelessWidget {
     );
 
     final content = Center(
-      child: Text(text.toUpperCase(), style: textStyle),
+      child: Text('ABOUT', style: textStyle),
     );
 
-    final container = Container(
-      color: color,
+    final body = Container(
       child: content,
     );
 
-    return SafeArea(child: container);
+    final appBarLeading = IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: Navigator.of(context).pop,
+    );
 
+    final appBar = AppBar(
+      title: FormalText('Acerca de'),
+      centerTitle: true,
+      leading: appBarLeading,
+      flexibleSpace: ColoredFlex(),
+    );
+
+    return Scaffold(
+      drawer: DrawerView(Routes.ABOUT_ROUTE),
+      appBar: appBar,
+      body: body,
+    );
   }
 }

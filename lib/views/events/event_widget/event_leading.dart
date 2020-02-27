@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/blocs/theme_bloc.dart';
 import 'package:letsattend/views/events/event_widget/event_point.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,7 @@ class ItemLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeModel>(context);
+    final scheme = Provider.of<SettingsBloc>(context);
     final lineColor = scheme.nightMode ? Colors.white : Colors.black;
 
     final topLine = Container(

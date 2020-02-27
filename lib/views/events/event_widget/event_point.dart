@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/blocs/theme_bloc.dart';
 import 'package:provider/provider.dart';
 
 class NestedPoint extends StatelessWidget {
@@ -15,7 +16,7 @@ class NestedPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeModel>(context);
+    final scheme = Provider.of<SettingsBloc>(context);
     final evenColor = scheme.nightMode ? Colors.white : Colors.black;
 
     final innerDecoration = BoxDecoration(

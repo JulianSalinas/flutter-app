@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/widgets/shimmer.dart';
+import 'package:letsattend/widgets/animation/shimmer.dart';
 
 class SpeakersEmpty extends StatelessWidget {
 

@@ -5,7 +5,6 @@ class DrawerOption extends StatelessWidget {
 
   final IconData icon;
   final String title;
-  final String route;
   final String badge;
   final Function onTap;
 
@@ -13,19 +12,12 @@ class DrawerOption extends StatelessWidget {
     Key key,
     @required this.icon,
     @required this.title,
-    this.route,
     this.onTap,
     this.badge,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
-    final onTap = this.onTap ?? () {
-      Navigator.pop(context); // close menu
-      Navigator.pushReplacementNamed(context, route);
-    };
 
     final content = Row(children: [
       Icon(icon),

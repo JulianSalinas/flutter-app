@@ -8,8 +8,8 @@ import 'package:letsattend/models/user.dart';
 import 'package:letsattend/models/person.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/message.dart';
-import 'package:letsattend/view_models/user_model.dart';
-import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/blocs/users_bloc.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
 
 class BubbleWidget extends StatelessWidget {
 
@@ -29,8 +29,8 @@ class BubbleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    SettingsModel settings = Provider.of<SettingsModel>(context);
-    UserModel userModel = locator<UserModel>();
+    SettingsBloc settings = Provider.of<SettingsBloc>(context);
+    UserBlocs userModel = locator<UserBlocs>();
 
     final bubbleGradient = LinearGradient(
       colors: isOwned
@@ -41,8 +41,8 @@ class BubbleWidget extends StatelessWidget {
     );
 
     final timeWithName = Text(
-      '${isOwned ? '' : message.senderName}${isOwned ? '': ', '}'
-          '${Jiffy(DateTime.fromMicrosecondsSinceEpoch(message.timestamp))
+      '${isOwned ? '' : message.sender.name}${isOwned ? '': ', '}'
+          '${Jiffy(message.timestamp)
           .format('hh:mm aa')
           .toLowerCase()}',
       style: TextStyle(fontSize: 10.0),
@@ -64,7 +64,7 @@ class BubbleWidget extends StatelessWidget {
       color: settings.nightMode
           ? null
           : isOwned
-          ? Theme.of(context).disabledColor.withOpacity(0.05)
+          ? Theme.of(context).dividerColor.withOpacity(0.05)
           : null,
       borderRadius: bubbleBorderRadius,
       gradient: settings.nightMode
@@ -86,7 +86,7 @@ class BubbleWidget extends StatelessWidget {
       constraints: boxConstraints,
     );
 
-    Person person = Person(message.senderName);
+    Person person = Person(message.sender.id);
 
     final personInitials = Text(
       person.initials,
@@ -94,7 +94,7 @@ class BubbleWidget extends StatelessWidget {
     );
 
     final lazyAvatar = FutureBuilder(
-      future: userModel.getUserById(message.senderId),
+      future: userModel.getUserById(message.sender.id),
       builder: (context, snapshot) {
         User user = snapshot.data;
         return CircleAvatar(
@@ -128,7 +128,7 @@ class BubbleWidget extends StatelessWidget {
     );
 
     final timestampText = Text(
-        Jiffy(DateTime.fromMillisecondsSinceEpoch(message.timestamp))
+        Jiffy(message.timestamp)
             .format('EEEE d, yyy'),
       style: TextStyle(fontSize: 10.0),
     );

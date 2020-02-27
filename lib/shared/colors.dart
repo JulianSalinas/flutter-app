@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SharedColors {
-
   /// Colors for social media widgets
   static const google = Color(0xffd34836);
   static const facebook = Color(0xff3B5998);
@@ -11,7 +10,6 @@ class SharedColors {
   /// Utilities colors
   static const nightOverlay = Color(0x0FFFFFFF);
   static const lightOverlay = Color(0x0F000000);
-
 
   /// Flat colors
   ///
@@ -74,5 +72,4 @@ class SharedColors {
     kashmir,
     crimsonTide,
   ];
-
 }

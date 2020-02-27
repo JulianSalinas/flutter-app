@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/blocs/theme_bloc.dart';
 import 'package:letsattend/views/detail/detail.dart';
 import 'package:letsattend/views/events/event_widget/event_favorite.dart';
-import 'package:letsattend/widgets/hero_text.dart';
 import 'package:provider/provider.dart';
 import 'event_leading.dart';
 import 'event_speakers.dart';
@@ -39,7 +39,7 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeModel>(context);
+    final scheme = Provider.of<SettingsBloc>(context);
 
     final decoration = ItemLine(
       isFirst: isFirst,
@@ -58,10 +58,12 @@ class EventWidget extends StatelessWidget {
 
     final itemDate = Opacity(
       opacity: 0.6,
-      child: HeroText(
-        '9:40 AM - 12:10 PM',
+      child: Hero(
         tag: 'event-date-${event.key}',
-        style: TextStyle(fontSize: 10),
+        child: Text(
+          '9:40 AM - 12:10 PM',
+          style: TextStyle(fontSize: 10),
+        ),
       ),
     );
 
@@ -70,12 +72,14 @@ class EventWidget extends StatelessWidget {
       children: <Widget>[itemType, itemDate],
     );
 
-    final itemTitle = HeroText(
-      event.title,
+    final itemTitle = Hero(
       tag: 'event-title-${event.key}',
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.bold),
+      child: Text(
+        event.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
     );
 
     final itemLocation = Row(

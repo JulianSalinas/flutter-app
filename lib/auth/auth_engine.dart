@@ -1,0 +1,4 @@
+enum AuthEngine {
+  Amazon,
+  Firebase,
+}

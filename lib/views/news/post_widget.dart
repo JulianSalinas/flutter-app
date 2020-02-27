@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/widgets/preview/touchable_preview.dart';
+import 'package:letsattend/widgets/touchable/touchable_preview.dart';
 
 class PostWidget extends StatelessWidget {
 

@@ -1,21 +1,21 @@
-import 'package:letsattend/widgets/modern_text.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-import 'package:letsattend/router.dart';
-import 'package:letsattend/view_models/auth/auth_status.dart';
-import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/auth/auth_status.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/liquid_animation.dart';
+import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/widgets/modern_input.dart';
-import 'package:letsattend/widgets/modern_button.dart';
+import 'package:letsattend/widgets/custom/rounded_input.dart';
+import 'package:letsattend/widgets/custom/rounded_button.dart';
 import 'package:letsattend/models/payload.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -62,7 +62,7 @@ class SignUpViewState extends State<SignUpView> {
   void signUp() async {
 
     clearErrors();
-    final auth = Provider.of<AuthModel>(context, listen: false);
+    final auth = Provider.of<AuthBloc>(context, listen: false);
 
     String email = emailCtrl.text.trim();
     String password = passwordCtrl.text.trim();
@@ -120,10 +120,10 @@ class SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
 
-    final auth = Provider.of<AuthModel>(context);
-    final settings = Provider.of<SettingsModel>(context);
+    final auth = Provider.of<AuthBloc>(context);
+    final settings = Provider.of<SettingsBloc>(context);
 
-    final emailField = ModernInput(
+    final emailField = RoundedInput(
       hintText: 'Email',
       errorText: emailError,
       controller: emailCtrl,
@@ -131,7 +131,7 @@ class SignUpViewState extends State<SignUpView> {
       leading: Icon(MaterialCommunityIcons.at),
     );
 
-    final passwordField = ModernInput(
+    final passwordField = RoundedInput(
       obscureText: true,
       hintText: 'Contraseña',
       errorText: passwordError,
@@ -140,7 +140,7 @@ class SignUpViewState extends State<SignUpView> {
       leading: Icon(MaterialCommunityIcons.key),
     );
 
-    final confirmationField = ModernInput(
+    final confirmationField = RoundedInput(
       obscureText: true,
       hintText: 'Confirmar contraseña',
       errorText: confirmationError,
@@ -149,7 +149,7 @@ class SignUpViewState extends State<SignUpView> {
       leading: Icon(AntDesign.lock),
     );
 
-    final submitButton = ModernButton(
+    final submitButton = RoundedButton(
       'REGISTRARSE',
       color: SharedColors.alizarin,
       onPressed: signUp,
@@ -205,7 +205,7 @@ class SignUpViewState extends State<SignUpView> {
 
     final wave = Hero(
       tag: 'liquid-animation',
-      child: LiquidAnimation(
+      child: LiquidBottom(
         boxHeight: 48,
         waveColor: SharedColors.alizarin,
         boxBackgroundColor: Colors.transparent,
@@ -227,7 +227,10 @@ class SignUpViewState extends State<SignUpView> {
 
     final appBar = AppBar(
       elevation: 0,
-      title: ModernText('REGISTRAR'),
+      title: FormalText(
+        'Registrarse',
+        color: settings.nightMode ? Colors.white : Colors.black,
+      ),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       leading: IconButton(
@@ -242,7 +245,7 @@ class SignUpViewState extends State<SignUpView> {
     return Scaffold(
       appBar: appBar,
       body: SafeArea(child: container),
-      drawer: DrawerView(Router.SIGN_UP_ROUTE),
+      drawer: DrawerView(Routes.SIGN_UP_ROUTE),
       resizeToAvoidBottomInset : false,
     );
 

@@ -9,7 +9,7 @@ class Person {
   Person(this.name);
 
   Color get color {
-    return getColorFor(name, SharedColors.flat);
+    return SharedUtils.getColorFor(name, SharedColors.flat);
   }
 
   String get initial {
@@ -17,7 +17,7 @@ class Person {
   }
 
   String get initials {
-    return getInitialsFrom(name);
+    return SharedUtils.getInitialsFrom(name);
   }
 
 }

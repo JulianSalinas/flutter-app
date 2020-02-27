@@ -4,7 +4,7 @@ import 'package:letsattend/models/person.dart';
 
 class User extends Person {
 
-  final String uid;
+  final String id;
   final String email;
   final String name;
   final String photoUrl;
@@ -12,7 +12,7 @@ class User extends Person {
   final bool isAnonymous;
 
   User({
-    @required this.uid,
+    @required this.id,
     this.providerId,
     this.email,
     this.name,
@@ -22,7 +22,7 @@ class User extends Person {
 
   @override
   factory User.fromFirebase(FirebaseUser user) => User(
-    uid: user.uid,
+    id: user.uid,
     providerId: user.providerId,
     email: user.email,
     name: user.displayName,
@@ -32,7 +32,7 @@ class User extends Person {
 
   @override
   String toString() {
-    return 'User: $uid $name $email';
+    return 'User: $id $name $email';
   }
 
 }

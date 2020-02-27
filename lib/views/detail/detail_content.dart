@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/events/event_widget/event_speakers.dart';
-import 'package:letsattend/widgets/hero_text.dart';
 import 'package:lipsum/lipsum.dart' as lipsum;
 
 /// A simple colored screen with a centered text
@@ -33,9 +32,9 @@ class DetailContent extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            HeroText(event.title,
+            Hero(
               tag: 'event-title-${event.key}',
-              style: Typography.englishLike2018.title,
+              child: Text(event.title, style: Typography.englishLike2018.title,)
             ),
             SizedBox(
               height: 8,

@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:letsattend/view_models/settings_model.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_clipper.dart';
 import 'package:letsattend/views/drawer/drawer_content.dart';
 
@@ -16,7 +16,7 @@ class DrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final theme = Theme.of(context);
-    final settings = Provider.of<SettingsModel>(context);
+    final settings = Provider.of<SettingsBloc>(context);
 
     final safeContainer = SafeArea(
       child: DrawerContent(currentRoute),

@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
-import 'package:letsattend/router.dart';
+import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/view_models/collections/schedule_model.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/blocs/schedule_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/events/events_view.dart';
 import 'package:letsattend/views/schedule/schedule_tab.dart';
-import 'package:letsattend/widgets/modern_text.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
-import 'package:letsattend/view_models/theme_model.dart';
+import 'package:letsattend/blocs/theme_bloc.dart';
 
 class ScheduleView extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
   @override
   Widget build(BuildContext context) {
 
-    final ScheduleModel scheduleModel = Provider.of<ScheduleModel>(context);
+    final ScheduleBloc scheduleModel = Provider.of<ScheduleBloc>(context);
 
     final streamBuilder = StreamBuilder(
       stream: scheduleModel.stream,
@@ -31,7 +32,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
     );
 
     return Scaffold(
-      drawer: DrawerView(Router.SCHEDULE_ROUTE),
+      drawer: DrawerView(Routes.SCHEDULE_ROUTE),
       body: streamBuilder,
       extendBodyBehindAppBar: true,
     );
@@ -53,11 +54,11 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
 
   Widget buildSchedule(BuildContext context, Map<dynamic, List<Event>> schedule){
 
-    final ScheduleModel scheduleModel = Provider.of<ScheduleModel>(context);
-    final ThemeModel themeModel = Provider.of<ThemeModel>(context);
+    final ScheduleBloc model = Provider.of<ScheduleBloc>(context);
+    final SettingsBloc settings = Provider.of<SettingsBloc>(context);
 
     final labelColor =
-        themeModel.nightMode ? Colors.white : SharedColors.kashmir[0];
+        settings.nightMode ? Colors.white : SharedColors.kashmir[0];
 
     final indicatorBorder = BorderRadius.only(
       topLeft: Radius.circular(10),
@@ -93,7 +94,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
     );
 
     final appBar = SliverAppBar(
-      title: ModernText(
+      title: FormalText(
         'Cronograma',
         color: Colors.white,
       ),
@@ -105,10 +106,10 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
         IconButton(
           icon: Transform(
             alignment: Alignment.center,
-            transform: Matrix4.rotationY(scheduleModel.orderedByType ? 0: math.pi),
+            transform: Matrix4.rotationY(model.orderedByType ? 0: math.pi),
             child: Icon(MaterialCommunityIcons.rotate_3d_variant),
           ),
-          onPressed: () => scheduleModel.orderedByType = !scheduleModel.orderedByType,
+          onPressed: () => model.orderedByType = !model.orderedByType,
         ),
         IconButton(
           icon: Icon(Icons.search),

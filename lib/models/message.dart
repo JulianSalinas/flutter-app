@@ -1,42 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/models/user.dart';
 
 class Message {
 
-  final String key;
+  String key;
 
-  final int timestamp;
   final String content;
-  final String senderId;
-  final String senderName;
+  final User sender;
+  final DateTime timestamp;
   final bool delivered;
 
   Message({
     @required this.key,
-    @required this.timestamp,
+    @required this.sender,
     @required this.content,
-    @required this.senderId,
-    @required this.senderName,
+    @required this.timestamp,
     this.delivered = false,
   });
 
-  factory Message.fromMap(Map snapshot) {
-    return Message(
-      key: snapshot['key'],
-      timestamp: snapshot['time'] ?? DateTime.now().millisecondsSinceEpoch,
-      content: snapshot['content'],
-      senderId: snapshot['userid'],
-      senderName: snapshot['username'],
-      delivered: snapshot['delivered'] ?? false,
-    );
-  }
+  Message.send({
+    @required this.sender,
+    @required this.content,
+    @required this.timestamp,
+    this.delivered = false,
+  });
 
   toJson() {
     return {
       'time': DateTime.now().millisecondsSinceEpoch,
       'content': content,
-      'userid': senderId,
-      'username': senderName,
       'delivered': delivered,
+      'userid': sender.id,
+      'username': sender.name,
     };
   }
 
@@ -47,5 +42,4 @@ class Message {
 
   @override
   int get hashCode => key.hashCode;
-
 }

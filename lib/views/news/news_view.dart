@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/router.dart';
-import 'package:letsattend/view_models/collections/filterable_model.dart';
-import 'package:letsattend/view_models/collections/news_model.dart';
+import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/blocs/synched/filterable_bloc.dart';
+import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
-import 'package:letsattend/widgets/flexible_space.dart';
-import 'package:letsattend/widgets/modern_text.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 
 class NewsView extends StatefulWidget {
@@ -22,7 +22,7 @@ class NewsViewState extends State<NewsView> {
   @override
   Widget build(BuildContext context) {
 
-    final news = Provider.of<NewsModel>(context);
+    final news = Provider.of<NewsBloc>(context);
 
     final streamBuilder = StreamBuilder(
       stream: news.stream,
@@ -30,11 +30,11 @@ class NewsViewState extends State<NewsView> {
     );
 
     final sliverAppBar = SliverAppBar(
-      title: ModernText('Noticias', color: Colors.white,),
+      title: FormalText('Noticias', color: Colors.white,),
       centerTitle: true,
       floating: true,
       backgroundColor: Colors.transparent,
-      flexibleSpace: FlexibleSpace(),
+      flexibleSpace: ColoredFlex(),
     );
 
     final customScroll = CustomScrollView(
@@ -42,7 +42,7 @@ class NewsViewState extends State<NewsView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Router.NEWS_ROUTE),
+      drawer: DrawerView(Routes.NEWS_ROUTE),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

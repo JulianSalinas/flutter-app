@@ -1,17 +1,19 @@
-import 'package:letsattend/widgets/modern_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-import 'package:letsattend/router.dart';
+import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/models/payload.dart';
 import 'package:letsattend/shared/colors.dart';
+
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/view_models/settings_model.dart';
-import 'package:letsattend/view_models/auth/auth_status.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:letsattend/widgets/modern_button.dart';
-import 'package:letsattend/widgets/liquid_animation.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/auth/auth_status.dart';
+
+import 'package:letsattend/widgets/custom/formal_text.dart';
+import 'package:letsattend/widgets/custom/rounded_button.dart';
+import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
 class AuthView extends StatefulWidget {
   @override
@@ -19,22 +21,20 @@ class AuthView extends StatefulWidget {
 }
 
 class AuthViewState extends State<AuthView> {
-
   void signIn() async {
-    final auth = Provider.of<AuthModel>(context, listen: false);
+    final auth = Provider.of<AuthBloc>(context, listen: false);
     final payload = await auth.signInWithGoogle();
-    if(payload.hasError) _displayError(payload.errorCode);
+    if (payload.hasError) _displayError(payload.errorCode);
   }
 
-  void _displayError(String errorCode){
+  void _displayError(String errorCode) {
     String message = errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED
         ? 'Revise la conexión a internet.'
         : 'No se ha podido iniciar sesión, intente con otra opción.';
     showDialog(context: context, child: buildAlert(context, message));
   }
 
-  Widget buildAlert(BuildContext context, String message){
-
+  Widget buildAlert(BuildContext context, String message) {
     final textStyle = TextStyle(color: Colors.white);
 
     final closeButton = FlatButton(
@@ -49,39 +49,35 @@ class AuthViewState extends State<AuthView> {
       title: Text('Atención', style: textStyle),
       content: Text(message, style: textStyle),
     );
-
   }
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthBloc>(context);
+    final settings = Provider.of<SettingsBloc>(context);
 
-    final auth = Provider.of<AuthModel>(context);
-    final settings = Provider.of<SettingsModel>(context);
-
-    final signInButton = ModernButton(
-      'INICIAR SESIÓN',
+    final signInButton = RoundedButton(
+      'Iniciar Sesión',
       color: SharedColors.alizarin,
-      onPressed: () => Navigator.of(context).pushNamed(Router.LOGIN_ROUTE),
+      onPressed: () => Navigator.of(context).pushNamed(Routes.LOGIN_ROUTE),
     );
 
-    final googleButton = ModernButton(
+    final googleButton = RoundedButton(
       'Ingresar con Google',
       color: Colors.white,
+      icon: FontAwesome.google,
       textColor: SharedColors.google,
       onPressed: signIn,
-      icon: FontAwesome.google,
     );
 
     final signUpText = Text(
       '¿No tienes una cuenta?',
-      style: TextStyle(
-        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
-      ),
+      style: TextStyle(color: Colors.grey.withOpacity(0.6)),
     );
 
     final signUpButton = MaterialButton(
       child: signUpText,
-      onPressed: () => Navigator.of(context).pushNamed(Router.SIGN_UP_ROUTE),
+      onPressed: () => Navigator.of(context).pushNamed(Routes.SIGN_UP_ROUTE),
     );
 
     final logo = Hero(
@@ -95,13 +91,12 @@ class AuthViewState extends State<AuthView> {
       children: [
         logo,
         SizedBox(height: 32),
-        if(auth.status != AuthStatus.Authenticating)...[
+        if (auth.status != AuthStatus.Authenticating) ...[
           signInButton,
           SizedBox(height: 16),
           googleButton,
           signUpButton,
-        ]
-        else ... [
+        ] else ...[
           SizedBox(height: 16),
           Center(child: CircularProgressIndicator()),
         ],
@@ -118,7 +113,7 @@ class AuthViewState extends State<AuthView> {
 
     final wave = Hero(
       tag: 'liquid-animation',
-      child: LiquidAnimation(
+      child: LiquidBottom(
         boxHeight: 48,
         waveColor: SharedColors.alizarin,
         boxBackgroundColor: Colors.transparent,
@@ -140,7 +135,10 @@ class AuthViewState extends State<AuthView> {
 
     final appBar = AppBar(
       elevation: 0,
-      title: ModernText('Bienvenido'),
+      title: FormalText(
+        'Bienvenido',
+        color: settings.nightMode ? Colors.white : Colors.black,
+      ),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       iconTheme: IconThemeData(
@@ -150,10 +148,8 @@ class AuthViewState extends State<AuthView> {
 
     return Scaffold(
       body: SafeArea(child: container),
-      drawer: DrawerView(Router.AUTH_ROUTE),
+      drawer: DrawerView(Routes.AUTH_ROUTE),
       appBar: appBar,
     );
-
   }
-
 }

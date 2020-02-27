@@ -25,22 +25,21 @@ class Speaker extends Person {
   }) : super(name == null ? '#': name);
 
   factory Speaker.partial(String key, Map snapshot) {
-    Speaker speaker = Speaker.fromMap(key, snapshot);
+    snapshot['key'] = key;
+    Speaker speaker = Speaker.fromMap(snapshot);
     speaker.isPartial = true;
     speaker.reference = snapshot['reference'];
     return speaker;
   }
 
-  factory Speaker.fromMap(String key, Map snapshot) => Speaker(
-    key: key,
-    name: snapshot['name'],
-    about: snapshot['about'],
-    country: snapshot['country'],
-    university: snapshot['university'],
-  );
-
-  factory Speaker.fromFirestore(DocumentSnapshot snapshot) {
-    return Speaker.fromMap(snapshot.documentID, snapshot.data);
+  factory Speaker.fromMap(Map snapshot) {
+    return Speaker(
+      key: snapshot['key'],
+      name: snapshot['completeName'],
+      about: snapshot['about'],
+      country: snapshot['country'],
+      university: snapshot['university'],
+    );
   }
 
   @override

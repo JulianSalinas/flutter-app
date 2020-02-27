@@ -2,21 +2,21 @@ import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:letsattend/router.dart';
+import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/models/message.dart';
 import 'package:letsattend/views/chat/empty_bubble.dart';
 import 'package:letsattend/views/chat/bubble_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/modern_text.dart';
-import 'package:letsattend/widgets/modern_input.dart';
-import 'package:letsattend/widgets/flexible_space.dart';
-import 'package:letsattend/view_models/auth/auth_model.dart';
-import 'package:letsattend/view_models/collections/chat_model.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
+import 'package:letsattend/widgets/custom/rounded_input.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/chat_bloc.dart';
 
 
 class ChatView extends StatefulWidget {
 
-  ChatView() : super(key: Key('screen${Router.CHAT_ROUTE}'));
+  ChatView() : super(key: Key('screen${Routes.CHAT_ROUTE}'));
 
   @override
   _ChatViewState createState() => _ChatViewState();
@@ -27,18 +27,18 @@ class _ChatViewState extends State<ChatView> {
   TextEditingController _editingController = TextEditingController();
 
   Message createMessage() {
-    final auth = Provider.of<AuthModel>(context, listen: false);
+    final auth = Provider.of<AuthBloc>(context, listen: false);
     assert(auth.user != null);
-    Map snapshot = Map();
-    snapshot['userid'] = auth.user.uid;
-    snapshot['username'] = auth.user.name;
-    snapshot['content'] = _editingController.text;
-    return Message.fromMap(snapshot);
+    return Message.send(
+      sender: auth.user,
+      content: _editingController.text.trim(),
+      timestamp: DateTime.now(),
+    );
   }
 
   void sendMessage() {
     if (_editingController.text.trim().isEmpty) return;
-    final chatModel = Provider.of<ChatModel>(context, listen: false);
+    final chatModel = Provider.of<ChatBloc>(context, listen: false);
     chatModel.sendMessage(createMessage().toJson());
     _editingController.text = '';
   }
@@ -46,7 +46,7 @@ class _ChatViewState extends State<ChatView> {
   @override
   Widget build(BuildContext context) {
 
-    final chat = Provider.of<ChatModel>(context);
+    final chat = Provider.of<ChatBloc>(context);
 
     final streamBuilder = StreamBuilder(
       stream: chat.stream,
@@ -54,11 +54,11 @@ class _ChatViewState extends State<ChatView> {
     );
 
     final appBar = AppBar(
-      title: ModernText('Chat'),
+      title: FormalText('Chat'),
       centerTitle: true,
       elevation: 0.0,
       backgroundColor: Colors.transparent,
-      flexibleSpace: FlexibleSpace(),
+      flexibleSpace: ColoredFlex(),
     );
 
     final sendButton = IconButton(
@@ -81,7 +81,7 @@ class _ChatViewState extends State<ChatView> {
       onPressed: () {},
     );
 
-    final messageInput = ModernInput(
+    final messageInput = RoundedInput(
       hintText: 'Escriba aquí...',
       multiline: true,
       controller: _editingController,
@@ -112,7 +112,7 @@ class _ChatViewState extends State<ChatView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Router.CHAT_ROUTE),
+      drawer: DrawerView(Routes.CHAT_ROUTE),
       appBar: appBar,
       body: body,
     );
@@ -133,16 +133,16 @@ class _ChatViewState extends State<ChatView> {
 
   Widget buildList(List<Message> messages) {
 
-    final auth = Provider.of<AuthModel>(context, listen: false);
+    final auth = Provider.of<AuthBloc>(context, listen: false);
 
     final postWidget = (context, itemIndex) => BubbleWidget(
       message: messages[itemIndex],
-      isOwned: auth.user.uid == messages[itemIndex].senderId,
+      isOwned: auth.user.id == messages[itemIndex].sender.id,
       startSequence: itemIndex == messages.length - 1
-          || messages[itemIndex].senderId != messages[itemIndex + 1].senderId,
+          || messages[itemIndex].sender.id != messages[itemIndex + 1].sender.id,
       useTimestamp: itemIndex == messages.length - 1
-          || Jiffy(DateTime.fromMillisecondsSinceEpoch(messages[itemIndex].timestamp)).startOf('day')
-          != Jiffy(DateTime.fromMillisecondsSinceEpoch(messages[itemIndex + 1].timestamp)).startOf('day'),
+          || Jiffy(messages[itemIndex].timestamp).startOf('day')
+          != Jiffy(messages[itemIndex + 1].timestamp).startOf('day'),
     );
 
     final padding = EdgeInsets.symmetric(
