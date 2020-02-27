@@ -12,14 +12,9 @@ import 'package:letsattend/auth/auth_status.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 
-/// Hierarchy used is:
-///    |
 ///  main()
-///   |
 ///  |- LetsAttendApp
-///          |
 ///         |- MaterialLetsAttendApp
-///                    |
 ///                   |- LetsAttendEntry
 ///              ______________|______________
 ///             |             |             |
@@ -49,17 +44,16 @@ class LetsAttendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final providers = [
-      ChangeNotifierProvider<AuthBloc>(
-        create: (context) => locator<AuthBloc>(),
-      ),
-      ChangeNotifierProvider<SettingsBloc>(
-        create: (context) => locator<SettingsBloc>(),
-      ),
-    ];
+    final auth = ChangeNotifierProvider<AuthBloc>(
+      create: (context) => locator<AuthBloc>(),
+    );
+
+    final settings = ChangeNotifierProvider<SettingsBloc>(
+      create: (context) => locator<SettingsBloc>(),
+    );
 
     return MultiProvider(
-      providers: providers,
+      providers: [auth, settings],
       child: MaterialLetsAttendApp(),
     );
 

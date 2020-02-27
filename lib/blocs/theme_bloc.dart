@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeBloc with ChangeNotifier {
 
@@ -8,9 +9,24 @@ class ThemeBloc with ChangeNotifier {
   List<Color> _colors;
   List<Color> get colors => _colors;
 
+  ThemeBloc() {
+    SharedPreferences.getInstance().then(loadTheme);
+  }
+
+  loadTheme(SharedPreferences prefs) {
+    if(prefs.getBool('nightMode') != null) {
+      _nightMode = prefs.getBool('nightMode');
+    }
+    prefs.setBool('nightMode', _nightMode);
+    notifyListeners();
+  }
+
   set nightMode(nightMode) {
     _nightMode = nightMode;
-    notifyListeners();
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('nightMode', _nightMode);
+      notifyListeners();
+    });
   }
 
   set colors(List<Color> colors) {
