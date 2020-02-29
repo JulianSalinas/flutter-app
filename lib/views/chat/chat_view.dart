@@ -10,7 +10,7 @@ import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/auth/auth_bloc.dart';
 import 'package:letsattend/blocs/chat_bloc.dart';
 
 

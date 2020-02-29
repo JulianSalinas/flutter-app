@@ -4,16 +4,34 @@ import 'package:letsattend/services/synched/firebase_service.dart';
 
 class SpeakersService extends FirebaseService<Speaker> {
 
-  @override
-  String get path => 'edepa6/people';
+  SpeakersService(): super('edepa6/people', orderBy: 'completeName');
 
   @override
-  String get orderBy => 'completeName';
+  Future<Speaker> castSnapshot(DataSnapshot snapshot) async {
+    return _castSnapshot(snapshot);
+  }
 
-  @override
-  Future<Speaker> fromFirebase(DataSnapshot snapshot) async {
-    snapshot.value['key'] = snapshot.key;
-    return Speaker.fromMap(snapshot.value);
+  Future<Speaker> getSpeaker(String key) async {
+
+    final snapshot = await database
+        .child('edepa6')
+        .child('people')
+        .child(key).once();
+
+    return _castSnapshot(snapshot);
+  }
+
+  Speaker _castSnapshot(DataSnapshot snapshot){
+
+    final data = getData(snapshot);
+
+    return Speaker(
+      key: data['key'],
+      name: data['completeName'],
+      about: data['about'],
+      country: data['country'],
+      university: data['university'],
+    );
   }
 
 }

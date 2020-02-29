@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/auth/auth_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/home/home_carousel.dart';
 import 'package:letsattend/views/home/home_circle.dart';

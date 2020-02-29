@@ -9,7 +9,7 @@ import 'package:letsattend/models/user.dart';
 import 'package:letsattend/views/drawer/drawer_user.dart';
 import 'package:letsattend/views/drawer/drawer_option.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/auth/auth_bloc.dart';
 
 class DrawerContent extends StatelessWidget {
 

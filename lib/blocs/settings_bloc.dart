@@ -1,4 +1,4 @@
-import 'package:letsattend/auth/auth_engine.dart';
+import 'package:letsattend/services/auth/auth_engine.dart';
 import 'package:letsattend/blocs/theme_bloc.dart';
 
 class SettingsBloc extends ThemeBloc {

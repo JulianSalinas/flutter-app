@@ -1,51 +1,49 @@
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:letsattend/services/synched/synched_service.dart';
+import 'package:letsattend/services/synched/database_service.dart';
 
-abstract class FirebaseService<T> extends SynchedService<T> {
+abstract class FirebaseService<T> extends DatabaseService<T> {
 
-  String get path;
-  String get orderBy;
+  final String path;
+  final String orderBy;
 
-  List<T> _collection = [];
-
+  List<T> collection = [];
   StreamSubscription _addSubscription;
   StreamSubscription _changeSubscription;
   StreamSubscription _removeSubscription;
 
-  DatabaseReference _database = FirebaseDatabase.instance.reference();
-  StreamController<List<T>> _controller = StreamController();
+  FirebaseService(this.path, {this.orderBy}) {
+    final reference = database.child(path);
 
-  FirebaseService() {
-    final reference = _database.child(path);
-    _addSubscription =
-        reference.orderByChild(orderBy).onChildAdded.listen(onChildAdded);
+    final query = orderBy == null
+        ? reference
+        : reference.orderByChild(orderBy);
+
+    _addSubscription = query.onChildAdded.listen(onChildAdded);
     _changeSubscription = reference.onChildChanged.listen(onChildChanged);
     _removeSubscription = reference.onChildRemoved.listen(onChildRemoved);
   }
 
-  Future<T> fromFirebase(DataSnapshot snapshot);
-
-  void onChildAdded(Event data) async {
-    _collection.add(await fromFirebase(data.snapshot));
-    _controller.add(_collection);
+  Future<void> onChildAdded(Event data) async {
+    collection.add(await castSnapshot(data.snapshot));
+    controller.add(collection);
   }
 
-  void onChildChanged(Event data) async {
-    T value = await fromFirebase(data.snapshot);
-    int index = _collection.indexOf(value);
-    _collection.removeAt(index);
-    _collection.insert(index, value);
-    _controller.add(_collection);
+  Future<void> onChildChanged(Event data) async {
+    T value = await castSnapshot(data.snapshot);
+    int index = collection.indexOf(value);
+    collection.removeAt(index);
+    collection.insert(index, value);
+    controller.add(collection);
   }
 
-  void onChildRemoved(Event data) async {
-    _collection.remove(await fromFirebase(data.snapshot));
-    _controller.add(_collection);
+  Future<void> onChildRemoved(Event data) async {
+    collection.remove(await castSnapshot(data.snapshot));
+    controller.add(collection);
   }
 
   void addChild(dynamic data) async {
-    final reference = _database.child(path);
+    final reference = database.child(path);
     await reference.push().set(data);
   }
 
@@ -54,11 +52,6 @@ abstract class FirebaseService<T> extends SynchedService<T> {
     _addSubscription.cancel();
     _changeSubscription.cancel();
     _removeSubscription.cancel();
-    _controller.close();
-  }
-
-  @override
-  Stream<List<T>> get stream {
-    return _controller.stream;
+    super.close();
   }
 }

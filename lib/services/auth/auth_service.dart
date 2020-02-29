@@ -1,5 +1,5 @@
 import 'package:letsattend/models/user.dart';
-import 'package:letsattend/models/payload.dart';
+import 'package:letsattend/models/auth/auth_payload.dart';
 
 abstract class AuthService {
 

@@ -1,18 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/user.dart';
-import 'package:letsattend/auth/auth_google.dart';
-import 'package:letsattend/models/payload.dart';
-import 'package:letsattend/auth/auth_service.dart';
+import 'package:letsattend/models/auth/auth_payload.dart';
+import 'package:letsattend/services/users_service.dart';
+import 'package:letsattend/services/auth/auth_google.dart';
+import 'package:letsattend/services/auth/auth_service.dart';
 
-class AuthFirebase extends AuthService {
+class AuthWithFirebase extends AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UsersService _usersService = locator<UsersService>();
 
   User _castFirebaseUser(FirebaseUser user) {
-    return user == null ? null : User.fromFirebase(user);
+    if (user == null) return null;
+    return User(
+      id: user.uid,
+      email: user.email,
+      name: user.displayName,
+      photoUrl: user.photoUrl,
+      isAnonymous: user.isAnonymous,
+    );
   }
 
   @override
@@ -33,7 +43,9 @@ class AuthFirebase extends AuthService {
         email: email,
         password: password,
       );
-      return AuthPayload(user: _castFirebaseUser(result.user));
+      User user = _castFirebaseUser(result.user);
+      await _usersService.setUser(user);
+      return AuthPayload(user: user);
     } on PlatformException catch (error) {
       return AuthPayload(errorCode: error.code);
     }
@@ -46,7 +58,9 @@ class AuthFirebase extends AuthService {
         email: email,
         password: password,
       );
-      return AuthPayload(user: _castFirebaseUser(result.user));
+      User user = _castFirebaseUser(result.user);
+      await _usersService.setUser(user);
+      return AuthPayload(user: user);
     } on PlatformException catch (error) {
       return AuthPayload(errorCode: error.code);
     }
@@ -56,7 +70,9 @@ class AuthFirebase extends AuthService {
   Future<AuthPayload> signInAnonymously() async {
     try {
       final result = await _auth.signInAnonymously();
-      return AuthPayload(user: _castFirebaseUser(result.user));
+      User user = _castFirebaseUser(result.user);
+      await _usersService.setUser(user);
+      return AuthPayload(user: user);
     } on PlatformException catch (error) {
       return AuthPayload(errorCode: error.code);
     }
@@ -83,7 +99,8 @@ class AuthFirebase extends AuthService {
       );
       final result = await _auth.signInWithCredential(credential);
       return AuthPayload(user: _castFirebaseUser(result.user));
-    } on PlatformException catch (error) {
+    }
+    on PlatformException catch (error) {
       return AuthPayload(errorCode: error.code);
     }
   }

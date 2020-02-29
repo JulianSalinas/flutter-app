@@ -30,7 +30,7 @@ class BubbleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     SettingsBloc settings = Provider.of<SettingsBloc>(context);
-    UserBlocs userModel = locator<UserBlocs>();
+    UserBloc userModel = locator<UserBloc>();
 
     final bubbleGradient = LinearGradient(
       colors: isOwned
@@ -94,7 +94,7 @@ class BubbleWidget extends StatelessWidget {
     );
 
     final lazyAvatar = FutureBuilder(
-      future: userModel.getUserById(message.sender.id),
+      future: userModel.getUser(message.sender.id),
       builder: (context, snapshot) {
         User user = snapshot.data;
         return CircleAvatar(

@@ -8,27 +8,24 @@ class User extends Person {
   final String email;
   final String name;
   final String photoUrl;
-  final String providerId;
   final bool isAnonymous;
 
   User({
     @required this.id,
-    this.providerId,
     this.email,
     this.name,
     this.photoUrl,
     this.isAnonymous = false,
   }) : super(name == null ? '#': name);
 
-  @override
-  factory User.fromFirebase(FirebaseUser user) => User(
-    id: user.uid,
-    providerId: user.providerId,
-    email: user.email,
-    name: user.displayName,
-    photoUrl: user.photoUrl,
-    isAnonymous: user.isAnonymous,
-  );
+  toJson() {
+    return {
+      'allowPhoto': true,
+      'email': email,
+      'userid': id,
+      'username': name,
+    };
+  }
 
   @override
   String toString() {

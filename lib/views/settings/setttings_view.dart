@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/auth/auth_engine.dart';
+import 'package:letsattend/services/auth/auth_engine.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/settings/section_title.dart';

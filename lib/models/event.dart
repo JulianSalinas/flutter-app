@@ -3,7 +3,9 @@ import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/speaker.dart';
 
 class Event {
+
   final String key;
+
   final String title;
   final String type;
   final DateTime end;
@@ -13,7 +15,7 @@ class Event {
   final String location;
   final String description;
 
-  bool isFavorite;
+  bool isFavorite = false;
   List<Speaker> speakers = [];
 
   Event({
@@ -25,7 +27,8 @@ class Event {
     this.code,
     this.location,
     this.description,
-    this.isFavorite = false,
+    this.isFavorite,
+    this.speakers,
   });
 
   static Map<String, Color> colors = {
@@ -35,20 +38,6 @@ class Event {
     'FERIA_EDEPA': Color(0xff9399ff),
   };
 
-  factory Event.fromMap(Map snapshot) {
-    return Event(
-      key: snapshot['key'],
-      title: snapshot['title'],
-      type: snapshot['eventype'],
-      end: DateTime.fromMillisecondsSinceEpoch(snapshot['end']),
-      start: DateTime.fromMillisecondsSinceEpoch(snapshot['start']),
-      code: snapshot['id'],
-      location: snapshot['location'],
-      description: snapshot['briefSpanish'],
-      isFavorite: false,
-    );
-  }
-
   Color get color {
     return Event.colors[type] ?? SharedColors.alizarin;
   }
@@ -56,6 +45,14 @@ class Event {
   String get image {
     return 'assets/tec_edificio_a4.jpg';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || other is Event && key == other.key;
+  }
+
+  @override
+  int get hashCode => key.hashCode;
 
   @override
   String toString() {

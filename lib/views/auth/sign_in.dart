@@ -1,3 +1,4 @@
+import 'package:letsattend/models/auth/auth_code.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/auth/auth_status.dart';
+import 'package:letsattend/services/auth/auth_status.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/animation/liquid_bottom.dart';
@@ -14,8 +15,8 @@ import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/models/payload.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/models/auth/auth_payload.dart';
+import 'package:letsattend/blocs/auth/auth_bloc.dart';
 
 class SignInView extends StatefulWidget {
   @override
@@ -78,15 +79,15 @@ class SignInViewState extends State<SignInView> {
   }
 
   void _displayError(String errorCode){
-    if(errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED) {
+    if(errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED) {
       String message = 'Revise la conexión a internet.';
       showDialog(context: context, child: buildAlert(context, message));
     }
-    else if(errorCode == AuthPayload.ERROR_WRONG_PASSWORD)
+    else if(errorCode == AuthCode.ERROR_WRONG_PASSWORD)
       setState(() => passwordError = 'Contraseña incorrecta');
-    else if (errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+    else if (errorCode == AuthCode.ERROR_INVALID_EMAIL)
       setState(() => emailError = 'El correo es inválido');
-    else if (errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
+    else if (errorCode == AuthCode.ERROR_USER_NOT_FOUND)
       setState(() => emailError = 'El usuario no ha sido registrado');
     else{
       String message = 'No se ha podido iniciar sesión, intente con otra opción.';

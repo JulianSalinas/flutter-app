@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/blocs/favorites_bloc.dart';
+import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/events/event_widget/event_widget.dart';
+import 'package:provider/provider.dart';
 
 class EventsView extends StatefulWidget {
 
@@ -16,6 +19,8 @@ class EventsViewState extends State<EventsView> {
   @override
   Widget build(BuildContext context) {
 
+    FavoritesBloc favorites = locator<FavoritesBloc>();
+
     return ListView.builder(
       itemCount: widget.events.length,
       padding: EdgeInsets.only(top: 4),
@@ -24,17 +29,12 @@ class EventsViewState extends State<EventsView> {
         isFirst: index == 0,
         isLast: index == widget.events.length - 1,
         isOdd: index.isEven,
-        onFavoriteChanged: onFavoriteChange,
+        onFavoriteChanged: (Event event) async {
+          await favorites.setFavorite(event.key, !event.isFavorite);
+        }
       ),
     );
 
-  }
-
-
-  onFavoriteChange(Event event) {
-//    setState(() {
-//      event.isFavorite = !event.isFavorite;
-//    });
   }
 
 }

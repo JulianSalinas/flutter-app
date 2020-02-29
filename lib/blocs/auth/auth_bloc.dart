@@ -3,13 +3,13 @@ import 'package:flutter/foundation.dart';
 
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/user.dart';
-import 'package:letsattend/models/payload.dart';
-import 'package:letsattend/auth/auth_status.dart';
-import 'package:letsattend/auth/auth_firebase.dart';
+import 'package:letsattend/models/auth/auth_payload.dart';
+import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/services/auth/auth_with_firebase.dart';
 
 class AuthBloc with ChangeNotifier {
 
-  final AuthFirebase _service = locator<AuthFirebase>();
+  final AuthWithFirebase _service = locator<AuthWithFirebase>();
 
   User _user;
   User get user => _user;

@@ -9,6 +9,7 @@ class Message {
   final User sender;
   final DateTime timestamp;
   final bool delivered;
+  final bool isOwned;
 
   Message({
     @required this.key,
@@ -16,6 +17,7 @@ class Message {
     @required this.content,
     @required this.timestamp,
     this.delivered = false,
+    this.isOwned = false
   });
 
   Message.send({
@@ -23,6 +25,7 @@ class Message {
     @required this.content,
     @required this.timestamp,
     this.delivered = false,
+    this.isOwned = false,
   });
 
   toJson() {

@@ -4,14 +4,10 @@ import 'package:letsattend/services/synched/firebase_service.dart';
 
 class NewsService extends FirebaseService<Post> {
 
-  @override
-  String get path => 'edepa6/news';
+  NewsService(): super('edepa6/news', orderBy: 'timestamp');
 
   @override
-  String get orderBy => 'timestamp';
-
-  @override
-  Future<Post> fromFirebase(DataSnapshot snapshot) async {
+  Future<Post> castSnapshot(DataSnapshot snapshot) async {
     snapshot.value['key'] = snapshot.key;
     return Post.fromMap(snapshot.value);
   }

@@ -19,7 +19,7 @@ class EventWidget extends StatelessWidget {
   final bool isFirst;
   final bool isOdd;
 
-  final Function onFavoriteChanged;
+  final Function(Event) onFavoriteChanged;
 
   EventWidget({
     @required this.event,
@@ -146,10 +146,7 @@ class EventWidget extends StatelessWidget {
       ],
     );
 
-    return InkWell(
-      onTap: () => openDetail(context),
-      child: Container(height: 154, child: stackContainer),
-    );
+    return Container(height: 154, child: stackContainer);
 
   }
 }

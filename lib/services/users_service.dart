@@ -4,24 +4,31 @@ import 'package:letsattend/models/user.dart';
 
 class UsersService {
 
-  DatabaseReference _database = FirebaseDatabase.instance.reference();
+  DatabaseReference database = FirebaseDatabase.instance.reference();
 
-  Future<User> getUserById(String id) async {
+  Future<User> getUser(String key) async {
 
-    DataSnapshot snapshot = await _database.child('edepa6/users/$id').once();
+    DataSnapshot snapshot = await database
+        .child('users')
+        .child(key).once();
 
     if (snapshot.value == null)
-      return User(id: id, isAnonymous: true);
+      return User(id: key, isAnonymous: true);
 
-    final userInfo = snapshot.value;
+    final data = snapshot.value;
 
     return User(
-      id: id,
-      name: userInfo['username'],
-      email: userInfo['email'],
-      photoUrl: userInfo['photoUrl'],
+      id: key,
+      name: data['username'],
+      email: data['email'],
+      photoUrl: data['photoUrl'],
     );
+  }
 
+  Future<void> setUser(User user) async {
+    return database
+        .child('users')
+        .child(user.id).set(user.toJson());
   }
 
 }

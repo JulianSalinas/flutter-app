@@ -1,15 +1,16 @@
+import 'package:letsattend/models/auth/auth_code.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/models/payload.dart';
+import 'package:letsattend/models/auth/auth_payload.dart';
 import 'package:letsattend/shared/colors.dart';
 
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
-import 'package:letsattend/auth/auth_status.dart';
+import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/services/auth/auth_status.dart';
 
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
@@ -49,13 +50,13 @@ class PasswordResetViewState extends State<PasswordResetView> {
   }
 
   void _displayError(String errorCode){
-    if(errorCode == AuthPayload.ERROR_NETWORK_REQUEST_FAILED) {
+    if(errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED) {
       String message = 'Revise la conexión a internet.';
       showDialog(context: context, child: buildAlert(context, message));
     }
-    else if (errorCode == AuthPayload.ERROR_INVALID_EMAIL)
+    else if (errorCode == AuthCode.ERROR_INVALID_EMAIL)
       setState(() => emailError = 'El correo es inválido');
-    else if (errorCode == AuthPayload.ERROR_USER_NOT_FOUND)
+    else if (errorCode == AuthCode.ERROR_USER_NOT_FOUND)
       setState(() => emailError = 'El usuario asociado a este correo no existe');
     else{
       String message = 'No se ha podido enviar la contraseña.';
