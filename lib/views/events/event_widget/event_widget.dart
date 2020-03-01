@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/theme_bloc.dart';
 import 'package:letsattend/views/detail/detail.dart';
 import 'package:letsattend/views/events/event_widget/event_favorite.dart';
 import 'package:provider/provider.dart';
@@ -13,20 +12,27 @@ import 'event_speakers.dart';
 
 class EventWidget extends StatelessWidget {
 
+  static Map<String, Color> colors = {
+    'CONFERENCIA': Color(0xff21bf73),
+    'TALLER': Color(0xfff5587b),
+    'PONENCIA': Color(0xffff8a5c),
+    'FERIA_EDEPA': Color(0xff9399ff),
+  };
+
   final Event event;
 
   final bool isLast;
   final bool isFirst;
   final bool isOdd;
 
-  final Function(Event) onFavoriteChanged;
+  final Function(Event) toggleFavorite;
 
   EventWidget({
     @required this.event,
     this.isFirst = false,
     this.isLast = false,
     this.isOdd = false,
-    this.onFavoriteChanged
+    this.toggleFavorite
   });
 
   openDetail(BuildContext context) {
@@ -45,13 +51,13 @@ class EventWidget extends StatelessWidget {
       isFirst: isFirst,
       isLast: isLast,
       isOdd: isOdd,
-      color: event.color,
+      color: Colors.red,
     );
 
     final itemType = Text(
       '${event.code}. ${event.type} ',
       style: TextStyle(
-        color: event.color,
+        color: Colors.red,
         fontWeight: FontWeight.bold
       ),
     );
@@ -101,7 +107,7 @@ class EventWidget extends StatelessWidget {
     final itemFavorite = Favorite(
       tag: 'event-favorite-${event.key}',
       isFavorite: event.isFavorite,
-      onPressed: () => onFavoriteChanged(event)
+      onPressed: () => toggleFavorite(event)
     );
 
     final itemBottom = Container(

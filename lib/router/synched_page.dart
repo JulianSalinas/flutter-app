@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:letsattend/locator.dart';
-import 'package:letsattend/blocs/synched/synched_bloc.dart';
+import 'package:letsattend/blocs/synched_bloc.dart';
 
 class SynchedPage<T extends SynchedBloc> extends MaterialPageRoute {
+
   final Widget child;
 
   static Widget _getProvider<T extends SynchedBloc>(child) {

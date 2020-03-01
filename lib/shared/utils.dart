@@ -1,7 +1,8 @@
-import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
+import 'package:diacritic/diacritic.dart';
 
 class SharedUtils {
+
   /// Returns the first two initials from a name or
   /// just the first one if it is just the stack name
   /// Ej. 'Julian Salinas Rojas' -> JS
@@ -42,4 +43,5 @@ class SharedUtils {
     var words = regex.allMatches(normFilter).map((word) => word.group(0));
     return words.any((word) => normContent.contains(word));
   }
+
 }

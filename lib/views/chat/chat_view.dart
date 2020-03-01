@@ -10,13 +10,13 @@ import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 import 'package:letsattend/blocs/chat_bloc.dart';
 
 
 class ChatView extends StatefulWidget {
 
-  ChatView() : super(key: Key('screen${Routes.CHAT_ROUTE}'));
+  ChatView() : super(key: Key('screen${Routes.chatRoute}'));
 
   @override
   _ChatViewState createState() => _ChatViewState();
@@ -28,9 +28,9 @@ class _ChatViewState extends State<ChatView> {
 
   Message createMessage() {
     final auth = Provider.of<AuthBloc>(context, listen: false);
-    assert(auth.user != null);
-    return Message.send(
-      sender: auth.user,
+    assert(auth.currentUser != null);
+    return Message(
+      sender: auth.currentUser,
       content: _editingController.text.trim(),
       timestamp: DateTime.now(),
     );
@@ -112,7 +112,7 @@ class _ChatViewState extends State<ChatView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.CHAT_ROUTE),
+      drawer: DrawerView(Routes.chatRoute),
       appBar: appBar,
       body: body,
     );
@@ -137,9 +137,9 @@ class _ChatViewState extends State<ChatView> {
 
     final postWidget = (context, itemIndex) => BubbleWidget(
       message: messages[itemIndex],
-      isOwned: auth.user.id == messages[itemIndex].sender.id,
+      isOwned: auth.currentUser.key == messages[itemIndex].sender.key,
       startSequence: itemIndex == messages.length - 1
-          || messages[itemIndex].sender.id != messages[itemIndex + 1].sender.id,
+          || messages[itemIndex].sender.key != messages[itemIndex + 1].sender.key,
       useTimestamp: itemIndex == messages.length - 1
           || Jiffy(messages[itemIndex].timestamp).startOf('day')
           != Jiffy(messages[itemIndex + 1].timestamp).startOf('day'),

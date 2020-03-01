@@ -34,7 +34,7 @@ class AboutView extends StatelessWidget {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.ABOUT_ROUTE),
+      drawer: DrawerView(Routes.aboutRoute),
       appBar: appBar,
       body: body,
     );

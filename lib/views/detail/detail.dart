@@ -93,7 +93,7 @@ class DetailState extends State<Detail> with SingleTickerProviderStateMixin {
       child: Icon(Icons.save),
       tooltip: 'Agregar a la agenda',
       foregroundColor: Colors.white,
-      backgroundColor: event.color,
+      backgroundColor: Colors.red,
       onPressed: () => print('TODO: Add to agenda'),
     );
 

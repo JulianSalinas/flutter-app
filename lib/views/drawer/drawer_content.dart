@@ -9,7 +9,7 @@ import 'package:letsattend/models/user.dart';
 import 'package:letsattend/views/drawer/drawer_user.dart';
 import 'package:letsattend/views/drawer/drawer_option.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 
 class DrawerContent extends StatelessWidget {
 
@@ -49,12 +49,12 @@ class DrawerContent extends StatelessWidget {
     );
 
     final defaultUser = User(
-      id: 'default',
+      key: 'default',
       isAnonymous: true,
     );
 
     final drawerUser = DrawerUser(
-      user: auth.user ?? defaultUser,
+      user: auth.currentUser ?? defaultUser,
     );
 
     final nightModeSwitch = Switch(
@@ -77,58 +77,58 @@ class DrawerContent extends StatelessWidget {
       child: nightModeContent,
     );
 
-    final closeSpace = auth.user == null
+    final closeSpace = auth.currentUser == null
         ? SizedBox(height: 48)
         : closeContainer;
 
     final authOption = DrawerOption(
       icon: MaterialCommunityIcons.login_variant,
       title: 'Ingresar',
-      onTap: () => pushReplacement(Routes.AUTH_ROUTE),
+      onTap: () => pushReplacement(Routes.authRoute),
     );
 
     final homeOption = DrawerOption(
       icon: Icons.home,
       title: 'Principal',
-      onTap: () => pushReplacement(Routes.HOME_ROUTE),
+      onTap: () => pushReplacement(Routes.homeRoute),
     );
 
     final scheduleOption = DrawerOption(
       icon: MaterialCommunityIcons.calendar,
       title: 'Cronograma',
-      onTap: () => pushReplacement(Routes.SCHEDULE_ROUTE),
+      onTap: () => pushReplacement(Routes.scheduleRoute),
     );
 
     final chatOption = DrawerOption(
       icon: Icons.message,
       title: 'Chat',
       badge: '+15',
-      onTap: () => pushReplacement(Routes.CHAT_ROUTE),
+      onTap: () => pushReplacement(Routes.chatRoute),
     );
 
     final newsOption = DrawerOption(
       icon: Icons.notifications,
       title: 'Noticias',
       badge: '+5',
-      onTap: () => pushReplacement(Routes.NEWS_ROUTE),
+      onTap: () => pushReplacement(Routes.newsRoute),
     );
 
     final speakersOption = DrawerOption(
       icon: Icons.people,
       title: 'Expositores',
-      onTap: () => pushReplacement(Routes.SPEAKERS_ROUTE),
+      onTap: () => pushReplacement(Routes.speakersRoute),
     );
 
     final aboutOption = DrawerOption(
       icon: Icons.email,
       title: 'Acerca de',
-      onTap: () => Navigator.pushNamed(context, Routes.ABOUT_ROUTE),
+      onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
     );
 
     final settingsOption = DrawerOption(
       icon: Icons.settings,
       title: 'Configuración',
-      onTap: () => Navigator.pushNamed(context, Routes.SETTINGS_ROUTE),
+      onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
     );
 
     final userLoggedOptions = [
@@ -149,7 +149,7 @@ class DrawerContent extends StatelessWidget {
       optionDivider,
     ];
 
-    final availableOptions = auth.user != null
+    final availableOptions = auth.currentUser != null
         ? userLoggedOptions
         : userNotLogged;
 

@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
+
 import 'package:letsattend/models/speaker.dart';
-import 'package:letsattend/services/synched/firebase_service.dart';
+import 'package:letsattend/services/firebase_service.dart';
 
 class SpeakersService extends FirebaseService<Speaker> {
 
@@ -12,21 +13,19 @@ class SpeakersService extends FirebaseService<Speaker> {
   }
 
   Future<Speaker> getSpeaker(String key) async {
-
     final snapshot = await database
         .child('edepa6')
         .child('people')
         .child(key).once();
-
     return _castSnapshot(snapshot);
   }
 
   Speaker _castSnapshot(DataSnapshot snapshot){
 
-    final data = getData(snapshot);
+    final data = snapshot.value;
 
     return Speaker(
-      key: data['key'],
+      key: snapshot.key,
       name: data['completeName'],
       about: data['about'],
       country: data['country'],

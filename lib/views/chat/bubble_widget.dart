@@ -86,7 +86,7 @@ class BubbleWidget extends StatelessWidget {
       constraints: boxConstraints,
     );
 
-    Person person = Person(message.sender.id);
+    Person person = Person(message.sender.key);
 
     final personInitials = Text(
       person.initials,
@@ -94,11 +94,11 @@ class BubbleWidget extends StatelessWidget {
     );
 
     final lazyAvatar = FutureBuilder(
-      future: userModel.getUser(message.sender.id),
+      future: userModel.getUser(message.sender.key),
       builder: (context, snapshot) {
         User user = snapshot.data;
         return CircleAvatar(
-          radius: 12,
+          radius: 16,
           backgroundColor: person.color,
           backgroundImage: snapshot.hasData
               && user.photoUrl != null

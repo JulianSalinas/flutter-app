@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:letsattend/shared/utils.dart';
-import 'package:letsattend/services/synched/synched_service.dart';
-import 'package:letsattend/blocs/synched/orderable_bloc.dart';
+import 'package:letsattend/blocs/orderable_bloc.dart';
+import 'package:letsattend/services/synched_service.dart';
 
 class FilterableBloc<T extends SynchedService> extends OrderableBloc<T> {
 
@@ -26,5 +26,4 @@ class FilterableBloc<T extends SynchedService> extends OrderableBloc<T> {
       _filter == null ||
       _filter.isEmpty ||
       SharedUtils.containsFilter(_filter, item.toString());
-
 }

@@ -9,10 +9,10 @@ import 'package:letsattend/blocs/schedule_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/events/events_view.dart';
 import 'package:letsattend/views/schedule/schedule_tab.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
-import 'package:letsattend/blocs/theme_bloc.dart';
 
 class ScheduleView extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.SCHEDULE_ROUTE),
+      drawer: DrawerView(Routes.scheduleRoute),
       body: streamBuilder,
       extendBodyBehindAppBar: true,
     );
@@ -54,11 +54,13 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
 
   Widget buildSchedule(BuildContext context, Map<dynamic, List<Event>> schedule){
 
+    final ScheduleBloc scheduleModel = Provider.of<ScheduleBloc>(context);
+
     final ScheduleBloc model = Provider.of<ScheduleBloc>(context);
     final SettingsBloc settings = Provider.of<SettingsBloc>(context);
 
     final labelColor =
-        settings.nightMode ? Colors.white : SharedColors.kashmir[0];
+        settings.nightMode ? Colors.white : SharedColors.edepa;
 
     final indicatorBorder = BorderRadius.only(
       topLeft: Radius.circular(10),
@@ -83,23 +85,13 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
       indicatorSize: TabBarIndicatorSize.label,
     );
 
-    final appBarGradient = LinearGradient(
-      begin: Alignment.topRight,
-      end: Alignment.bottomLeft,
-      colors: SharedColors.kashmir,
-    );
-
-    final appBarContent = Container(
-      decoration: BoxDecoration(gradient: appBarGradient),
-    );
-
     final appBar = SliverAppBar(
       title: FormalText(
         'Cronograma',
         color: Colors.white,
       ),
       centerTitle: true,
-      flexibleSpace: appBarContent,
+      flexibleSpace: ColoredFlex(),
       bottom: tabBar,
       elevation: 0,
       actions: <Widget>[
@@ -122,6 +114,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
       return EventsView(
         key: Key(entry.key),
         events: entry.value,
+        toggleFavorite: scheduleModel.toggleFavorite,
       );
     };
 

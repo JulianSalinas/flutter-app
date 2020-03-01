@@ -1,4 +1,4 @@
-import 'package:letsattend/models/auth/auth_code.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/shared/status.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/animation/liquid_bottom.dart';
@@ -15,8 +15,8 @@ import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/models/auth/auth_payload.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/models/auth.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -84,13 +84,13 @@ class SignUpViewState extends State<SignUpView> {
   }
 
   void _displayError(String errorCode){
-    if(errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED) {
+    if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
       showDialog(context: context, child: buildAlert(context, message));
     }
-    else if (errorCode == AuthCode.ERROR_EMAIL_ALREADY_IN_USE)
+    else if (errorCode == Codes.emailAlreadyInUse)
       setState(() => emailError = 'El usuario ya está registrado');
-    else if (errorCode == AuthCode.ERROR_INVALID_EMAIL)
+    else if (errorCode == Codes.invalidEmail)
       setState(() => emailError = 'El correo es inválido');
     else{
       String message = 'No se ha podido registrar, ';
@@ -185,7 +185,7 @@ class SignUpViewState extends State<SignUpView> {
         SizedBox(height: 16),
         confirmationField,
         SizedBox(height: 16),
-        if(auth.status != AuthStatus.Authenticating)...[
+        if(auth.status != Status.Authenticating)...[
           submitButton,
           auxButton,
         ]
@@ -246,7 +246,7 @@ class SignUpViewState extends State<SignUpView> {
     return Scaffold(
       appBar: appBar,
       body: SafeArea(child: container),
-      drawer: DrawerView(Routes.SIGN_UP_ROUTE),
+      drawer: DrawerView(Routes.signUpRoute),
       resizeToAvoidBottomInset : false,
     );
 

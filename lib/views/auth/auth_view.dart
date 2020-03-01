@@ -1,16 +1,16 @@
-import 'package:letsattend/models/auth/auth_code.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/models/auth/auth_payload.dart';
+import 'package:letsattend/models/auth.dart';
 import 'package:letsattend/shared/colors.dart';
 
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
-import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/shared/status.dart';
 
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
@@ -29,7 +29,7 @@ class AuthViewState extends State<AuthView> {
   }
 
   void _displayError(String errorCode) {
-    String message = errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED
+    String message = errorCode == Codes.networkRequestFailed
         ? 'Revise la conexión a internet.'
         : 'No se ha podido iniciar sesión, intente con otra opción.';
     showDialog(context: context, child: buildAlert(context, message));
@@ -60,7 +60,7 @@ class AuthViewState extends State<AuthView> {
     final signInButton = RoundedButton(
       'Iniciar Sesión',
       color: SharedColors.alizarin,
-      onPressed: () => Navigator.of(context).pushNamed(Routes.LOGIN_ROUTE),
+      onPressed: () => Navigator.of(context).pushNamed(Routes.loginRoute),
     );
 
     final googleButton = RoundedButton(
@@ -78,7 +78,7 @@ class AuthViewState extends State<AuthView> {
 
     final signUpButton = MaterialButton(
       child: signUpText,
-      onPressed: () => Navigator.of(context).pushNamed(Routes.SIGN_UP_ROUTE),
+      onPressed: () => Navigator.of(context).pushNamed(Routes.signUpRoute),
     );
 
     final logo = Hero(
@@ -92,7 +92,7 @@ class AuthViewState extends State<AuthView> {
       children: [
         logo,
         SizedBox(height: 32),
-        if (auth.status != AuthStatus.Authenticating) ...[
+        if (auth.status != Status.Authenticating) ...[
           signInButton,
           SizedBox(height: 16),
           googleButton,
@@ -149,7 +149,7 @@ class AuthViewState extends State<AuthView> {
 
     return Scaffold(
       body: SafeArea(child: container),
-      drawer: DrawerView(Routes.AUTH_ROUTE),
+      drawer: DrawerView(Routes.authRoute),
       appBar: appBar,
     );
   }

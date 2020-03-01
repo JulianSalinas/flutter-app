@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/preview.dart';
-import 'package:letsattend/blocs/theme_bloc.dart';
 import 'package:letsattend/widgets/fullscreen/full_web_view.dart';
 import 'package:provider/provider.dart';
 
@@ -31,10 +31,10 @@ class TouchablePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<ThemeBloc>(context);
+    final scheme = Provider.of<SettingsBloc>(context);
 
-    if(preview.image != null)
-      return TouchableImage(imageUrl: preview.image);
+//    if(preview.image != null)
+//      return TouchableImage(imageUrl: preview.image);
 
     final thumbnail = preview.thumbnail != null ? Image.network(
       preview.thumbnail,
@@ -95,7 +95,7 @@ class TouchablePreview extends StatelessWidget {
     );
 
     final container = Container(
-      color: scheme.nightMode ? SharedColors.nightOverlay : SharedColors.lightOverlay,
+      color: scheme.nightMode ? Color(0x0FFFFFFF) : Color(0x0F000000),
       child: IntrinsicHeight(child: decoratedContent),
     );
 

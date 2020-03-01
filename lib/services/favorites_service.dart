@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'package:letsattend/locator.dart';
-import 'package:letsattend/services/auth/auth_with_firebase.dart';
+import 'package:letsattend/services/auth_with_firebase.dart';
 
 class FavoritesService {
 
@@ -16,7 +16,7 @@ class FavoritesService {
     final snapshot = await database
         .child('edepa6')
         .child('favorites')
-        .child(user.id)
+        .child(user.key)
         .child(eventKey).once();
 
     return snapshot.value != null;
@@ -28,7 +28,7 @@ class FavoritesService {
     final reference = database
         .child('edepa6')
         .child('favorites')
-        .child(user.id)
+        .child(user.key)
         .child(eventKey);
 
     return value ? reference.set(true) : reference.remove();

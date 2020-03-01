@@ -22,7 +22,7 @@ class DetailHeader extends StatelessWidget {
 
     final label = Container(
       child: type,
-      color: event.color,
+      color: Colors.red,
       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
     );
 
@@ -78,7 +78,7 @@ class DetailHeader extends StatelessWidget {
       left: 0,
       right: 0,
       bottom: 0,
-      child: Container(height: 0, color: event.color), /// +1 to active
+      child: Container(height: 0, color: Colors.red), /// +1 to active
     );
 
     final clock = Positioned(

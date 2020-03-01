@@ -62,8 +62,6 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
     final button = IconButton(
       icon: icon,
       onPressed: onPressed,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
     );
 
     final animatedButton =  AnimatedBuilder(

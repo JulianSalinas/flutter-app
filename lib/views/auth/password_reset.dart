@@ -1,16 +1,15 @@
-import 'package:letsattend/models/auth/auth_code.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/models/auth/auth_payload.dart';
 import 'package:letsattend/shared/colors.dart';
 
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
-import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/shared/status.dart';
 
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
@@ -39,24 +38,29 @@ class PasswordResetViewState extends State<PasswordResetView> {
     super.dispose();
   }
 
-  void reset() async {
+  void reset(BuildContext context) async {
     final auth = Provider.of<AuthBloc>(context, listen: false);
     String email = emailCtrl.text.trim();
     final payload = await auth.resetPassword(email);
+    payload.hasError ? _displayError(payload.errorCode) : sent(context, email);
+  }
 
-    payload.hasError
-        ? _displayError(payload.errorCode)
-        : Navigator.of(context).pop();
+  void sent(BuildContext context, String email){
+    final message = 'La contraseña ha sido enviada a $email';
+    showDialog(
+      context: context,
+      builder: (_) => buildAlert(_, message),
+    ).then((_) => Navigator.of(context).pop());
   }
 
   void _displayError(String errorCode){
-    if(errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED) {
+    if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
       showDialog(context: context, child: buildAlert(context, message));
     }
-    else if (errorCode == AuthCode.ERROR_INVALID_EMAIL)
+    else if (errorCode == Codes.invalidEmail)
       setState(() => emailError = 'El correo es inválido');
-    else if (errorCode == AuthCode.ERROR_USER_NOT_FOUND)
+    else if (errorCode == Codes.userNotFound)
       setState(() => emailError = 'El usuario asociado a este correo no existe');
     else{
       String message = 'No se ha podido enviar la contraseña.';
@@ -100,7 +104,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
     final submitButton = RoundedButton(
       'RECUPERAR',
       color: SharedColors.alizarin,
-      onPressed: reset,
+      onPressed: () => reset(context),
     );
 
     final auxText = Text(
@@ -128,7 +132,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
         SizedBox(height: 32),
         emailField,
         SizedBox(height: 16),
-        if(auth.status != AuthStatus.Authenticating)...[
+        if(auth.status != Status.Authenticating)...[
           submitButton,
           auxButton,
         ]
@@ -188,7 +192,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
 
     return Scaffold(
       body: SafeArea(child: container),
-      drawer: DrawerView(Routes.PASSWORD_RESET_ROUTE),
+      drawer: DrawerView(Routes.passwordResetRoute),
       appBar: appBar,
     );
 

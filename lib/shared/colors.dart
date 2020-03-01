@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SharedColors {
+
+  /// Collection chosen flat colors
+  static final flat = [
+    greenSea,
+    nephritis,
+    belizeHole,
+    orange,
+    midnightBlue,
+    wisteria,
+    pumpkin,
+  ];
+
   /// Colors for social media widgets
   static const google = Color(0xffd34836);
   static const facebook = Color(0xff3B5998);
+
+  /// Colors for edepa
   static const edepa = Color(0xffe31837);
   static const edepa_secondary = Color(0xffe9625a);
-
-  /// Utilities colors
-  static const nightOverlay = Color(0x0FFFFFFF);
-  static const lightOverlay = Color(0x0F000000);
 
   /// Flat colors
   ///
@@ -37,23 +47,20 @@ class SharedColors {
   static const sunflower = Color(0xfff1c40f);
   static const orange = Color(0xfff39c12);
 
-  // Orange-like ui.colors
+  /// Orange-like ui.colors
   static const carrot = Color(0xffe67e22);
   static const pumpkin = Color(0xffd35400);
 
-  // Red-like ui.colors
+  /// Red-like ui.colors
   static const alizarin = Color(0xffe74c3c);
   static const pomegranate = Color(0xffd34836);
 
-  /// Collection chosen flat colors
-  static final flat = [
-    greenSea,
-    nephritis,
-    belizeHole,
-    orange,
-    midnightBlue,
-    wisteria,
-    pumpkin
+  /// Collections of chosen gradients
+  static final gradients = [
+    darkReal,
+    midnightCity,
+    kashmir,
+    crimsonTide,
   ];
 
   /// Gradients
@@ -66,10 +73,4 @@ class SharedColors {
   static const burningOrange = [Color(0xffFF416C), Color(0xffFF5F6D)];
   static const flareOrange = [Colors.red, Colors.deepOrange];
 
-  static final gradients = [
-    darkReal,
-    midnightCity,
-    kashmir,
-    crimsonTide,
-  ];
 }

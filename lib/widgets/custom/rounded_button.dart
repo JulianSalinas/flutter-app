@@ -5,7 +5,6 @@ import 'package:letsattend/widgets/custom/formal_text.dart';
 
 /// Custom button with icon that adapts itself according
 /// to the active scheme
-/// It depends on the provider [theme_bloc.dart]
 class RoundedButton extends StatelessWidget {
 
   final String text;

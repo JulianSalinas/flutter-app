@@ -1,42 +1,35 @@
-import 'package:flutter/material.dart';
 import 'package:letsattend/models/user.dart';
 
 class Message {
 
-  String key;
+  final String key;
 
-  final String content;
   final User sender;
+  final String content;
   final DateTime timestamp;
-  final bool delivered;
+
   final bool isOwned;
+  final bool delivered;
 
   Message({
-    @required this.key,
-    @required this.sender,
-    @required this.content,
-    @required this.timestamp,
-    this.delivered = false,
-    this.isOwned = false
-  });
-
-  Message.send({
-    @required this.sender,
-    @required this.content,
-    @required this.timestamp,
-    this.delivered = false,
+    this.key,
+    this.sender,
+    this.content,
+    this.timestamp,
     this.isOwned = false,
+    this.delivered = false,
   });
 
-  toJson() {
-    return {
-      'time': DateTime.now().millisecondsSinceEpoch,
-      'content': content,
-      'delivered': delivered,
-      'userid': sender.id,
-      'username': sender.name,
-    };
-  }
+  toJson() => ({
+    'userid': sender.key,
+    'username': sender.name,
+    'content': content,
+    'delivered': delivered,
+    'time': DateTime.now().millisecondsSinceEpoch,
+  });
+
+  @override
+  int get hashCode => key.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -44,5 +37,8 @@ class Message {
   }
 
   @override
-  int get hashCode => key.hashCode;
+  String toString() {
+    return 'Message{ key: $key, content: $content, isOwned: $isOwned }';
+  }
+
 }

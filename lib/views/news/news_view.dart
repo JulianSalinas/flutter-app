@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/blocs/synched/filterable_bloc.dart';
+import 'package:letsattend/blocs/filterable_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
@@ -42,7 +42,7 @@ class NewsViewState extends State<NewsView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.NEWS_ROUTE),
+      drawer: DrawerView(Routes.newsRoute),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

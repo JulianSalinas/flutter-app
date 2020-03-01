@@ -1,40 +1,28 @@
-import 'package:flutter/cupertino.dart';
-
 class Preview {
 
-  final String key;
-  final String title;
-  final String description;
-  final String image;
   final String url;
+  final String title;
   final String thumbnail;
+  final String description;
 
   Preview({
-    @required this.key,
-    this.title,
-    this.description,
-    this.image,
     this.url,
-    this.thumbnail
+    this.title,
+    this.thumbnail,
+    this.description,
   });
 
-  factory Preview.fromMap(Map snapshot) {
-    return Preview(
-      key: 'preview-${snapshot['key']}',
-      title: snapshot['title'],
-      description: snapshot['description'],
-      image: snapshot['image'],
-      url: snapshot['url'],
-      thumbnail: snapshot['thumbnail'],
-    );
-  }
+  @override
+  int get hashCode => url.hashCode;
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is Preview && key == other.key;
+    return identical(this, other) || other is Preview && url == other.url;
   }
 
   @override
-  int get hashCode => key.hashCode;
+  String toString() {
+    return 'Preview{ url: $url }';
+  }
 
 }

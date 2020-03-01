@@ -1,35 +1,43 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letsattend/models/person.dart';
 
 class User extends Person {
 
-  final String id;
-  final String email;
+  final String key;
   final String name;
+  final String email;
   final String photoUrl;
+
+  bool allowPhoto;
   final bool isAnonymous;
 
   User({
-    @required this.id,
-    this.email,
+    this.key,
     this.name,
+    this.email,
     this.photoUrl,
+    this.allowPhoto = true,
     this.isAnonymous = false,
   }) : super(name == null ? '#': name);
 
-  toJson() {
-    return {
-      'allowPhoto': true,
-      'email': email,
-      'userid': id,
-      'username': name,
-    };
+  toJson() => ({
+    'userid': key,
+    'username': name,
+    'email': email,
+    'allowPhoto': allowPhoto,
+  });
+
+  @override
+  int get hashCode => key.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || other is User && key == other.key;
   }
 
   @override
   String toString() {
-    return 'User: $id $name $email';
+    return 'User{ name: $name, email: $email }';
   }
+
 
 }

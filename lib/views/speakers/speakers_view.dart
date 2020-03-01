@@ -162,7 +162,7 @@ class SpeakersViewState extends State<SpeakersView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.SPEAKERS_ROUTE),
+      drawer: DrawerView(Routes.speakersRoute),
       body: customScroll,
       extendBodyBehindAppBar: true,
     );

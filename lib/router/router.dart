@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/router/synched_page.dart';
 import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/router/synched_page.dart';
+
+import 'package:letsattend/blocs/chat_bloc.dart';
+import 'package:letsattend/blocs/news_bloc.dart';
+import 'package:letsattend/blocs/schedule_bloc.dart';
+import 'package:letsattend/blocs/speakers_bloc.dart';
+
 import 'package:letsattend/views/auth/sign_in.dart';
 import 'package:letsattend/views/auth/sign_up.dart';
 import 'package:letsattend/views/auth/auth_view.dart';
@@ -14,35 +20,30 @@ import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:letsattend/views/schedule/schedule_view.dart';
 import 'package:letsattend/views/settings/setttings_view.dart';
 
-import 'package:letsattend/blocs/chat_bloc.dart';
-import 'package:letsattend/blocs/news_bloc.dart';
-import 'package:letsattend/blocs/schedule_bloc.dart';
-import 'package:letsattend/blocs/speakers_bloc.dart';
-
 class Router {
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.HOME_ROUTE:
+      case Routes.homeRoute:
         return SynchedPage<NewsBloc>(HomeView());
-      case Routes.AUTH_ROUTE:
+      case Routes.authRoute:
         return MaterialPageRoute(builder: (context) => AuthView());
-      case Routes.LOGIN_ROUTE:
+      case Routes.loginRoute:
         return MaterialPageRoute(builder: (context) => SignInView());
-      case Routes.SIGN_UP_ROUTE:
+      case Routes.signUpRoute:
         return MaterialPageRoute(builder: (context) => SignUpView());
-      case Routes.SPEAKERS_ROUTE:
+      case Routes.speakersRoute:
         return SynchedPage<SpeakersBloc>(SpeakersView());
-      case Routes.SCHEDULE_ROUTE:
+      case Routes.scheduleRoute:
         return SynchedPage<ScheduleBloc>(ScheduleView());
-      case Routes.NEWS_ROUTE:
+      case Routes.newsRoute:
         return SynchedPage<NewsBloc>(NewsView());
-      case Routes.CHAT_ROUTE:
+      case Routes.chatRoute:
         return SynchedPage<ChatBloc>(ChatView());
-      case Routes.SETTINGS_ROUTE:
+      case Routes.settingsRoute:
         return MaterialPageRoute(builder: (context) => SettingsView());
-      case Routes.ABOUT_ROUTE:
+      case Routes.aboutRoute:
         return MaterialPageRoute(builder: (context) => AboutView());
-      case Routes.PASSWORD_RESET_ROUTE:
+      case Routes.passwordResetRoute:
         return MaterialPageRoute(builder: (context) => PasswordResetView());
       default:
         return SynchedPage<NewsBloc>(HomeView());

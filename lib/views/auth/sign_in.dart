@@ -1,4 +1,4 @@
-import 'package:letsattend/models/auth/auth_code.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/shared/status.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/widgets/animation/liquid_bottom.dart';
@@ -15,8 +15,8 @@ import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/models/auth/auth_payload.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/models/auth.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 
 class SignInView extends StatefulWidget {
   @override
@@ -79,15 +79,15 @@ class SignInViewState extends State<SignInView> {
   }
 
   void _displayError(String errorCode){
-    if(errorCode == AuthCode.ERROR_NETWORK_REQUEST_FAILED) {
+    if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
       showDialog(context: context, child: buildAlert(context, message));
     }
-    else if(errorCode == AuthCode.ERROR_WRONG_PASSWORD)
+    else if(errorCode == Codes.wrongPassword)
       setState(() => passwordError = 'Contraseña incorrecta');
-    else if (errorCode == AuthCode.ERROR_INVALID_EMAIL)
+    else if (errorCode == Codes.invalidEmail)
       setState(() => emailError = 'El correo es inválido');
-    else if (errorCode == AuthCode.ERROR_USER_NOT_FOUND)
+    else if (errorCode == Codes.userNotFound)
       setState(() => emailError = 'El usuario no ha sido registrado');
     else{
       String message = 'No se ha podido iniciar sesión, intente con otra opción.';
@@ -174,7 +174,7 @@ class SignInViewState extends State<SignInView> {
     final auxButton = MaterialButton(
       child: auxText,
       onPressed: () {
-        Navigator.of(context).pushNamed(Routes.PASSWORD_RESET_ROUTE);
+        Navigator.of(context).pushNamed(Routes.passwordResetRoute);
       },
     );
 
@@ -193,7 +193,7 @@ class SignInViewState extends State<SignInView> {
         SizedBox(height: 16),
         passwordField,
         SizedBox(height: 16),
-        if(auth.status != AuthStatus.Authenticating)...[
+        if(auth.status != Status.Authenticating)...[
           submitButton,
           SizedBox(height: 16),
           Text('Ó puedes', textAlign: TextAlign.center),
@@ -258,7 +258,7 @@ class SignInViewState extends State<SignInView> {
     return Scaffold(
       appBar: appBar,
       body: SafeArea(child: container),
-      drawer: DrawerView(Routes.LOGIN_ROUTE),
+      drawer: DrawerView(Routes.loginRoute),
       resizeToAvoidBottomInset : false,
     );
 

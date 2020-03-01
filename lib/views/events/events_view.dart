@@ -1,37 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/blocs/favorites_bloc.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/events/event_widget/event_widget.dart';
-import 'package:provider/provider.dart';
 
-class EventsView extends StatefulWidget {
+class EventsView extends StatelessWidget {
 
   final List<Event> events;
-  EventsView({Key key, @required this.events}) : super(key: key);
+  final Function(Event) toggleFavorite;
 
-  @override
-  EventsViewState createState() => EventsViewState();
-}
-
-class EventsViewState extends State<EventsView> {
+  EventsView({Key key,
+    @required this.events,
+    @required this.toggleFavorite,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    FavoritesBloc favorites = locator<FavoritesBloc>();
-
     return ListView.builder(
-      itemCount: widget.events.length,
+      itemCount: events.length,
       padding: EdgeInsets.only(top: 4),
       itemBuilder: (context, index) => EventWidget(
-        event: widget.events.elementAt(index),
+        event: events.elementAt(index),
         isFirst: index == 0,
-        isLast: index == widget.events.length - 1,
+        isLast: index == events.length - 1,
         isOdd: index.isEven,
-        onFavoriteChanged: (Event event) async {
-          await favorites.setFavorite(event.key, !event.isFavorite);
-        }
+        toggleFavorite: toggleFavorite,
       ),
     );
 

@@ -1,15 +1,71 @@
-import 'package:letsattend/services/auth/auth_engine.dart';
-import 'package:letsattend/blocs/theme_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:letsattend/locator.dart';
+import 'package:letsattend/shared/engine.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsBloc extends ThemeBloc {
+class SettingsBloc with ChangeNotifier {
 
-  AuthEngine _authEngine = AuthEngine.Firebase;
+  final AuthBloc _userBloc = locator<AuthBloc>();
 
-  AuthEngine get authEngine => _authEngine;
+  /// TODO: There is just one login provider yet
+  Engine _engine = Engine.Firebase;
 
-  set authEngine(AuthEngine value) {
-    _authEngine = value;
+  Engine get engine => _engine;
+
+  set engine(Engine aurhEngine) {
+    _engine = aurhEngine;
     notifyListeners();
   }
 
+  bool _nightMode = false;
+
+  bool get nightMode => _nightMode;
+
+  set nightMode(nightMode) {
+    _nightMode = nightMode;
+    SharedPreferences.getInstance().then(saveTheme);
+  }
+
+  List<Color> _colors;
+
+  List<Color> get colors => _colors;
+
+  set colors(List<Color> colors) {
+    _colors = colors;
+    notifyListeners();
+  }
+
+  SettingsBloc() {
+    SharedPreferences.getInstance().then(loadTheme);
+  }
+
+  loadTheme(SharedPreferences prefs) {
+    if (prefs.getBool('nightMode') != null)
+      _nightMode = prefs.getBool('nightMode');
+    saveTheme(prefs);
+  }
+
+  saveTheme(SharedPreferences prefs) {
+    prefs.setBool('nightMode', _nightMode);
+    notifyListeners();
+  }
+
+  bool _allowPhoto = true;
+
+  bool get allowPhoto => _allowPhoto;
+
+  set allowPhoto(bool allowPhoto){
+    _allowPhoto = allowPhoto;
+    notifyListeners();
+    _userBloc.allowPhoto = _allowPhoto;
+  }
+
+  bool get isColorful {
+    return _colors == null || _colors.length <= 0;
+  }
+
+  Brightness get brightness {
+    return _nightMode ? Brightness.dark : Brightness.light;
+  }
 }

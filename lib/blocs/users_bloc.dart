@@ -1,4 +1,3 @@
-import 'dart:async' as UsersBloc;
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/user.dart';
 import 'package:letsattend/services/users_service.dart';

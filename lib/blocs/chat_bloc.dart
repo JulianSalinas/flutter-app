@@ -1,13 +1,13 @@
+import 'package:letsattend/blocs/orderable_bloc.dart';
 import 'package:letsattend/services/chat_service.dart';
-import 'package:letsattend/blocs/synched/orderable_bloc.dart';
 
 class ChatBloc extends OrderableBloc<ChatService> {
 
   @override
-  bool get descending => false;
+  get descending => false;
 
-  void sendMessage(dynamic message) async {
-    service.addChild(message);
+  Future<void> sendMessage(dynamic message) async {
+    await service.addChild(message);
   }
 
 }

@@ -1,7 +1,7 @@
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/news/news_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';

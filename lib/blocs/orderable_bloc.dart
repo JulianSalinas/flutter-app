@@ -1,15 +1,14 @@
 import 'dart:async';
-import 'package:letsattend/services/synched/synched_service.dart';
-import 'package:letsattend/blocs/synched/synched_bloc.dart';
+import 'package:letsattend/blocs/synched_bloc.dart';
+import 'package:letsattend/services/synched_service.dart';
 
 class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
 
-  List<dynamic> _collection;
+  final StreamController controller = StreamController();
 
-  List<dynamic> get collection => _collection;
-  
+  List<dynamic> collection;
+
   bool _descending = true;
-
   get descending => _descending;
 
   set descending(bool descending) {
@@ -17,10 +16,6 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
     notify(collection);
     notifyListeners();
   }
-  
-  StreamController _controller = StreamController();
-
-  StreamController get controller => _controller;
 
   StreamSubscription _subscription;
   
@@ -28,25 +23,25 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
     _subscription = service.stream.listen(update);
   }
   
-  void update(List<dynamic> collection){
-    _collection = collection;
+  void update(List<dynamic> listened){
+    collection = listened;
     notify(collection);
   }
 
   void notify(dynamic collection) {
-    _controller.add(descending
+    controller.add(descending
         ? collection.toList()
         : collection.reversed.toList(),
     );
   }
 
   Stream<dynamic> get stream {
-    return _controller.stream;
+    return controller.stream;
   }
 
   @override
   void dispose() {
-    _controller.close();
+    controller.close();
     _subscription.cancel();
     super.dispose();
   }

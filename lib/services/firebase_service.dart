@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:letsattend/services/synched/database_service.dart';
+import 'package:letsattend/services/database_service.dart';
 
 abstract class FirebaseService<T> extends DatabaseService<T> {
 
@@ -42,7 +42,7 @@ abstract class FirebaseService<T> extends DatabaseService<T> {
     controller.add(collection);
   }
 
-  void addChild(dynamic data) async {
+  Future<void> addChild(dynamic data) async {
     final reference = database.child(path);
     await reference.push().set(data);
   }
@@ -54,4 +54,5 @@ abstract class FirebaseService<T> extends DatabaseService<T> {
     _removeSubscription.cancel();
     super.close();
   }
+
 }

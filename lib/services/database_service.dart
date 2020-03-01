@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:letsattend/locator.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:letsattend/services/auth/auth_with_firebase.dart';
-import 'package:letsattend/services/synched/synched_service.dart';
+
+import 'package:letsattend/locator.dart';
+import 'package:letsattend/services/auth_with_firebase.dart';
+import 'package:letsattend/services/synched_service.dart';
 
 abstract class DatabaseService<T> extends SynchedService<T> {
 
@@ -14,16 +15,12 @@ abstract class DatabaseService<T> extends SynchedService<T> {
 
   Future<T> castSnapshot(DataSnapshot snapshot);
 
-  DateTime castMilliseconds(int milliseconds){
+  DateTime castMilliseconds(int milliseconds) {
     return DateTime.fromMillisecondsSinceEpoch(milliseconds);
   }
 
-  Map getData(DataSnapshot snapshot) {
-    return { 'key': snapshot.key, ...snapshot.value};
-  }
-
   @override
-  void close() => controller.close();
+  void close() => controller?.close();
 
   @override
   Stream<List<T>> get stream => controller.stream;

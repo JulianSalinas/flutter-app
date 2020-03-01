@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/services/auth/auth_engine.dart';
+import 'package:letsattend/shared/engine.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/views/settings/section_title.dart';
@@ -23,31 +23,72 @@ class _SettingsViewState extends State<SettingsView> {
 
     final body = ListView(
       children: <Widget>[
-        SectionTitle('Autenticación'),
-        ListTile(
-          title: Text('Proveedor'),
-          trailing: Container(
-            height: 24,
-            child: ToggleButtons(
-              fillColor: Colors.red,
-              selectedColor: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text('Firebase'),
+        SectionTitle('Personal'),
+        InkWell(
+          child: Container(
+            child: ListTile(
+              title: Text('Usar foto de perfil'),
+              subtitle: Text('Permite a la aplicación usar la foto de perfil si iniciaste con Google.'),
+              trailing: Switch(
+                value: settings.allowPhoto,
+                onChanged: (value) => settings.allowPhoto = value,
+              ),
+            ),
+            padding: EdgeInsets.fromLTRB(0, 16, 0, 8),
+          ),
+          onTap: () => settings.allowPhoto = !settings.allowPhoto,
+        ),
+        Divider(height: 1,),
+        InkWell(
+          child: Container(
+            child: ListTile(
+              title: Text('Modo oscuro'),
+              subtitle: Text('Tema para sitios con poca luz. Consume menos energía.'),
+              trailing: Switch(
+                value: settings.nightMode,
+                onChanged: (value) => settings.nightMode = value,
+              ),
+            ),
+            padding: EdgeInsets.fromLTRB(0, 8, 0, 16),
+          ),
+          onTap: () => settings.nightMode = !settings.nightMode,
+        ),
+        SectionTitle('Avanzado'),
+        InkWell(
+          onTap: () {
+            final engine = settings.engine == Engine.Firebase
+                ? Engine.Amazon
+                : Engine.Firebase;
+            settings.engine = engine;
+          },
+          child: Container(
+            child: ListTile(
+              title: Text('Autenticación'),
+              subtitle: Text('Proveedor de datos'),
+              trailing: Container(
+                height: 32,
+                child: ToggleButtons(
+                  fillColor: Colors.red,
+                  selectedColor: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('Firebase'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('Amazon'),
+                    ),
+                  ],
+                  onPressed: (int index) => settings.engine =
+                      index == 0 ? Engine.Firebase : Engine.Amazon,
+                  isSelected: [
+                    settings.engine == Engine.Firebase,
+                    settings.engine == Engine.Amazon
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text('Amazon'),
-                ),
-              ],
-              onPressed: (int index) => settings.authEngine =
-                  index == 0 ? AuthEngine.Firebase : AuthEngine.Amazon,
-              isSelected: [
-                settings.authEngine == AuthEngine.Firebase,
-                settings.authEngine == AuthEngine.Amazon
-              ],
+              ),
             ),
           ),
         ),
@@ -67,7 +108,7 @@ class _SettingsViewState extends State<SettingsView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.SETTINGS_ROUTE),
+      drawer: DrawerView(Routes.settingsRoute),
       appBar: appBar,
       body: body,
     );

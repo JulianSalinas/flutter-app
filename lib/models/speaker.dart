@@ -1,21 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:letsattend/models/person.dart';
 
 class Speaker extends Person {
-  final String key;
 
+  final String key;
   final String name;
   final String about;
   final String country;
   final String university;
 
   Speaker({
-    @required this.key,
-    @required this.name,
+    this.key,
+    this.name,
     this.about,
     this.country,
     this.university,
   }) : super(name == null ? '#' : name);
+
+  @override
+  int get hashCode => key.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -23,10 +25,8 @@ class Speaker extends Person {
   }
 
   @override
-  int get hashCode => key.hashCode;
-
-  @override
   String toString() {
-    return 'Speaker: ${name ?? ''} ${country ?? ''} ${university ?? ''}';
+    return 'Speaker{ key: $key, name: $name, country: $country }';
   }
+
 }

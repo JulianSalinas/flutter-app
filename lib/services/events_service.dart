@@ -5,9 +5,9 @@ import 'package:letsattend/models/user.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/models/speaker.dart';
 
+import 'package:letsattend/services/firebase_service.dart';
 import 'package:letsattend/services/speakers_service.dart';
 import 'package:letsattend/services/favorites_service.dart';
-import 'package:letsattend/services/synched/firebase_service.dart';
 import 'package:firebase_database/firebase_database.dart' show DataSnapshot;
 
 class EventsService extends FirebaseService<Event> {
@@ -27,7 +27,7 @@ class EventsService extends FirebaseService<Event> {
     final reference = database
         .child('edepa6')
         .child('favorites')
-        .child(user.id);
+        .child(user.key);
 
     _favoriteAddedSubscription = reference
         .onChildAdded
@@ -59,21 +59,22 @@ class EventsService extends FirebaseService<Event> {
   @override
   Future<Event> castSnapshot(DataSnapshot snapshot) async {
 
-    final data = getData(snapshot);
+    final data = snapshot.value;
     Map people = data['people'] ?? {};
 
     List<Speaker> speakers = await Future.wait(people.keys.map(getSpeaker));
-    final isFavorite = await _favoritesService.isFavorite(data['key']);
+    final isFavorite = await _favoritesService.isFavorite(snapshot.key);
 
     return Event(
-      key: data['key'],
+      key: snapshot.key,
       code: data['id'],
-      title: data['title'],
       type: data['eventype'],
-      location: data['location'],
+      title: data['title'],
       description: data['briefSpanish'],
       start: castMilliseconds(data['start']),
       end: castMilliseconds(data['end']),
+      image: 'assets/tec_edificio_a4.jpg',
+      location: data['location'],
       speakers: speakers,
       isFavorite: isFavorite,
     );
@@ -86,6 +87,5 @@ class EventsService extends FirebaseService<Event> {
     _favoriteRemovedSubscription.cancel();
     super.close();
   }
-
 
 }

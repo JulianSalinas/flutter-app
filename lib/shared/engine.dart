@@ -1,4 +1,4 @@
-enum AuthEngine {
+enum Engine {
   Amazon,
   Firebase,
 }

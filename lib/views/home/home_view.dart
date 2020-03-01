@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/home/home_carousel.dart';
 import 'package:letsattend/views/home/home_circle.dart';
@@ -54,30 +54,30 @@ class HomeViewState extends State<HomeView> {
           child: HomeCircle(
             text: 'Cronograma',
             icon: Icon(Ionicons.md_calendar, size: 28),
-            onTap: () => Navigator.of(context).pushReplacementNamed(Routes.SCHEDULE_ROUTE),
+            onTap: () => Navigator.of(context).pushReplacementNamed(Routes.scheduleRoute),
           ),
         ),
         HomeCircle(
           text: 'Expositores',
           icon: Icon(Icons.people, size: 28,),
-          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.SPEAKERS_ROUTE),
+          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.speakersRoute),
         ),
         HomeCircle(
           text: 'Mensajes',
           icon: Icon(Entypo.chat, size: 28,),
-          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.CHAT_ROUTE),
+          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.chatRoute),
         ),
         HomeCircle(
           text: 'Configuración',
           icon: Icon(MaterialCommunityIcons.settings, size: 28,),
-          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.SETTINGS_ROUTE),
+          onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
         ),
         Container(
           margin: EdgeInsets.only(right: 12),
           child: HomeCircle(
             text: 'Contácto',
             icon: Icon(Icons.mail, size: 28,),
-            onTap: () => Navigator.of(context).pushReplacementNamed(Routes.ABOUT_ROUTE),
+            onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
           ),
         ),
       ],
@@ -145,7 +145,7 @@ class HomeViewState extends State<HomeView> {
     );
 
     return Scaffold(
-      drawer: DrawerView(Routes.HOME_ROUTE),
+      drawer: DrawerView(Routes.homeRoute),
       body: SafeArea(child: paddedContent),
     );
 

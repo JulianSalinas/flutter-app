@@ -20,4 +20,17 @@ class Person {
     return SharedUtils.getInitialsFrom(name);
   }
 
+  @override
+  int get hashCode => name.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) || other is Person && name == other.name;
+  }
+
+  @override
+  String toString() {
+    return 'Person{ name: $name }';
+  }
+
 }

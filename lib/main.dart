@@ -1,18 +1,16 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/blocs/favorites_bloc.dart';
-import 'package:letsattend/views/events/event_widget/event_favorite.dart';
-
 import 'package:provider/provider.dart';
+
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/router/router.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/views/home/home_view.dart';
-import 'package:letsattend/views/auth/auth_view.dart';
-import 'package:letsattend/blocs/auth/auth_bloc.dart';
-import 'package:letsattend/services/auth/auth_status.dart';
+import 'package:letsattend/shared/status.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
+import 'package:letsattend/views/home/home_view.dart';
+import 'package:letsattend/views/auth/auth_view.dart';
 
 ///  main()
 ///  |- LetsAttendApp
@@ -108,9 +106,9 @@ class LetsAttendEntry extends StatelessWidget {
       child: HomeView(),
     );
 
-    return auth.status == AuthStatus.Uninitialized
+    return auth.status == Status.Uninitialized
         ? loadView
-        : auth.status == AuthStatus.Authenticated
+        : auth.status == Status.Authenticated
         ? homeView
         : AuthView();
   }
