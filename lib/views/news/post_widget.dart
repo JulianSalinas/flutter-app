@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/widgets/touchable/touchable_preview.dart';
 
 class PostWidget extends StatelessWidget {
 
@@ -33,7 +32,7 @@ class PostWidget extends StatelessWidget {
       children: <Widget>[
         datetime,
         SizedBox(height: 8),
-        Text(post.title ?? 'bugtitle', style: Typography.englishLike2018.title),
+        Text(post.title ?? 'bugtitle', style: Typography.englishLike2018.headline6),
         SizedBox(height: 4,),
         Text(post.description ?? 'bugdescription'),
         SizedBox(height: 8,),

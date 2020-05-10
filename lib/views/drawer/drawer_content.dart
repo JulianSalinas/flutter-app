@@ -23,10 +23,22 @@ class DrawerContent extends StatelessWidget {
     AuthBloc auth = Provider.of<AuthBloc>(context);
     SettingsBloc settings = Provider.of<SettingsBloc>(context);
 
+    final pushNamed = (String route) {
+      Navigator.pop(context);
+      if (this.route != route) Navigator.pushNamed(context, route);
+    };
+
     final pushReplacement = (String route) {
       Navigator.pop(context);
-      if (this.route != route)
-        Navigator.pushReplacementNamed(context, route);
+      if (this.route != route) Navigator.pushReplacementNamed(context, route);
+    };
+
+    final pushTopReplacement = (String route) {
+      Navigator.pop(context);
+      if (this.route != route) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushNamed(context, route);
+      }
     };
 
     final closeFunction = () async {
@@ -82,53 +94,53 @@ class DrawerContent extends StatelessWidget {
         : closeContainer;
 
     final authOption = DrawerOption(
-      icon: MaterialCommunityIcons.login_variant,
+      icon: Icon(MaterialCommunityIcons.login_variant),
       title: 'Ingresar',
       onTap: () => pushReplacement(Routes.authRoute),
     );
 
     final homeOption = DrawerOption(
-      icon: Icons.home,
+      icon: Icon(Icons.home),
       title: 'Principal',
       onTap: () => pushReplacement(Routes.homeRoute),
     );
 
     final scheduleOption = DrawerOption(
-      icon: MaterialCommunityIcons.calendar,
+      icon: Icon(MaterialCommunityIcons.calendar),
       title: 'Cronograma',
-      onTap: () => pushReplacement(Routes.scheduleRoute),
+      onTap: () => pushTopReplacement(Routes.scheduleRoute),
     );
 
     final chatOption = DrawerOption(
-      icon: Icons.message,
+      icon: Icon(Icons.message),
       title: 'Chat',
       badge: '+15',
-      onTap: () => pushReplacement(Routes.chatRoute),
+      onTap: () => pushTopReplacement(Routes.chatRoute),
     );
 
     final newsOption = DrawerOption(
-      icon: Icons.notifications,
+      icon: Icon(Icons.notifications),
       title: 'Noticias',
       badge: '+5',
-      onTap: () => pushReplacement(Routes.newsRoute),
+      onTap: () => pushTopReplacement(Routes.newsRoute),
     );
 
     final speakersOption = DrawerOption(
-      icon: Icons.people,
+      icon: Icon(Icons.people),
       title: 'Expositores',
-      onTap: () => pushReplacement(Routes.speakersRoute),
+      onTap: () => pushTopReplacement(Routes.speakersRoute),
     );
 
     final aboutOption = DrawerOption(
-      icon: Icons.email,
+      icon: Icon(Icons.email),
       title: 'Acerca de',
-      onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
+      onTap: () => pushTopReplacement(Routes.aboutRoute),
     );
 
     final settingsOption = DrawerOption(
-      icon: Icons.settings,
+      icon: Icon(Icons.settings),
       title: 'Configuración',
-      onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
+      onTap: () => pushNamed(Routes.settingsRoute),
     );
 
     final userLoggedOptions = [

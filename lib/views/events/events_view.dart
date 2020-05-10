@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/events/event_widget/event_widget.dart';
 

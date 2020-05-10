@@ -28,7 +28,10 @@ class DetailHeader extends StatelessWidget {
 
     final date = Hero(
         tag: 'event-title-${event.key}',
-        child: Text('9:40 AM - 12:10 PM', style: Typography.englishLike2018.title,)
+        child: Text(
+          '9:40 AM - 12:10 PM',
+          style: Typography.englishLike2018.headline6,
+        )
     );
 
     final location = Row(

@@ -15,7 +15,6 @@ import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/models/auth.dart';
 import 'package:letsattend/blocs/auth_bloc.dart';
 
 class SignInView extends StatefulWidget {
@@ -167,7 +166,7 @@ class SignInViewState extends State<SignInView> {
     final auxText = Text(
       '¿Has olvidado tu contraseña?',
       style: TextStyle(
-        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
       ),
     );
 

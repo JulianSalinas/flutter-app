@@ -1,19 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:letsattend/locator.dart';
-import 'package:letsattend/models/post.dart';
-import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
-import 'package:letsattend/blocs/news_bloc.dart';
-import 'package:letsattend/views/news/news_view.dart';
-import 'package:letsattend/views/news/post_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
-import 'package:letsattend/router/router.dart';
-import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/views/drawer/drawer_view.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 
 

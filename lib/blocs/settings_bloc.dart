@@ -13,8 +13,8 @@ class SettingsBloc with ChangeNotifier {
 
   Engine get engine => _engine;
 
-  set engine(Engine aurhEngine) {
-    _engine = aurhEngine;
+  set engine(Engine authEngine) {
+    _engine = authEngine;
     notifyListeners();
   }
 

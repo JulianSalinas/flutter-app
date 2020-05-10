@@ -28,7 +28,7 @@ class SpeakersService extends FirebaseService<Speaker> {
       key: snapshot.key,
       name: data['completeName'],
       about: data['about'],
-      country: data['country'],
+      country: data['personalTitle'],
       university: data['university'],
     );
   }

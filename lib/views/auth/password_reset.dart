@@ -110,7 +110,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
     final auxText = Text(
       'Recordé mi contraseña',
       style: TextStyle(
-        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
       ),
     );
 

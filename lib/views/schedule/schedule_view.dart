@@ -128,7 +128,7 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
         return <Widget>[
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            child: appBar,
+            sliver: appBar,
           ),
         ];
       },

@@ -1,23 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/services/news_service.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/home/home_carousel.dart';
 import 'package:letsattend/views/home/home_circle.dart';
-import 'package:letsattend/views/home/home_option.dart';
-import 'package:letsattend/views/news/news_view.dart';
 import 'package:letsattend/views/news/post_widget.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
-import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/blocs/settings_bloc.dart';
 
 class HomeView extends StatefulWidget {
 
@@ -54,18 +49,18 @@ class HomeViewState extends State<HomeView> {
           child: HomeCircle(
             text: 'Cronograma',
             icon: Icon(Ionicons.md_calendar, size: 28),
-            onTap: () => Navigator.of(context).pushReplacementNamed(Routes.scheduleRoute),
+            onTap: () => Navigator.of(context).pushNamed(Routes.scheduleRoute),
           ),
         ),
         HomeCircle(
           text: 'Expositores',
           icon: Icon(Icons.people, size: 28,),
-          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.speakersRoute),
+          onTap: () => Navigator.of(context).pushNamed(Routes.speakersRoute),
         ),
         HomeCircle(
           text: 'Mensajes',
           icon: Icon(Entypo.chat, size: 28,),
-          onTap: () => Navigator.of(context).pushReplacementNamed(Routes.chatRoute),
+          onTap: () => Navigator.of(context).pushNamed(Routes.chatRoute),
         ),
         HomeCircle(
           text: 'Configuración',
@@ -120,10 +115,10 @@ class HomeViewState extends State<HomeView> {
     final container = CustomScrollView(
       slivers: <Widget>[
 //        SliverToBoxAdapter(child: logoContainer),
-        SliverToBoxAdapter(child: optionsTitle),
-        SliverToBoxAdapter(child: optionsContainer),
-        SliverToBoxAdapter(child: divider),
-        SliverToBoxAdapter(child: newsTitle),
+//        SliverToBoxAdapter(child: optionsTitle),
+//        SliverToBoxAdapter(child: optionsContainer),
+//        SliverToBoxAdapter(child: divider),
+//        SliverToBoxAdapter(child: newsTitle),
         SliverToBoxAdapter(child: HomeCarousel()),
 //        StreamBuilder(
 //          stream: news.stream,
@@ -140,13 +135,35 @@ class HomeViewState extends State<HomeView> {
     );
 
     final paddedContent = Padding(
-      padding: EdgeInsets.only(top: 32),
+      padding: EdgeInsets.only(top: 16),
       child: container,
+    );
+
+    final popSnackBar = SnackBar(
+      duration: Duration(seconds: 2),
+      content: Text("Presione otra vez para cerrar la aplicación"),
+    );
+
+    final willPopScope = WillPopScope(
+      child: paddedContent,
+      onWillPop: () async {
+        Scaffold.of(context).showSnackBar(popSnackBar);
+        return false;
+      },
+    );
+
+    final appBar = AppBar(
+      title: FormalText('EDEPA'),
+      centerTitle: true,
+//      flexibleSpace: ColoredFlex(),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
     );
 
     return Scaffold(
       drawer: DrawerView(Routes.homeRoute),
-      body: SafeArea(child: paddedContent),
+      body: SafeArea(child: willPopScope),
+      appBar: appBar,
     );
 
   }

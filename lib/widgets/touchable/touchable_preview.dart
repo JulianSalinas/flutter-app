@@ -2,12 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
-import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/models/preview.dart';
 import 'package:letsattend/widgets/fullscreen/full_web_view.dart';
 import 'package:provider/provider.dart';
-
-import 'touchable_image.dart';
 
 class TouchablePreview extends StatelessWidget {
 

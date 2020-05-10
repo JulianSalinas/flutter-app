@@ -27,9 +27,9 @@ class SpeakerWidget extends StatelessWidget {
       child: initials,
     );
 
-    final subtitle = speaker.university != null
-        ? speaker.university
-        : 'Desde ${speaker.country}';
+    final subtitle = speaker.country != null
+        ? speaker.country
+        : 'Desde ${speaker.about}';
 
     final subtitleText = Text(
       subtitle,

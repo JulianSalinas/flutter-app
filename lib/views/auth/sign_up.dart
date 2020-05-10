@@ -15,7 +15,6 @@ import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/models/auth.dart';
 import 'package:letsattend/blocs/auth_bloc.dart';
 
 class SignUpView extends StatefulWidget {
@@ -159,7 +158,7 @@ class SignUpViewState extends State<SignUpView> {
     final auxText = Text(
       'Ya tengo una cuenta',
       style: TextStyle(
-        color: Theme.of(context).textTheme.body1.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
       ),
     );
 

@@ -3,7 +3,7 @@ import 'package:letsattend/views/drawer/drawer_badge.dart';
 
 class DrawerOption extends StatelessWidget {
 
-  final IconData icon;
+  final Icon icon;
   final String title;
   final String badge;
   final Function onTap;
@@ -20,7 +20,7 @@ class DrawerOption extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final content = Row(children: [
-      Icon(icon),
+      icon,
       SizedBox(width: 12.0),
       Text(title, style: TextStyle(fontSize: 16.0)),
       Spacer(),
