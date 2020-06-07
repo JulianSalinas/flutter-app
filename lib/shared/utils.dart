@@ -3,6 +3,10 @@ import 'package:diacritic/diacritic.dart';
 
 class SharedUtils {
 
+  /// Regex to recognize Urls
+  static final RegExp exp = new RegExp(
+      r"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)");
+
   /// Returns the first two initials from a name or
   /// just the first one if it is just the stack name
   /// Ej. 'Julian Salinas Rojas' -> JS
@@ -42,6 +46,12 @@ class SharedUtils {
 
     var words = regex.allMatches(normFilter).map((word) => word.group(0));
     return words.any((word) => normContent.contains(word));
+  }
+
+  /// Returns a match in a given text
+  static RegExpMatch findUrl(String text) {
+    Iterable<RegExpMatch> matches = exp.allMatches(text);
+    return matches.length == 0 ? null : matches.first;
   }
 
 }

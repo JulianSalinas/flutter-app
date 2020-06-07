@@ -10,7 +10,7 @@ class TouchablePreview extends StatelessWidget {
 
   final Preview preview;
 
-  const TouchablePreview({
+  TouchablePreview({
     Key key,
     @required this.preview,
   }) : super(key: key);
@@ -30,18 +30,15 @@ class TouchablePreview extends StatelessWidget {
 
     final scheme = Provider.of<SettingsBloc>(context);
 
-//    if(preview.image != null)
-//      return TouchableImage(imageUrl: preview.image);
-
     final thumbnail = preview.thumbnail != null ? Image.network(
       preview.thumbnail,
-      width: 36,
-      height: 36,
+      width: 48,
+      height: 48,
       fit: BoxFit.cover,
     ): SizedBox.shrink();
 
     final title = Text(
-      preview.title,
+      preview.title ?? 'No title',
       style: TextStyle(fontWeight: FontWeight.bold),
     );
 

@@ -1,5 +1,5 @@
 class Preview {
-
+  
   final String url;
   final String title;
   final String thumbnail;
@@ -18,6 +18,12 @@ class Preview {
   @override
   bool operator ==(Object other) {
     return identical(this, other) || other is Preview && url == other.url;
+  }
+
+  bool isImage() {
+    final exp = r"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)";
+    final regex = new RegExp(exp);
+    return url != null && regex.hasMatch(url);
   }
 
   @override

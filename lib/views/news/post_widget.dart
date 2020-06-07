@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:letsattend/models/post.dart';
+import 'package:letsattend/models/post.dart';
+import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/views/browser/browser_view.dart';
+import 'package:letsattend/widgets/touchable/touchable_image.dart';
+import 'package:letsattend/widgets/touchable/touchable_preview.dart';
 
 class PostWidget extends StatelessWidget {
-
   final Post post;
 
   PostWidget({
@@ -14,29 +20,42 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final timeAgoTextStyle = TextStyle(
+      fontSize: 12,
+      color: SharedColors.peterRiver,
+    );
 
-    final datetime = Text(
-      'Hace 3 horas',
-      style: TextStyle(
-        fontSize: 12,
-        color: SharedColors.peterRiver,
+    final timeAgoText = Text(
+      Jiffy(post.timestamp).fromNow(),
+      style: timeAgoTextStyle,
+    );
+
+    final description = Linkify(
+      text: post.description,
+      onOpen: (params) => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BrowserView(initialUrl: params.url)),
       ),
     );
-//
-//    final preview = post.preview != null ?
-//      TouchablePreview(preview: post.preview) :
-//      SizedBox.shrink();
+
+    final preview = post.preview != null
+        ? post.preview.isImage()
+            ? TouchableImage(imageUrl: post.preview.url)
+            : TouchablePreview(preview: post.preview)
+        : SizedBox.shrink();
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        datetime,
+      children: [
+        timeAgoText,
         SizedBox(height: 8),
-        Text(post.title ?? 'bugtitle', style: Typography.englishLike2018.headline6),
-        SizedBox(height: 4,),
-        Text(post.description ?? 'bugdescription'),
-        SizedBox(height: 8,),
-//        preview ?? null,
+        Text(post.title ?? 'bugtitle',
+            style: Typography.englishLike2018.headline6),
+        SizedBox(height: 4),
+        description,
+        SizedBox(height: 8),
+        preview,
       ],
     );
 
@@ -54,8 +73,8 @@ class PostWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         decoration,
-        SizedBox(width: 8,),
-        Expanded(child: content,)
+        SizedBox(width: 8),
+        Expanded(child: content)
       ],
     );
 
@@ -64,7 +83,5 @@ class PostWidget extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16),
       child: container,
     );
-
   }
-
 }
