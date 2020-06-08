@@ -8,6 +8,7 @@ class User extends Person {
   final String photoUrl;
 
   bool allowPhoto;
+  bool isAdmin;
   final bool isAnonymous;
 
   User({
@@ -16,6 +17,7 @@ class User extends Person {
     this.email,
     this.photoUrl,
     this.allowPhoto = true,
+    this.isAdmin = true,
     this.isAnonymous = false,
   }) : super(name == null ? '#': name);
 

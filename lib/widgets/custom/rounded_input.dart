@@ -9,18 +9,24 @@ class RoundedInput extends StatelessWidget {
   final bool obscureText;
   final bool multiline;
 
+  final int minLines;
+  final int maxLines;
   final Widget leading;
   final String hintText;
   final String errorText;
   final Function onChanged;
+  final Function validator;
   final TextInputType keyboardType;
   final TextEditingController controller;
 
   RoundedInput({
+    this.minLines = 1,
+    this.maxLines = 10,
     this.leading,
     this.hintText,
     this.errorText,
     this.onChanged,
+    this.validator,
     this.keyboardType,
     this.controller,
     this.multiline = false,
@@ -58,7 +64,7 @@ class RoundedInput extends StatelessWidget {
       enabledBorder: border,
       focusedBorder: border,
       errorBorder: border,
-      prefixIcon: prefix,
+      prefixIcon: leading == null ? null : prefix,
       hintText: hintText,
       errorText: errorText,
       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -66,15 +72,15 @@ class RoundedInput extends StatelessWidget {
 
     final textField = TextFormField(
       cursorColor: settings.nightMode ? Colors.white : Colors.black,
-      minLines: 1,
-      maxLines: multiline ? 3 : 1,
+      minLines: minLines,
+      maxLines: maxLines,
       decoration: decoration,
       onChanged: onChanged,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      validator: validator,
     );
-
 
     return Container(
       child: textField,

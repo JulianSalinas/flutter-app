@@ -7,96 +7,110 @@ import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/widgets/common/browser_view.dart';
 import 'package:letsattend/widgets/common/preview_image.dart';
 import 'package:letsattend/widgets/common/preview_link.dart';
+import 'package:letsattend/widgets/custom/colored_flex.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
+import 'package:letsattend/widgets/custom/rounded_button.dart';
+import 'package:letsattend/widgets/custom/rounded_input.dart';
 
-class PostWidget extends StatelessWidget {
-
-  final Post post;
-
-  PostWidget({
+class CreatePost extends StatefulWidget {
+  const CreatePost({
     Key key,
-    @required this.post,
-  }) : super(key: key ?? Key(post.key));
+  }) : super(key: key);
 
-  openUrl(BuildContext context, LinkableElement params) {
-    final browser = BrowserView(initialUrl: params.url);
-    final route = MaterialPageRoute(builder: (_) => browser);
-    Navigator.push(context, route);
-  }
+  @override
+  _CreatePostState createState() => _CreatePostState();
+}
+
+class _CreatePostState extends State<CreatePost> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  //
+  // Note: This is a `GlobalKey<FormState>`,
+  // not a GlobalKey<MyCustomFormState>.
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
+    final form =  Form(
+      key: _formKey,
+      autovalidate: true,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
 
-    final timeAgoStyle = TextStyle(
-      fontSize: 12,
-      color: SharedColors.peterRiver,
+            Text('Título'),
+            RoundedInput(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16,),
+
+            Text('Acceso URL'),
+            RoundedInput(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16,),
+
+            Text('Contenido'),
+            RoundedInput(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              minLines: 10,
+            ),
+
+            SizedBox(height: 16,),
+
+            RoundedButton(
+              'Finalizar',
+              color: SharedColors.alizarin,
+              onPressed: () {
+                // Validate returns true if the form is valid, otherwise false.
+                if (_formKey.currentState.validate()) {
+                  // If the form is valid, display a snackbar. In the real world,
+                  // you'd often call a server or save the information in a database.
+
+                  Scaffold
+                      .of(context)
+                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
 
-    final timeAgoText = Text(
-      Jiffy(post.timestamp).fromNow(),
-      style: timeAgoStyle,
+    final body = Container(
+      child: form,
     );
 
-    final title = post.title != null
-        ? Text(
-            post.title ?? 'bugtitle',
-            style: Typography.englishLike2018.headline6,
-          )
-        : SizedBox.shrink();
-
-    final description = post.description != null
-        ? Linkify(
-            text: post.description,
-            onOpen: (params) => openUrl(context, params),
-          )
-        : SizedBox.shrink();
-
-    final preview = post.preview != null
-        ? post.preview.isImage()
-            ? PreviewImage(imageUrl: post.preview.url)
-            : PreviewLink(preview: post.preview)
-        : SizedBox.shrink();
-
-    final content = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        timeAgoText,
-        SizedBox(height: 8),
-        if (post.title != null) ...[
-          title,
-          SizedBox(height: 4),
-        ],
-        if (post.description != null) ...[
-          description,
-          SizedBox(height: 8),
-        ],
-        preview,
-      ],
+    final appBar = AppBar(
+      title: FormalText('Nueva Noticia'),
+      centerTitle: true,
+      flexibleSpace: ColoredFlex(),
     );
 
-    final decoration = BoxDecoration(
-      color: SharedColors.peterRiver,
-      shape: BoxShape.circle,
+    return Scaffold(
+      appBar: appBar,
+      body: body,
     );
 
-    final decorationContainer = Container(
-      width: 6,
-      height: 6,
-      margin: EdgeInsets.only(top: 4),
-      decoration: decoration,
-    );
-
-    final container = Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        decorationContainer,
-        SizedBox(width: 8),
-        Expanded(child: content),
-      ],
-    );
-
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: container,
-    );
   }
 }

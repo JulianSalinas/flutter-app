@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/blocs/users_bloc.dart';
 import 'package:letsattend/models/post.dart';
+import 'package:letsattend/models/user.dart';
 import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/blocs/news_bloc.dart';
+import 'package:letsattend/views/drawer/drawer_user.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
+import 'package:letsattend/views/news/create_post.dart';
 import 'package:letsattend/views/news/post_widget.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
@@ -18,10 +23,16 @@ class NewsView extends StatefulWidget {
 /// A simple colored screen with a centered text
 class NewsViewState extends State<NewsView> {
 
+  addButtonPressed(BuildContext context) {
+    final route = MaterialPageRoute(builder: (_) => CreatePost());
+    Navigator.push(context, route);
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final news = Provider.of<NewsBloc>(context);
+    final auth = Provider.of<AuthBloc>(context);
 
     final streamBuilder = StreamBuilder(
       stream: news.stream,
@@ -40,10 +51,17 @@ class NewsViewState extends State<NewsView> {
       slivers: <Widget>[sliverAppBar, streamBuilder],
     );
 
+    final addButton = FloatingActionButton.extended(
+      icon: Icon(Icons.add),
+      label: Text('NUEVA'),
+      onPressed: () => addButtonPressed(context),
+    );
+
     return Scaffold(
       drawer: DrawerView(Routes.newsRoute),
       body: customScroll,
       extendBodyBehindAppBar: true,
+      floatingActionButton: auth.currentUser.isAdmin ? addButton : SizedBox.shrink(),
     );
 
   }

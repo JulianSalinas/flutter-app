@@ -4,7 +4,7 @@ import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/views/drawer/drawer_option.dart';
 import 'package:letsattend/views/settings/section_title.dart';
-import 'package:letsattend/views/browser/browser_view.dart';
+import 'package:letsattend/widgets/common/browser_view.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
