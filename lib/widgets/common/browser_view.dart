@@ -11,7 +11,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class BrowserView extends StatefulWidget {
 
   final initialUrl;
-  const BrowserView({Key key, this.initialUrl}) : super(key: key);
+  BrowserView({Key key, this.initialUrl}) : super(key: key);
 
   @override
   _BrowserViewState createState() => _BrowserViewState();

@@ -3,26 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/models/preview.dart';
-import 'package:letsattend/widgets/fullscreen/full_web_view.dart';
+import 'package:letsattend/widgets/touchable/browser_view.dart';
 import 'package:provider/provider.dart';
 
-class TouchablePreview extends StatelessWidget {
+class PreviewLink extends StatelessWidget {
 
   final Preview preview;
 
-  TouchablePreview({
+  PreviewLink({
     Key key,
     @required this.preview,
   }) : super(key: key);
 
   openUrl(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FullWebView(
-        title: preview.title,
-        url: preview.url,
-      )),
-    );
+    final browser = BrowserView(initialUrl: preview.url);
+    final route = MaterialPageRoute(builder: (_) => browser);
+    Navigator.push(context, route);
   }
 
   @override

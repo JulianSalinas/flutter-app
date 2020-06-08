@@ -1,22 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/widgets/fullscreen/full_image.dart';
+import 'package:letsattend/widgets/touchable/opened_image.dart';
 
-
-class TouchableImage extends StatelessWidget {
+class PreviewImage extends StatelessWidget {
 
   final String imageUrl;
 
-  const TouchableImage({
+  PreviewImage({
     Key key,
     @required this.imageUrl,
   }) : super(key: key);
 
   openImage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FullImage(imageUrl)),
-    );
+    final route = MaterialPageRoute(builder: (_) => OpenedImage(imageUrl));
+    Navigator.push(context, route);
   }
 
   @override
@@ -47,7 +44,5 @@ class TouchableImage extends StatelessWidget {
     );
 
     return Stack(children: [heroImage, imageOverlay]);
-
   }
-
 }

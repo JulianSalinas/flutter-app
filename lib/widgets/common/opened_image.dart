@@ -1,13 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:photo_view/photo_view.dart';
 
-class FullImage extends StatelessWidget {
+class OpenedImage extends StatelessWidget {
 
   final String imageUrl;
 
-  FullImage(this.imageUrl);
+  OpenedImage(this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +34,12 @@ class FullImage extends StatelessWidget {
     );
 
     final extendedBody = Stack(
-      children: <Widget>[container, positionedAppBar],
+      children: [container, positionedAppBar],
     );
 
     return Scaffold(
       body: extendedBody,
     );
 
-//    return CachedNetworkImage(
-//      imageUrl: imageUrl,
-//      imageBuilder: (context, imageProvider) => Container(
-//        child: Container(
-//          child: PhotoView(
-//            imageProvider: imageProvider,
-//          )
-//        ),
-//      ),
-//      placeholder: (context, url) => CircularProgressIndicator(),
-//      errorWidget: (context, url, error) => Icon(Icons.error),
-//    );
   }
 }
