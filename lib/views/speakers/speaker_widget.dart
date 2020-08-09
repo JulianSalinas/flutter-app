@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/speaker.dart';
+import 'package:letsattend/views/person/person_view.dart';
 
 class SpeakerWidget extends StatelessWidget {
 
-  final Function onTap;
   final Speaker speaker;
 
-  const SpeakerWidget({
+  SpeakerWidget({
     Key key,
-    @required this.onTap,
     @required this.speaker,
   }) : super(key: key);
+
+  /// Opens PersonView widget with the speaker's information
+  openDetail(BuildContext context) {
+
+    final route =  MaterialPageRoute(
+      builder: (_) => PersonView(speaker: speaker)
+    );
+    Navigator.push(context, route);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +35,11 @@ class SpeakerWidget extends StatelessWidget {
       child: initials,
     );
 
+    final heroAvatar = Hero(
+      child: avatar,
+      tag: 'avatar${speaker.key}',
+    );
+
     final subtitle = speaker.country != null
         ? speaker.country
         : 'Desde ${speaker.about}';
@@ -36,11 +49,16 @@ class SpeakerWidget extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
 
+    final heroTitle = Hero(
+      tag: 'name${speaker.key}',
+      child: Material(child: Text(speaker.name), color: Colors.transparent),
+    );
+
     return ListTile(
-      leading: avatar,
-      title: Text(speaker.name),
+      leading: heroAvatar,
+      title: heroTitle,
       subtitle: subtitleText,
-      onTap: onTap,
+      onTap: () => openDetail(context),
     );
 
   }

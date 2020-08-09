@@ -76,11 +76,6 @@ class MaterialLetsAttendApp extends StatelessWidget {
       primarySwatch: Colors.red,
       accentColor: settings.nightMode ? Colors.white : Colors.red,
       textSelectionHandleColor: SharedColors.alizarin,
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: <TargetPlatform, PageTransitionsBuilder>{
-          TargetPlatform.android: ZoomPageTransitionsBuilder(),
-        },
-      ),
     );
 
     return MaterialApp(

@@ -13,7 +13,7 @@ class Person {
   }
 
   String get initial {
-    return initials[0];
+    return name.length >= 1 ? initials[0] : '#';
   }
 
   String get initials {

@@ -14,15 +14,15 @@ class AuthWithFirebase extends AuthService {
   @override
   Future<User> get user async {
     final user = await _auth.currentUser();
-    return _castFirebaseUser(user);
+    return _parseUser(user);
   }
 
   @override
   Stream<User> get onAuthStateChanged {
-    return _auth.onAuthStateChanged.map(_castFirebaseUser);
+    return _auth.onAuthStateChanged.map(_parseUser);
   }
 
-  User _castFirebaseUser(FirebaseUser user) {
+  User _parseUser(FirebaseUser user) {
     return user == null ? null : User(
       key: user.uid,
       name: user.displayName,
@@ -39,7 +39,7 @@ class AuthWithFirebase extends AuthService {
         email: email,
         password: password,
       );
-      User user = _castFirebaseUser(result.user);
+      User user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -54,7 +54,7 @@ class AuthWithFirebase extends AuthService {
         email: email,
         password: password,
       );
-      User user = _castFirebaseUser(result.user);
+      User user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -66,7 +66,7 @@ class AuthWithFirebase extends AuthService {
   Future<Auth> signInAnonymously() async {
     try {
       final result = await _auth.signInAnonymously();
-      User user = _castFirebaseUser(result.user);
+      User user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -94,7 +94,7 @@ class AuthWithFirebase extends AuthService {
         accessToken: signInAuth.accessToken,
       );
       final result = await _auth.signInWithCredential(credential);
-      return Auth(user: _castFirebaseUser(result.user));
+      return Auth(user: _parseUser(result.user));
     }
     on PlatformException catch (error) {
       return Auth(errorCode: error.code);

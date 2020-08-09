@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letsattend/widgets/animation/shimmer.dart';
 
-class SpeakersEmpty extends StatelessWidget {
+class LoadingSpeakers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,10 @@ class SpeakersEmpty extends StatelessWidget {
       child: Padding(padding: EdgeInsets.symmetric(vertical: 8), child: emptyTile),
     );
 
-    final emptyList = SliverChildBuilderDelegate(
-      (_, index) => titleWithShimmer,
-      childCount: (MediaQuery.of(context).size.height / 64.0).floor(),
+    return ListView.builder(
+      itemBuilder: (_, index) => titleWithShimmer,
+      itemCount: (MediaQuery.of(context).size.height / 64.0).floor(),
     );
-
-    return SliverList(delegate: emptyList,);
 
   }
 }

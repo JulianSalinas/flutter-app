@@ -10,7 +10,7 @@ import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/views/speakers/speaker_widget.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/views/speakers/speakers_empty.dart';
+import 'package:letsattend/views/speakers/loading_speakers.dart';
 import 'package:letsattend/blocs/speakers_bloc.dart';
 
 class SpeakersView extends StatefulWidget {
@@ -39,73 +39,82 @@ class SpeakersViewState extends State<SpeakersView> {
     setState(() => _isSearching = false);
   }
 
-  void onTap(Speaker speaker) {
-    print(speaker.toString());
+  /// Also counts headers
+  int countItems(List<Speaker> speakers) {
+    return speakers.length * 2 - (speakers.length >= 1 ? 1 : 0);
   }
 
-  Widget buildSpeakers(_, List<Speaker> speakers) {
+  /// Builds the speaker with a header if necessary
+  Widget buildSpeaker(List<Speaker> speakers, int itemIndex) {
 
-    final itemCount = speakers.length * 2 - (speakers.length >= 1 ? 1 : 0);
+    if (itemIndex.isOdd)
+      return Divider(height: 0);
 
-    final itemBuilder = (_, itemIndex) {
-      if (itemIndex.isOdd) return Divider(height: 0);
+    int i = itemIndex ~/ 2;
+    Speaker speaker = speakers[i];
 
-      int i = itemIndex ~/ 2;
-      Speaker speaker = speakers[i];
-
-      final safeInitial = (Speaker speaker) =>
-          speaker.name.length >= 1 ? speaker.name[0].toUpperCase() : '#';
-
-      final speakerWidget = SpeakerWidget(
-        key: Key(speaker.key),
-        speaker: speaker,
-        onTap: () => onTap(speaker),
-      );
-
-      final headerText = Text(
-        safeInitial(speaker),
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      );
-
-      final tintedHeader = Container(
-        color: Colors.grey.withOpacity(0.05),
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 22),
-        child: Row(children: <Widget>[headerText]),
-      );
-
-      final speakerWithHeader = (Speaker speaker) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [tintedHeader, speakerWidget],
-          );
-
-      if (i == 0 || (safeInitial(speaker) != safeInitial(speakers[i - 1])))
-        return speakerWithHeader(speaker);
-
-      return speakerWidget;
-    };
-
-    final listDelegate = SliverChildBuilderDelegate(
-      itemBuilder,
-      childCount: itemCount,
+    final speakerWidget = SpeakerWidget(
+      key: Key(speaker.key),
+      speaker: speaker,
     );
 
-    return SliverList(delegate: listDelegate);
+    if (i != 0 && (speaker.initial == speakers[i - 1].initial))
+      return speakerWidget;
+
+    final headerText = Text(
+      speaker.initial,
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    );
+
+    final tintedHeader = Container(
+      color: Colors.grey.withOpacity(0.05),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 22),
+      child: Row(children: <Widget>[headerText]),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [tintedHeader, speakerWidget],
+    );
+
+  }
+
+  /// Builds the list where speakers are contained
+  Widget buildSpeakers(List<Speaker> speakers) {
+
+    return ListView.builder(
+      itemCount: countItems(speakers),
+      itemBuilder: (_, itemIndex) => buildSpeaker(speakers, itemIndex),
+    );
+  }
+
+  /// Shows the data or the loading screen accordingly
+  Widget streamBuilder(snapshot) {
+    if (snapshot.hasError)
+      return Text('Error: ${snapshot.error}');
+
+    final isWaiting = snapshot.connectionState == ConnectionState.waiting;
+
+    if (isWaiting && !snapshot.hasData)
+      return LoadingSpeakers();
+
+    return buildSpeakers(snapshot.data);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final speakersModel = Provider.of<SpeakersBloc>(context);
+    final model = Provider.of<SpeakersBloc>(context);
 
     final filterIcon = Icon(
-      speakersModel.descending
+      model.descending
           ? MaterialCommunityIcons.sort_ascending
           : MaterialCommunityIcons.sort_descending,
     );
 
     final filterButton = IconButton(
         icon: filterIcon,
-        onPressed: () => speakersModel.descending = !speakersModel.descending);
+        onPressed: () => model.descending = !model.descending);
 
     final searchButton = IconButton(
       icon: Icon(Icons.search),
@@ -114,7 +123,7 @@ class SpeakersViewState extends State<SpeakersView> {
 
     final closeButton = IconButton(
       icon: Icon(Icons.close),
-      onPressed: () => closeSearch(speakersModel),
+      onPressed: () => closeSearch(model),
     );
 
     final searchDecoration = InputDecoration(
@@ -128,13 +137,14 @@ class SpeakersViewState extends State<SpeakersView> {
       controller: _searchQuery,
       decoration: searchDecoration,
       style: TextStyle(color: Colors.white),
-      onChanged: (query) => speakersModel.filter = query,
+      onChanged: (query) => model.filter = query,
     );
 
-    final buttons = _isSearching ? [closeButton] : [filterButton, searchButton];
+    final buttons = _isSearching
+        ? [closeButton]
+        : [filterButton, searchButton];
 
-    final appBar = SliverAppBar(
-        floating: true,
+    final appBar = AppBar(
         actions: buttons,
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -142,29 +152,15 @@ class SpeakersViewState extends State<SpeakersView> {
         flexibleSpace: ColoredFlex(),
     );
 
-    final builder = (_, snapshot) {
-      if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-
-      final isWaiting = snapshot.connectionState == ConnectionState.waiting;
-
-      if (isWaiting && !snapshot.hasData) return SpeakersEmpty();
-
-      if (snapshot.hasData) return buildSpeakers(_, snapshot.data);
-
-      return Text('Nothing to show: ${snapshot.error}');
-    };
-
-    final customScroll = CustomScrollView(
-      slivers: <Widget>[
-        appBar,
-        StreamBuilder(stream: speakersModel.stream, builder: builder,),
-      ],
+    final body = StreamBuilder(
+      stream: model.stream,
+      builder: (_, snapshot) => streamBuilder(snapshot),
     );
 
     return Scaffold(
       drawer: DrawerView(Routes.speakersRoute),
-      body: customScroll,
-      extendBodyBehindAppBar: true,
+      body: body,
+      appBar: appBar
     );
 
   }

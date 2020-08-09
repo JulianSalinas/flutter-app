@@ -23,7 +23,8 @@ class AuthGoogle {
 
     final googleAuth = await googleUser.authentication;
 
-    if (googleAuth.accessToken == null || googleAuth.idToken == null)
+    if (googleAuth.accessToken == null
+        || googleAuth.idToken == null)
       return throw missingGoogleAuthTokenException;
 
     return googleAuth;

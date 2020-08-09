@@ -1,5 +1,3 @@
-import 'package:letsattend/shared/codes.dart';
-import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:letsattend/shared/status.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
-import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
 class SignInView extends StatefulWidget {
   @override
@@ -119,15 +119,17 @@ class SignInViewState extends State<SignInView> {
     final auth = Provider.of<AuthBloc>(context);
     final settings = Provider.of<SettingsBloc>(context);
 
+    final atButton = IconButton(
+      icon: Icon(MaterialCommunityIcons.at),
+      onPressed: () { },
+    );
+
     final emailField = RoundedInput(
       hintText: 'Email',
       errorText: emailError,
       controller: emailCtrl,
       keyboardType: TextInputType.text,
-      leading: IconButton(
-        icon: Icon(MaterialCommunityIcons.at),
-        onPressed: () { },
-      ),
+      leading: atButton,
     );
 
     final visibilityIcon = Icon(obscurePassword
@@ -142,6 +144,7 @@ class SignInViewState extends State<SignInView> {
 
     final passwordField = RoundedInput(
       obscureText: obscurePassword,
+      maxLines: 1,
       hintText: 'Contraseña',
       errorText: passwordError,
       controller: passwordCtrl,

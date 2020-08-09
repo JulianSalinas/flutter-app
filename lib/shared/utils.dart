@@ -54,4 +54,14 @@ class SharedUtils {
     return matches.length == 0 ? null : matches.first;
   }
 
+  /// Removes unnecessary white spaces
+  static String cleanText(Object text) {
+    var trimmed = text.toString().trim();
+    return trimmed.replaceAll(new RegExp(r'\s{2,}'), ' ');
+  }
+
+  static DateTime castMilliseconds(int milliseconds) {
+    return DateTime.fromMillisecondsSinceEpoch(milliseconds);
+  }
+
 }

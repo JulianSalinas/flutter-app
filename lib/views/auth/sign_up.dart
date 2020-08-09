@@ -1,5 +1,3 @@
-import 'package:letsattend/shared/codes.dart';
-import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/shared/codes.dart';
 import 'package:letsattend/shared/status.dart';
+import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
-import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
-import 'package:letsattend/shared/colors.dart';
+import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';
-import 'package:letsattend/blocs/auth_bloc.dart';
+import 'package:letsattend/widgets/animation/liquid_bottom.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -134,6 +134,7 @@ class SignUpViewState extends State<SignUpView> {
     final passwordField = RoundedInput(
       obscureText: true,
       hintText: 'Contraseña',
+      maxLines: 1,
       errorText: passwordError,
       controller: passwordCtrl,
       keyboardType: TextInputType.text,
@@ -143,6 +144,7 @@ class SignUpViewState extends State<SignUpView> {
     final confirmationField = RoundedInput(
       obscureText: true,
       hintText: 'Confirmar contraseña',
+      maxLines: 1,
       errorText: confirmationError,
       controller: confirmationCtrl,
       keyboardType: TextInputType.text,

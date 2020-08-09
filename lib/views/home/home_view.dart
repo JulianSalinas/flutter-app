@@ -155,9 +155,8 @@ class HomeViewState extends State<HomeView> {
     final appBar = AppBar(
       title: FormalText('EDEPA'),
       centerTitle: true,
-//      flexibleSpace: ColoredFlex(),
+      flexibleSpace: ColoredFlex(),
       elevation: 0,
-      backgroundColor: Colors.transparent,
     );
 
     return Scaffold(

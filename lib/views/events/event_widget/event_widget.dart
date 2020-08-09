@@ -152,7 +152,10 @@ class EventWidget extends StatelessWidget {
       ],
     );
 
-    return Container(height: 154, child: stackContainer);
+    return InkWell(
+      child: Container(height: 154, child: stackContainer),
+      onTap: () => openDetail(context),
+    );
 
   }
 }

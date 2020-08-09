@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:letsattend/models/post.dart';
 import 'package:letsattend/models/preview.dart';
+import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/services/firebase_service.dart';
 
 class NewsService extends FirebaseService<Post> {
@@ -9,7 +10,7 @@ class NewsService extends FirebaseService<Post> {
   NewsService(): super('edepa6/news');
 
   Preview getPreview(dynamic data){
-    return data == null ? null : Preview(
+    return Preview(
       url: data['url'],
       title: data['header'],
       thumbnail: data['thumbnail'],
@@ -18,16 +19,20 @@ class NewsService extends FirebaseService<Post> {
   }
 
   @override
-  Future<Post> castSnapshot(DataSnapshot snapshot) async {
+  Future<Post> parse(DataSnapshot snapshot) async {
 
     final data = snapshot.value;
 
+    final preview = data['preview'] != null
+        ? getPreview(data['preview'])
+        : null;
+
     return Post(
       key: snapshot.key,
-      title: data['title'],
-      description: data['content'],
-      preview: getPreview(data['preview']),
-      timestamp: castMilliseconds(data['time']),
+      preview: preview,
+      title: SharedUtils.cleanText(data['title']),
+      description: SharedUtils.cleanText(data['content']),
+      timestamp: SharedUtils.castMilliseconds(data['time']),
     );
   }
 

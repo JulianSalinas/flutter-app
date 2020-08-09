@@ -72,7 +72,7 @@ class AuthViewState extends State<AuthView> {
 
     final signUpText = Text(
       '¿No tienes una cuenta?',
-      style: TextStyle(color: Colors.grey.withOpacity(0.6)),
+      style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6)),
     );
 
     final signUpButton = MaterialButton(

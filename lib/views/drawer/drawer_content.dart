@@ -42,7 +42,7 @@ class DrawerContent extends StatelessWidget {
     };
 
     final closeFunction = () async {
-      Navigator.of(context).pop();
+      Navigator.of(context).popUntil((route) => route.isFirst);
       await auth.signOut();
     };
 

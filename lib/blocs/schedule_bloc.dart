@@ -9,7 +9,7 @@ import 'package:letsattend/blocs/filterable_bloc.dart';
 
 class ScheduleBloc extends FilterableBloc<EventsService> {
 
-  final FavoritesService _service = locator<FavoritesService>();
+  final FavoritesService _favoritesService = locator<FavoritesService>();
 
   bool _orderedByType = false;
 
@@ -30,7 +30,7 @@ class ScheduleBloc extends FilterableBloc<EventsService> {
   }
 
   Future<void> toggleFavorite(Event event) async {
-    return _service.setFavorite(event.key, !event.isFavorite);
+    return _favoritesService.setFavorite(event.key, !event.isFavorite);
   }
 
 }

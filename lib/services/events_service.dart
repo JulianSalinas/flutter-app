@@ -5,6 +5,7 @@ import 'package:letsattend/models/user.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/models/speaker.dart';
 
+import 'package:letsattend/shared/utils.dart';
 import 'package:letsattend/services/firebase_service.dart';
 import 'package:letsattend/services/speakers_service.dart';
 import 'package:letsattend/services/favorites_service.dart';
@@ -18,7 +19,7 @@ class EventsService extends FirebaseService<Event> {
   StreamSubscription _favoriteAddedSubscription;
   StreamSubscription _favoriteRemovedSubscription;
 
-  EventsService() : super('edepa6/schedule', orderBy: 'start') {
+  EventsService() : super('edepa6/schedule', orderBy: 'start'){
     auth.user.then(subscribeFavoritesChanges);
   }
 
@@ -40,7 +41,8 @@ class EventsService extends FirebaseService<Event> {
 
   void onFavoriteChanged(dynamic data, bool isFavorite) {
     final find = (event) => event.key == data.snapshot.key;
-    Event event = collection.firstWhere(find);
+    Event event = collection.firstWhere(find, orElse: () => null);
+    if (event == null) return;
     event.isFavorite = isFavorite;
     _onCollectionChanged(event);
   }
@@ -52,14 +54,27 @@ class EventsService extends FirebaseService<Event> {
     controller.add(collection);
   }
 
+  Future<Event> getEvent(dynamic key) async {
+
+    final snapshot = await database
+        .child('edepa6')
+        .child('schedule')
+        .child(key)
+        .once();
+
+    return parse(snapshot);
+  }
+
   Future<Speaker> getSpeaker(dynamic key) async {
-    return _speakersService.getSpeaker(key);
+    return await _speakersService.getSpeaker(key);
   }
 
   @override
-  Future<Event> castSnapshot(DataSnapshot snapshot) async {
+  Future<Event> parse(DataSnapshot snapshot) async {
 
     final data = snapshot.value;
+    if (data == null) return null;
+
     Map people = data['people'] ?? {};
 
     List<Speaker> speakers = await Future.wait(people.keys.map(getSpeaker));
@@ -69,12 +84,12 @@ class EventsService extends FirebaseService<Event> {
       key: snapshot.key,
       code: data['id'],
       type: data['eventype'],
-      title: data['title'],
-      description: data['briefSpanish'],
-      start: castMilliseconds(data['start']),
-      end: castMilliseconds(data['end']),
+      title: SharedUtils.cleanText(data['title']),
+      description: SharedUtils.cleanText(data['briefSpanish']),
+      start: SharedUtils.castMilliseconds(data['start']),
+      end: SharedUtils.castMilliseconds(data['end']),
       image: 'assets/tec_edificio_a4.jpg',
-      location: data['location'],
+      location: SharedUtils.cleanText(data['location']),
       speakers: speakers,
       isFavorite: isFavorite,
     );

@@ -7,6 +7,7 @@ class Speaker extends Person {
   final String about;
   final String country;
   final String university;
+  Map eventKeys;
 
   Speaker({
     this.key,
@@ -14,6 +15,7 @@ class Speaker extends Person {
     this.about,
     this.country,
     this.university,
+    this.eventKeys
   }) : super(name == null ? '#' : name);
 
   @override
