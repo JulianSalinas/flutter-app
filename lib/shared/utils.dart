@@ -56,8 +56,23 @@ class SharedUtils {
 
   /// Removes unnecessary white spaces
   static String cleanText(Object text) {
+    if(text == null) return null;
     var trimmed = text.toString().trim();
     return trimmed.replaceAll(new RegExp(r'\s{2,}'), ' ');
+  }
+
+  static String capitalize(String text) {
+    if (text == null) return null;
+    if (text.length < 2) return text.toUpperCase();
+    final lowerCaseText = text.toLowerCase();
+    return '${lowerCaseText[0].toUpperCase()}${lowerCaseText.substring(1)}';
+  }
+
+  static String formatName(String name) {
+    if(name == null) return null; 
+    final splittedName = cleanText(name).split(" ");
+    final formattedNames = splittedName.map(capitalize);
+    return formattedNames.join(" ");
   }
 
   static DateTime castMilliseconds(int milliseconds) {

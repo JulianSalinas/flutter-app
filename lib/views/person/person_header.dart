@@ -63,7 +63,7 @@ class _PersonHeaderState extends State<PersonHeader> {
 
     final heroName = Hero(
       tag: 'name${widget.speaker.key}',
-        child: Material(child: speakerName, color: Colors.transparent),
+      child: Material(child: speakerName, color: Colors.transparent),
     );
 
     final availableTabs = <int, Widget> {
@@ -97,8 +97,8 @@ class _PersonHeaderState extends State<PersonHeader> {
         heroName,
         SizedBox(height: 8),
         subtitleText,
-        SizedBox(height: 16),
-        segmentedControl,
+        // SizedBox(height: 16),
+        // segmentedControl,
       ],
     );
 

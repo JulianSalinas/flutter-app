@@ -58,6 +58,7 @@ class SpeakerWidget extends StatelessWidget {
       leading: heroAvatar,
       title: heroTitle,
       subtitle: subtitleText,
+      trailing: Icon(Icons.keyboard_arrow_right),
       onTap: () => openDetail(context),
     );
 

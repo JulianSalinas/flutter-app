@@ -45,19 +45,17 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final scheme = Provider.of<SettingsBloc>(context);
-
     final decoration = ItemLine(
       isFirst: isFirst,
       isLast: isLast,
       isOdd: isOdd,
-      color: Colors.red,
+      color: colors[event.type],
     );
 
     final itemType = Text(
       '${event.code}. ${event.type} ',
       style: TextStyle(
-        color: Colors.red,
+        color: colors[event.type],
         fontWeight: FontWeight.bold
       ),
     );
@@ -138,22 +136,25 @@ class EventWidget extends StatelessWidget {
       child: itemContent,
     );
 
-    final stackContrast = scheme.nightMode ? Colors.white : Colors.black;
-
-    final stackBackground = Opacity(
-      opacity: isOdd ? 1 : 0.04,
-      child: Container(color: isOdd ? Colors.transparent : stackContrast),
-    );
+    final stackContrast = isOdd
+        ? Colors.transparent
+        : Colors.grey.withOpacity(0.05);
 
     final stackContainer = Stack(
       children: <Widget>[
-        stackBackground,
+        Container(color: stackContrast),
         Row(children: <Widget>[decoration, Expanded(child: itemContainer)])
       ],
     );
 
+    final content = Container(
+      height: 154,
+      child: stackContainer,
+      padding: EdgeInsets.only(top: isFirst ? 4 : 0),
+    );
+
     return InkWell(
-      child: Container(height: 154, child: stackContainer),
+      child: content,
       onTap: () => openDetail(context),
     );
 

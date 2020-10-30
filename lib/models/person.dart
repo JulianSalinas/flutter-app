@@ -20,6 +20,11 @@ class Person {
     return SharedUtils.getInitialsFrom(name);
   }
 
+  String get firstName {
+    final names = name.split(" ");
+    return names.length >= 1 ? names[0] : null;
+  }
+
   @override
   int get hashCode => name.hashCode;
 
