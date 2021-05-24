@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:lipsum/lipsum.dart' as lipsum;
 import 'package:letsattend/widgets/animation/shimmer.dart';
 
 class EmptyBubble extends StatelessWidget {
@@ -19,7 +18,7 @@ class EmptyBubble extends StatelessWidget {
     );
 
     final spaceText = Text(
-      lipsum.createWord(numWords: Random().nextInt(20)),
+      "prueba"
     );
 
     final borderRadius = BorderRadius.only(

@@ -5,16 +5,15 @@ class DrawerOption extends StatelessWidget {
 
   final Icon icon;
   final String title;
-  final String badge;
-  final Function onTap;
+  final String? badge;
+  final GestureTapCallback? onTap;
 
   const DrawerOption({
-    Key key,
-    @required this.icon,
-    @required this.title,
+    required this.icon,
+    required this.title,
     this.onTap,
     this.badge,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class DrawerOption extends StatelessWidget {
       SizedBox(width: 12.0),
       Text(title, style: TextStyle(fontSize: 16.0)),
       Spacer(),
-      if (badge != null) DrawerBadge(badge)
+      if (badge != null) DrawerBadge(badge!)
     ]);
 
     final container = Container(

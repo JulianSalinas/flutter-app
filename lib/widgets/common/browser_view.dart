@@ -11,7 +11,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class BrowserView extends StatefulWidget {
 
   final initialUrl;
-  BrowserView({Key key, this.initialUrl}) : super(key: key);
+  BrowserView({this.initialUrl});
 
   @override
   _BrowserViewState createState() => _BrowserViewState();
@@ -38,7 +38,7 @@ class _BrowserViewState extends State<BrowserView> {
 
     final title = FutureBuilder(
       future: _controller.future,
-      builder: (_, snapshot) => BrowserTitle(snapshot.hasData ? snapshot.data : '...'),
+      builder: (_, AsyncSnapshot<WebViewController>snapshot) => BrowserTitle(snapshot.requireData),
     );
 
     final url = Text(
@@ -75,7 +75,7 @@ class BrowserTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: controller.getTitle(),
-      builder: (_, snapshot) => FormalText(snapshot.hasData ? snapshot.data : "..."),
+      builder: (_, snapshot) => FormalText(snapshot.hasData ? snapshot.data.toString() : "..."),
     );
   }
 

@@ -56,14 +56,13 @@ class Shimmer extends StatefulWidget {
   final bool enabled;
 
   const Shimmer({
-    Key key,
-    @required this.child,
-    @required this.gradient,
+    required this.child,
+    required this.gradient,
     this.direction = ShimmerDirection.ltr,
     this.period = const Duration(milliseconds: 1500),
     this.loop = 0,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   ///
   /// A convenient constructor provides an easy and convenient way to create a
@@ -71,10 +70,9 @@ class Shimmer extends StatefulWidget {
   /// `highlightColor`.
   ///
   Shimmer.fromColors({
-    Key key,
-    @required this.child,
-    @required Color baseColor,
-    @required Color highlightColor,
+    required this.child,
+    required Color baseColor,
+    required Color highlightColor,
     this.period = const Duration(milliseconds: 1500),
     this.direction = ShimmerDirection.ltr,
     this.loop = 0,
@@ -95,8 +93,7 @@ class Shimmer extends StatefulWidget {
         0.5,
         0.65,
         1.0
-      ]),
-        super(key: key);
+      ]);
 
   @override
   _ShimmerState createState() => _ShimmerState();
@@ -115,8 +112,8 @@ class Shimmer extends StatefulWidget {
 }
 
 class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  int _count;
+  late AnimationController _controller;
+  late int _count;
 
   @override
   void initState() {
@@ -154,8 +151,8 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
-      builder: (BuildContext context, Widget child) => _Shimmer(
-        child: child,
+      builder: (BuildContext context, Widget? child) => _Shimmer(
+        child: child!,
         direction: widget.direction,
         gradient: widget.gradient,
         percent: _controller.value,
@@ -179,11 +176,11 @@ class _Shimmer extends SingleChildRenderObjectWidget {
   final bool enabled;
 
   const _Shimmer({
-    Widget child,
-    this.percent,
-    this.direction,
-    this.gradient,
-    this.enabled,
+    Widget? child,
+    required this.percent,
+    required this.direction,
+    required this.gradient,
+    required this.enabled,
   }) : super(child: child);
 
   @override
@@ -205,7 +202,7 @@ class _ShimmerFilter extends RenderProxyBox {
   final ShimmerDirection _direction;
   bool enabled;
   double _percent;
-  Rect _rect;
+  Rect? _rect;
 
   _ShimmerFilter(this._percent, this._direction, this._gradient, this.enabled)
       : _gradientPaint = Paint()..blendMode = BlendMode.srcIn;
@@ -228,11 +225,11 @@ class _ShimmerFilter extends RenderProxyBox {
     }
     assert(needsCompositing);
 
-    context.canvas.saveLayer(offset & child.size, _clearPaint);
-    context.paintChild(child, offset);
+    context.canvas.saveLayer(offset & child!.size, _clearPaint);
+    context.paintChild(child!, offset);
 
-    final double width = child.size.width;
-    final double height = child.size.height;
+    final double width = child!.size.width;
+    final double height = child!.size.height;
     Rect rect;
     double dx, dy;
     if (_direction == ShimmerDirection.rtl) {

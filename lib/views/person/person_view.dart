@@ -16,7 +16,7 @@ class PersonView extends StatefulWidget {
 
   final Speaker speaker;
 
-  PersonView({ this.speaker });
+  PersonView({ required this.speaker });
 
   @override
   PersonViewState createState() => PersonViewState();
@@ -31,7 +31,7 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
   bool isLoading = true;
   List<Event> events = [];
 
-  PageController _pageController;
+  late PageController _pageController;
   int currentPage = 0;
 
   @override
@@ -45,14 +45,14 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
       return;
     }
 
-    final keys = widget.speaker.eventKeys.keys.toList();
-    _speakersService.getEvents(keys).then(onEventsChange);
+    //final keys = widget.speaker.eventKeys.keys.toList();
+    //_speakersService.getEvents(keys).then(onEventsChange);
 
   }
 
   @override
   void dispose() {
-    _pageController?.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -145,10 +145,12 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
             style: Typography.englishLike2018.headline6
           ),
           Divider(),
-          Text(
-              widget.speaker.about,
-              style: Typography.englishLike2018.bodyText1
-          ),
+          if(widget.speaker.about != null)...[
+            Text(
+                widget.speaker.about!,
+                style: Typography.englishLike2018.bodyText1
+            ),
+          ],
         ],
       ),
     );

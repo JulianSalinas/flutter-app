@@ -9,14 +9,14 @@ import 'package:letsattend/blocs/settings_bloc.dart';
 class HomeCircle extends StatelessWidget {
 
   final Icon icon;
-  final Color color;
-  final Function onTap;
+  final Color? color;
+  final VoidCallback? onTap;
   final String text;
 
   HomeCircle({
-    @required this.icon,
-    @required this.onTap,
-    this.text,
+    required this.icon,
+    required this.onTap,
+    required this.text,
     this.color,
   });
 
@@ -34,11 +34,8 @@ class HomeCircle extends StatelessWidget {
       side: borderSide
     );
 
-    final button = FlatButton(
-      color: Colors.transparent,
+    final button = TextButton(
       child: icon,
-      shape: circleBorder,
-      padding: EdgeInsets.all(20),
       onPressed: onTap,
     );
 

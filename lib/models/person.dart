@@ -22,7 +22,7 @@ class Person {
 
   String get firstName {
     final names = name.split(" ");
-    return names.length >= 1 ? names[0] : null;
+    return names.length >= 1 ? names[0] : "unknown";
   }
 
   @override

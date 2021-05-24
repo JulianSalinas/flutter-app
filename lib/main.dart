@@ -64,7 +64,7 @@ class LetsAttendApp extends StatelessWidget {
 /// This allows theme to be change on-the-fly
 class MaterialLetsAttendApp extends StatelessWidget {
 
-  final router = Router();
+  final router = CustomRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class MaterialLetsAttendApp extends StatelessWidget {
       brightness: settings.brightness,
       primarySwatch: Colors.red,
       accentColor: settings.nightMode ? Colors.white : Colors.red,
-      textSelectionHandleColor: SharedColors.alizarin,
+      textSelectionTheme: TextSelectionThemeData(selectionHandleColor: SharedColors.alizarin),
     );
 
     return MaterialApp(

@@ -6,9 +6,8 @@ class ItemPeople extends StatelessWidget {
   final List<Speaker> speakers;
 
   const ItemPeople({
-    Key key,
-    @required this.speakers,
-  }) : super(key: key);
+    required this.speakers,
+  });
 
   @override
   Widget build(BuildContext context) {

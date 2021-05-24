@@ -16,9 +16,9 @@ class AuthBloc with ChangeNotifier {
 
   Status status = Status.Uninitialized;
 
-  User _currentUser;
+  AppUser? _currentUser;
 
-  User get currentUser => _currentUser;
+  AppUser? get currentUser => _currentUser;
 
   set currentUser(currentUser) {
     _currentUser = currentUser;
@@ -26,16 +26,16 @@ class AuthBloc with ChangeNotifier {
   }
 
   set allowPhoto(bool value) {
-    _currentUser.allowPhoto = value;
+    _currentUser?.allowPhoto = value;
     notifyListeners();
-    _usersService.setUser(currentUser);
+    _usersService.setUser(currentUser!);
   }
 
   AuthBloc() {
     _auth.onAuthStateChanged.listen(_onAuthStateChanged);
   }
 
-  Future<void> _onAuthStateChanged(User user) async {
+  Future<void> _onAuthStateChanged(AppUser? user) async {
     _currentUser = user;
     status = user == null
         ? Status.Unauthenticated

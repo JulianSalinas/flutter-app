@@ -6,7 +6,10 @@ class Sample extends StatelessWidget {
   final String text;
   final Color color;
 
-  Sample({this.text, this.color});
+  Sample({
+    required this.text,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {

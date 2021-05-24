@@ -6,10 +6,10 @@ class Preview {
   final String description;
 
   Preview({
-    this.url,
-    this.title,
-    this.thumbnail,
-    this.description,
+    required this.url,
+    required this.title,
+    required this.thumbnail,
+    required this.description,
   });
 
   @override
@@ -23,7 +23,7 @@ class Preview {
   bool isImage() {
     final exp = r"(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)";
     final regex = new RegExp(exp);
-    return url != null && regex.hasMatch(url);
+    return regex.hasMatch(url);
   }
 
   @override

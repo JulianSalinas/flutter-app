@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class FormalText extends StatelessWidget {
 
   final String text;
-  final Color color;
+  final Color? color;
   final double fontSize;
 
   FormalText(this.text, {

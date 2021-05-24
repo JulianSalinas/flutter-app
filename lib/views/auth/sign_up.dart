@@ -24,9 +24,9 @@ class SignUpView extends StatefulWidget {
 
 class SignUpViewState extends State<SignUpView> {
 
-  String emailError;
-  String passwordError;
-  String confirmationError;
+  String? emailError;
+  String? passwordError;
+  String? confirmationError;
 
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -77,7 +77,7 @@ class SignUpViewState extends State<SignUpView> {
     final payload = await auth.signUp(email, password);
 
     payload.hasError
-        ? _displayError(payload.errorCode)
+        ? _displayError(payload.errorCode ?? "unknown")
         : Navigator.of(context).pop();
 
   }
@@ -85,7 +85,7 @@ class SignUpViewState extends State<SignUpView> {
   void _displayError(String errorCode){
     if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
     else if (errorCode == Codes.emailAlreadyInUse)
       setState(() => emailError = 'El usuario ya está registrado');
@@ -94,7 +94,7 @@ class SignUpViewState extends State<SignUpView> {
     else{
       String message = 'No se ha podido registrar, ';
       message += 'intente con otra opción ingresar con Google';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
   }
 
@@ -102,9 +102,11 @@ class SignUpViewState extends State<SignUpView> {
 
     final textStyle = TextStyle(color: Colors.white);
 
-    final closeButton = FlatButton(
+    final closeButton = TextButton(
       child: Text('ENTENDIDO'),
-      color: Colors.white,
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
       onPressed: Navigator.of(context).pop,
     );
 
@@ -123,33 +125,63 @@ class SignUpViewState extends State<SignUpView> {
     final auth = Provider.of<AuthBloc>(context);
     final settings = Provider.of<SettingsBloc>(context);
 
-    final emailField = RoundedInput(
+    var emailField = RoundedInput(
       hintText: 'Email',
-      errorText: emailError,
       controller: emailCtrl,
       keyboardType: TextInputType.text,
       leading: Icon(MaterialCommunityIcons.at),
     );
 
-    final passwordField = RoundedInput(
+    if (emailError != null)
+
+       emailField = RoundedInput(
+        hintText: 'Email',
+        errorText: emailError!,
+        controller: emailCtrl,
+        keyboardType: TextInputType.text,
+        leading: Icon(MaterialCommunityIcons.at),
+      );
+
+    var passwordField = RoundedInput(
       obscureText: true,
       hintText: 'Contraseña',
       maxLines: 1,
-      errorText: passwordError,
       controller: passwordCtrl,
       keyboardType: TextInputType.text,
       leading: Icon(MaterialCommunityIcons.key),
     );
 
-    final confirmationField = RoundedInput(
+    if (passwordError != null)
+
+      passwordField = RoundedInput(
+        obscureText: true,
+        hintText: 'Contraseña',
+        maxLines: 1,
+        errorText: passwordError!,
+        controller: passwordCtrl,
+        keyboardType: TextInputType.text,
+        leading: Icon(MaterialCommunityIcons.key),
+      );
+
+    var confirmationField = RoundedInput(
       obscureText: true,
       hintText: 'Confirmar contraseña',
       maxLines: 1,
-      errorText: confirmationError,
       controller: confirmationCtrl,
       keyboardType: TextInputType.text,
       leading: Icon(AntDesign.lock),
     );
+
+    if (confirmationError != null)
+
+      confirmationField = RoundedInput(
+        obscureText: true,
+        hintText: 'Confirmar contraseña',
+        maxLines: 1,
+        controller: confirmationCtrl,
+        keyboardType: TextInputType.text,
+        leading: Icon(AntDesign.lock),
+      );
 
     final submitButton = RoundedButton(
       'REGISTRARSE',
@@ -160,7 +192,7 @@ class SignUpViewState extends State<SignUpView> {
     final auxText = Text(
       'Ya tengo una cuenta',
       style: TextStyle(
-        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2?.color?.withOpacity(0.6),
       ),
     );
 
@@ -171,7 +203,7 @@ class SignUpViewState extends State<SignUpView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
+      child: FlutterLogo(size: 132),
     );
 
     final content = Column(

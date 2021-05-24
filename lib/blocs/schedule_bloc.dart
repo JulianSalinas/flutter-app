@@ -12,8 +12,7 @@ class ScheduleBloc extends FilterableBloc<EventsService> {
   final FavoritesService _favoritesService = locator<FavoritesService>();
 
   bool _orderedByType = false;
-
-  get orderedByType => _orderedByType;
+  bool get orderedByType => _orderedByType;
 
   set orderedByType(bool orderedByType) {
     _orderedByType = orderedByType;

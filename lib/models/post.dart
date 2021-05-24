@@ -3,18 +3,18 @@ import 'package:letsattend/models/preview.dart';
 class Post {
 
   final String key;
-  final String title;
-  final String description;
-
-  final Preview preview;
   final DateTime timestamp;
 
+  final String? title;
+  final String? description;
+  final Preview? preview;
+
   Post({
-    this.key,
+    required this.key,
+    required this.timestamp,
     this.title,
     this.description,
     this.preview,
-    this.timestamp,
   });
 
   @override

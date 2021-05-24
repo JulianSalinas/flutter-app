@@ -60,7 +60,7 @@ class DrawerContent extends StatelessWidget {
       color: Colors.grey.withOpacity(0.8),
     );
 
-    final defaultUser = User(
+    final defaultUser = AppUser(
       key: 'default',
       isAnonymous: true,
     );

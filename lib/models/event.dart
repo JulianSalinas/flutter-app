@@ -7,29 +7,28 @@ class Event {
 
   final String type;
   final String title;
-  final String description;
+  final String? description;
 
   final DateTime start;
   final DateTime end;
 
-  final String image;
-  final String location;
+  final String? image;
+  final String? location;
 
   bool isFavorite;
-  List<Speaker> speakers;
+  List<Speaker> speakers = [];
 
   Event({
-    this.key,
-    this.code,
-    this.type,
-    this.title,
-    this.description,
-    this.start,
-    this.end,
+    required this.key,
+    required this.code,
+    required this.type,
+    required this.title,
+    required this.description,
+    required this.start,
+    required this.end,
     this.image,
     this.location,
-    this.isFavorite,
-    this.speakers,
+    this.isFavorite = false,
   });
 
   @override

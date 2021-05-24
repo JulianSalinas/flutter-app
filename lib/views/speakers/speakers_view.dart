@@ -21,7 +21,7 @@ class SpeakersView extends StatefulWidget {
 class SpeakersViewState extends State<SpeakersView> {
 
   bool _isSearching = false;
-  TextEditingController _searchQuery;
+  late TextEditingController _searchQuery;
 
   @override
   void initState() {

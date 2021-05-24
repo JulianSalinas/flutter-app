@@ -4,9 +4,7 @@ class SectionTitle extends StatelessWidget {
 
   final String text;
 
-  SectionTitle(this.text, {
-    Key key,
-  }) : super(key: key);
+  SectionTitle(this.text);
 
   @override
   Widget build(BuildContext context) {

@@ -6,11 +6,11 @@ class UserBloc {
 
   final UsersService _service = locator<UsersService>();
 
-  Future<User> getUser(String key) async {
+  Future<AppUser> getUser(String key) async {
     return _service.getUser(key);
   }
 
-  Future<void> setUser(User user) async {
+  Future<void> setUser(AppUser user) async {
     return _service.setUser(user);
   }
 

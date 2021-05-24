@@ -13,9 +13,7 @@ import 'package:letsattend/widgets/custom/rounded_button.dart';
 import 'package:letsattend/widgets/custom/rounded_input.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({
-    Key key,
-  }) : super(key: key);
+
 
   @override
   _CreatePostState createState() => _CreatePostState();
@@ -34,7 +32,7 @@ class _CreatePostState extends State<CreatePost> {
     // Build a Form widget using the _formKey created above.
     final form =  Form(
       key: _formKey,
-      autovalidate: true,
+      autovalidateMode: AutovalidateMode.always,
       child: Container(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -43,7 +41,7 @@ class _CreatePostState extends State<CreatePost> {
             Text('Título'),
             RoundedInput(
               validator: (value) {
-                if (value.isEmpty) {
+                if (value != null && value.isEmpty) {
                   return 'Please enter some text';
                 }
                 return null;
@@ -55,7 +53,7 @@ class _CreatePostState extends State<CreatePost> {
             Text('Acceso URL'),
             RoundedInput(
               validator: (value) {
-                if (value.isEmpty) {
+                if (value != null && value.isEmpty) {
                   return 'Please enter some text';
                 }
                 return null;
@@ -67,7 +65,7 @@ class _CreatePostState extends State<CreatePost> {
             Text('Contenido'),
             RoundedInput(
               validator: (value) {
-                if (value.isEmpty) {
+                if (value != null && value.isEmpty) {
                   return 'Please enter some text';
                 }
                 return null;
@@ -82,11 +80,11 @@ class _CreatePostState extends State<CreatePost> {
               color: SharedColors.alizarin,
               onPressed: () {
                 // Validate returns true if the form is valid, otherwise false.
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState != null && _formKey.currentState!.validate()) {
                   // If the form is valid, display a snackbar. In the real world,
                   // you'd often call a server or save the information in a database.
 
-                  Scaffold
+                  ScaffoldMessenger
                       .of(context)
                       .showSnackBar(SnackBar(content: Text('Processing Data')));
                 }

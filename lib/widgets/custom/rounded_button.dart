@@ -9,9 +9,9 @@ class RoundedButton extends StatelessWidget {
 
   final String text;
   final Color color;
-  final Color textColor;
-  final IconData icon;
-  final Function onPressed;
+  final Color? textColor;
+  final IconData? icon;
+  final VoidCallback? onPressed;
 
   RoundedButton(
     this.text, {
@@ -52,9 +52,7 @@ class RoundedButton extends StatelessWidget {
       side: BorderSide(color: color, width: 0),
     );
 
-    final raiseButton = RaisedButton(
-      color: color,
-      shape: border,
+    final raiseButton = ElevatedButton(
       child: container,
       onPressed: onPressed,
     );

@@ -24,22 +24,24 @@ class AuthViewState extends State<AuthView> {
   void signIn() async {
     final auth = Provider.of<AuthBloc>(context, listen: false);
     final payload = await auth.signInWithGoogle();
-    if (payload.hasError) _displayError(payload.errorCode);
+    if (payload.hasError) _displayError(payload.errorCode ?? "unknown");
   }
 
   void _displayError(String errorCode) {
     String message = errorCode == Codes.networkRequestFailed
         ? 'Revise la conexión a internet.'
         : 'No se ha podido iniciar sesión, intente con otra opción.';
-    showDialog(context: context, child: buildAlert(context, message));
+    showDialog(context: context, builder: (context) => buildAlert(context, message));
   }
 
   Widget buildAlert(BuildContext context, String message) {
     final textStyle = TextStyle(color: Colors.white);
 
-    final closeButton = FlatButton(
+    final closeButton = TextButton(
       child: Text('ENTENDIDO'),
-      color: Colors.white,
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
       onPressed: Navigator.of(context).pop,
     );
 
@@ -72,7 +74,7 @@ class AuthViewState extends State<AuthView> {
 
     final signUpText = Text(
       '¿No tienes una cuenta?',
-      style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6)),
+      style: TextStyle(color: Theme.of(context).textTheme.bodyText2?.color?.withOpacity(0.6)),
     );
 
     final signUpButton = MaterialButton(
@@ -82,7 +84,7 @@ class AuthViewState extends State<AuthView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
+      child: FlutterLogo(size: 132),
     );
 
     final content = Column(

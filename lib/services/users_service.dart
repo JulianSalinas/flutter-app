@@ -8,14 +8,14 @@ class UsersService {
   final DatabaseReference database = FirebaseDatabase.instance.reference();
 
   /// It is called when new user signs up
-  Future<void> setUser(User user) async {
+  Future<void> setUser(AppUser user) async {
     return database.child('users')
         .child(user.key)
         .set(user.toJson());
   }
 
   /// To get users from the chat using their IDs
-  Future<User> getUser(String key) async {
+  Future<AppUser> getUser(String key) async {
 
     DataSnapshot snapshot = await database
         .child('users')
@@ -23,10 +23,10 @@ class UsersService {
         .once();
 
     if (snapshot.value == null) {
-      return User(key: key, isAnonymous: true);
+      return AppUser(key: key, isAnonymous: true);
     }
 
-    return User(
+    return AppUser(
       key: key,
       name: snapshot.value['username'],
       email: snapshot.value['email'],

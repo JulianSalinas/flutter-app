@@ -6,10 +6,10 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
 
   final StreamController controller = StreamController();
 
-  List<dynamic> collection;
+  List<dynamic> collection = List.empty();
 
   bool _descending = true;
-  get descending => _descending;
+  bool get descending => _descending;
 
   set descending(bool descending) {
     _descending = descending;
@@ -17,8 +17,8 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
     notifyListeners();
   }
 
-  StreamSubscription _subscription;
-  
+  StreamSubscription? _subscription;
+
   OrderableBloc() {
     _subscription = service.stream.listen(update);
   }
@@ -42,7 +42,7 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
   @override
   void dispose() {
     controller.close();
-    _subscription.cancel();
+    _subscription?.cancel();
     super.dispose();
   }
 

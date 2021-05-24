@@ -8,15 +8,15 @@ class EventsView extends StatelessWidget {
   final List<Event> events;
   final Function(Event) toggleFavorite;
 
-  EventsView({Key key,
-    @required this.events,
-    @required this.toggleFavorite,
-  }) : super(key: key);
+  EventsView({
+    required this.events,
+    required this.toggleFavorite,
+  });
 
   @override
   Widget build(BuildContext context) {
 
-    if (events == null || events.length <= 0)
+    if (events.length <= 0)
       return EmptyView('Vacío', 'Esta persona no tiene eventos asociados');
 
     return ListView.builder(

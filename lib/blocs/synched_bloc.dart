@@ -11,7 +11,7 @@ abstract class SynchedBloc<T extends SynchedService> with ChangeNotifier {
 
   @override
   void dispose() {
-    service?.close();
+    service.close();
     super.dispose();
   }
 

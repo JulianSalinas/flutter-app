@@ -4,17 +4,15 @@ import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/detail/detail_content.dart';
 import 'package:letsattend/views/detail/detail_header.dart';
 
-import 'package:lipsum/lipsum.dart' as lipsum;
-
 
 class Detail extends StatefulWidget {
 
   final Event event;
 
-  static final String title = lipsum.createParagraph(numSentences: 1);
-  static final String abstract = lipsum.createText(numParagraphs: 6);
+  static final String title = "title";
+  static final String abstract = "abstract";
 
-  Detail({ this.event });
+  Detail({ required this.event });
 
   @override
   DetailState createState() => DetailState();
@@ -27,8 +25,8 @@ class DetailState extends State<Detail> with SingleTickerProviderStateMixin {
   bool isVisible = true;
   ScrollController scrollController = new ScrollController();
 
-  Animation<double> buttonAnimation;
-  AnimationController animationCtrl;
+  late Animation<double> buttonAnimation;
+  late AnimationController animationCtrl;
 
   updateFloatingButtonVisibility(){
 

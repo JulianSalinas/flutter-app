@@ -8,8 +8,8 @@ class NestedPoint extends StatelessWidget {
   final Color color;
 
   NestedPoint({
-    @required this.color,
-    this.isOdd,
+    required this.color,
+    this.isOdd = true,
   });
 
   @override

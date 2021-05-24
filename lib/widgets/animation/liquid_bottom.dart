@@ -6,35 +6,35 @@ class LiquidBottom extends StatefulWidget {
   /// Specifies the duration the text should fill with liquid.
   ///
   /// By default it is set to 6 seconds.
-  final Duration loadDuration;
+  final Duration? loadDuration;
 
   /// Specifies the duration that one wave takes to pass the screen.
   ///
   /// By default it is set to 2 seconds.
-  final Duration waveDuration;
+  final Duration? waveDuration;
 
   /// Specifies the height of the box around text
   ///
   /// By default it is set to 250
-  final double boxHeight;
+  final double? boxHeight;
 
   /// Specifies the width of the box around text
   ///
   /// By default it is set to 400
-  final double boxWidth;
+  final double? boxWidth;
 
   /// Specifies the backgroundColor of the box
   ///
   /// By default it is set to black color
-  final Color boxBackgroundColor;
+  final Color? boxBackgroundColor;
 
   /// Specifies the color of the wave
   ///
   /// By default it is set to blueAccent color
-  final Color waveColor;
+  final Color? waveColor;
 
   LiquidBottom({
-    Key key,
+    Key? key,
     this.loadDuration,
     this.waveDuration,
     this.boxHeight,
@@ -50,16 +50,16 @@ class LiquidBottom extends StatefulWidget {
 class _LiquidBottomState extends State<LiquidBottom>
     with TickerProviderStateMixin {
 
-  Duration _waveDuration;
-  Duration _loadDuration;
+  late Duration _waveDuration;
+  late Duration _loadDuration;
 
-  Color _waveColor;
-  double _boxWidth;
-  double _boxHeight;
+  late Color _waveColor;
+  double? _boxWidth;
+  late double _boxHeight;
 
-  Animation _loadValue;
-  AnimationController _waveController;
-  AnimationController _loadController;
+  late Animation _loadValue;
+  late AnimationController _waveController;
+  late AnimationController _loadController;
 
   @override
   void initState() {
@@ -94,15 +94,14 @@ class _LiquidBottomState extends State<LiquidBottom>
 
   @override
   void dispose() {
-    if (_waveController != null)
-      _waveController
-        ..stop()
-        ..dispose();
 
-    if (_loadController != null)
-      _loadController
-        ..stop()
-        ..dispose();
+    _waveController
+      ..stop()
+      ..dispose();
+
+    _loadController
+      ..stop()
+      ..dispose();
 
     super.dispose();
   }
@@ -112,7 +111,7 @@ class _LiquidBottomState extends State<LiquidBottom>
 
     final animatedBuilder = AnimatedBuilder(
       animation: _waveController,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return CustomPaint(
           painter: WavePainter(
             waveAnimation: _waveController,
@@ -141,17 +140,17 @@ class WavePainter extends CustomPainter {
   Animation<double> waveAnimation;
 
   WavePainter({
-    this.boxHeight,
-    this.waveColor,
-    this.percentValue,
-    this.waveAnimation,
+    required this.boxHeight,
+    required this.waveColor,
+    required this.percentValue,
+    required this.waveAnimation,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
 
-    double width = (size.width != null) ? size.width : 200;
-    double height = (size.height != null) ? size.height : 200;
+    double width = size.width;
+    double height = size.height;
 
     Paint wavePaint = Paint()..color = waveColor;
 

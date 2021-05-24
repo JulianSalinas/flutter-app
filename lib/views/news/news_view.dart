@@ -61,7 +61,7 @@ class NewsViewState extends State<NewsView> {
       drawer: DrawerView(Routes.newsRoute),
       body: customScroll,
       extendBodyBehindAppBar: true,
-      floatingActionButton: auth.currentUser.isAdmin ? addButton : SizedBox.shrink(),
+      floatingActionButton: auth.currentUser!.isAdmin ? addButton : SizedBox.shrink(),
     );
 
   }

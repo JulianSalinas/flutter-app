@@ -27,11 +27,11 @@ class SettingsBloc with ChangeNotifier {
     SharedPreferences.getInstance().then(saveTheme);
   }
 
-  List<Color> _colors;
+  List<Color>? _colors;
 
-  List<Color> get colors => _colors;
+  List<Color>? get colors => _colors;
 
-  set colors(List<Color> colors) {
+  set colors(List<Color>? colors) {
     _colors = colors;
     notifyListeners();
   }
@@ -41,8 +41,7 @@ class SettingsBloc with ChangeNotifier {
   }
 
   loadTheme(SharedPreferences prefs) {
-    if (prefs.getBool('nightMode') != null)
-      _nightMode = prefs.getBool('nightMode');
+    _nightMode = prefs.getBool('nightMode') ?? true;
     saveTheme(prefs);
   }
 
@@ -52,7 +51,6 @@ class SettingsBloc with ChangeNotifier {
   }
 
   bool _allowPhoto = true;
-
   bool get allowPhoto => _allowPhoto;
 
   set allowPhoto(bool allowPhoto){
@@ -62,7 +60,7 @@ class SettingsBloc with ChangeNotifier {
   }
 
   bool get isColorful {
-    return _colors == null || _colors.length <= 0;
+    return _colors != null && _colors!.length <= 0;
   }
 
   Brightness get brightness {

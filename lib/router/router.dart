@@ -20,7 +20,7 @@ import 'package:letsattend/views/speakers/speakers_view.dart';
 import 'package:letsattend/views/schedule/schedule_view.dart';
 import 'package:letsattend/views/settings/setttings_view.dart';
 
-class Router {
+class CustomRouter {
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.homeRoute:

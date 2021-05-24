@@ -6,10 +6,6 @@ import 'package:provider/provider.dart';
 
 class ColoredFlex extends StatelessWidget {
 
-  const ColoredFlex({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
 

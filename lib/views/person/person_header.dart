@@ -11,7 +11,7 @@ class PersonHeader extends StatefulWidget {
 
   final Speaker speaker;
 
-  PersonHeader({ @required this.speaker });
+  PersonHeader({ required this.speaker });
 
   @override
   _PersonHeaderState createState() => _PersonHeaderState();
@@ -21,9 +21,9 @@ class _PersonHeaderState extends State<PersonHeader> {
 
   static const int EVENTS_TAB = 0;
   static const int ABOUT_TAB = 1;
-  int segmentedControlGroupValue = 0;
+  int? segmentedControlGroupValue = 0;
 
-  onSegmentedControlValueChanged(int index) {
+  onSegmentedControlValueChanged(int? index) {
     setState(() { segmentedControlGroupValue = index; });
   }
 
@@ -56,7 +56,7 @@ class _PersonHeaderState extends State<PersonHeader> {
 
     final speakerName = Text(
       widget.speaker.name,
-      style: Typography.englishLike2018.headline6.copyWith(
+      style: Typography.englishLike2018.headline6!.copyWith(
         color: Colors.white
       ),
     );
@@ -83,7 +83,7 @@ class _PersonHeaderState extends State<PersonHeader> {
         : widget.speaker.country;
 
     final subtitleText = Text(
-      subtitle,
+      subtitle!,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(color: Colors.white),
     );

@@ -4,7 +4,7 @@ class Message {
 
   final String key;
 
-  final User sender;
+  final AppUser sender;
   final String content;
   final DateTime timestamp;
 
@@ -12,10 +12,10 @@ class Message {
   final bool delivered;
 
   Message({
-    this.key,
-    this.sender,
-    this.content,
-    this.timestamp,
+    required this.key,
+    required this.sender,
+    required this.content,
+    required this.timestamp,
     this.isOwned = false,
     this.delivered = false,
   });

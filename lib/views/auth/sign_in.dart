@@ -26,8 +26,8 @@ class SignInViewState extends State<SignInView> {
 
   bool obscurePassword = true;
 
-  String emailError;
-  String passwordError;
+  String? emailError;
+  String? passwordError;
 
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -64,7 +64,7 @@ class SignInViewState extends State<SignInView> {
     final payload = await auth.signIn(email, password);
 
     payload.hasError
-      ? _displayError(payload.errorCode)
+      ? _displayError(payload.errorCode ?? "unknown")
       : Navigator.of(context).pop();
   }
 
@@ -73,14 +73,14 @@ class SignInViewState extends State<SignInView> {
     final payload = await auth.signInWithGoogle();
 
     payload.hasError
-        ? _displayError(payload.errorCode)
+        ? _displayError(payload.errorCode ?? "unknown")
         : Navigator.of(context).pop();
   }
 
   void _displayError(String errorCode){
     if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
     else if(errorCode == Codes.wrongPassword)
       setState(() => passwordError = 'Contraseña incorrecta');
@@ -90,7 +90,7 @@ class SignInViewState extends State<SignInView> {
       setState(() => emailError = 'El usuario no ha sido registrado');
     else{
       String message = 'No se ha podido iniciar sesión, intente con otra opción.';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
   }
 
@@ -98,9 +98,11 @@ class SignInViewState extends State<SignInView> {
 
     final textStyle = TextStyle(color: Colors.white);
 
-    final closeButton = FlatButton(
+    final closeButton = TextButton(
       child: Text('ENTENDIDO'),
-      color: Colors.white,
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
       onPressed: Navigator.of(context).pop,
     );
 
@@ -124,13 +126,22 @@ class SignInViewState extends State<SignInView> {
       onPressed: () { },
     );
 
-    final emailField = RoundedInput(
+    var emailField = RoundedInput(
       hintText: 'Email',
-      errorText: emailError,
       controller: emailCtrl,
       keyboardType: TextInputType.text,
       leading: atButton,
     );
+
+    if (emailError != null)
+
+      emailField = RoundedInput(
+        hintText: 'Email',
+        errorText: emailError!,
+        controller: emailCtrl,
+        keyboardType: TextInputType.text,
+        leading: atButton,
+      );
 
     final visibilityIcon = Icon(obscurePassword
         ? MaterialIcons.visibility_off
@@ -142,15 +153,26 @@ class SignInViewState extends State<SignInView> {
       onPressed: () => setState(() => obscurePassword = !obscurePassword),
     );
 
-    final passwordField = RoundedInput(
+    var passwordField = RoundedInput(
       obscureText: obscurePassword,
       maxLines: 1,
       hintText: 'Contraseña',
-      errorText: passwordError,
       controller: passwordCtrl,
       leading: visibilityButton,
       keyboardType: TextInputType.text,
     );
+
+    if (passwordError != null)
+
+      passwordField = RoundedInput(
+        obscureText: obscurePassword,
+        maxLines: 1,
+        hintText: 'Contraseña',
+        errorText: passwordError!,
+        controller: passwordCtrl,
+        leading: visibilityButton,
+        keyboardType: TextInputType.text,
+      );
 
     final submitButton = RoundedButton(
       'INGRESAR',
@@ -169,7 +191,7 @@ class SignInViewState extends State<SignInView> {
     final auxText = Text(
       '¿Has olvidado tu contraseña?',
       style: TextStyle(
-        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2?.color?.withOpacity(0.6),
       ),
     );
 
@@ -182,7 +204,7 @@ class SignInViewState extends State<SignInView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
+      child: FlutterLogo(size: 132),
     );
 
     final content = Column(

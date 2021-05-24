@@ -2,8 +2,8 @@ import 'package:letsattend/models/user.dart';
 
 class Auth {
 
-  final User user;
-  final String errorCode;
+  final AppUser? user;
+  final String? errorCode;
 
   const Auth({
     this.user,

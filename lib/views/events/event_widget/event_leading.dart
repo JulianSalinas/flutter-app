@@ -11,12 +11,11 @@ class ItemLine extends StatelessWidget {
   final bool isOdd;
 
   const ItemLine({
-    Key key,
-    @required this.color,
+    required this.color,
     this.isFirst = false,
     this.isLast = false,
     this.isOdd = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

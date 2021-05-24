@@ -1,3 +1,5 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:uuid/uuid.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,28 +10,37 @@ import 'package:letsattend/services/auth_google.dart';
 import 'package:letsattend/services/auth_service.dart';
 
 class AuthWithFirebase extends AuthService {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<User> get user async {
-    final user = await _auth.currentUser();
+  AppUser get user {
+    final user = _auth.currentUser;
     return _parseUser(user);
   }
 
   @override
-  Stream<User> get onAuthStateChanged {
-    return _auth.onAuthStateChanged.map(_parseUser);
+  Stream<AppUser> get onAuthStateChanged {
+    return _auth.authStateChanges().map(_parseUser);
   }
 
-  User _parseUser(FirebaseUser user) {
-    return user == null ? null : User(
-      key: user.uid,
-      name: user.displayName,
-      email: user.email,
-      photoUrl: user.photoUrl,
-      isAnonymous: user.isAnonymous,
+  AppUser _parseUser(User? user) {
+
+    final emptyUser = AppUser(
+      key: Uuid().v1().toString(),
+      isLogged: false,
     );
+
+    if (user == null) return emptyUser;
+
+    return AppUser(
+      key: user.uid,
+      name: user.displayName ?? "unknown",
+      email: user.email,
+      photoUrl: user.photoURL,
+      isAnonymous: user.isAnonymous,
+      isLogged: true,
+    );
+
   }
 
   @override
@@ -39,7 +50,7 @@ class AuthWithFirebase extends AuthService {
         email: email,
         password: password,
       );
-      User user = _parseUser(result.user);
+      AppUser user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -54,7 +65,7 @@ class AuthWithFirebase extends AuthService {
         email: email,
         password: password,
       );
-      User user = _parseUser(result.user);
+      AppUser user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -66,7 +77,7 @@ class AuthWithFirebase extends AuthService {
   Future<Auth> signInAnonymously() async {
     try {
       final result = await _auth.signInAnonymously();
-      User user = _parseUser(result.user);
+      AppUser user = _parseUser(result.user);
       await usersService.setUser(user);
       return Auth(user: user);
     } on PlatformException catch (error) {
@@ -87,16 +98,19 @@ class AuthWithFirebase extends AuthService {
   @override
   Future<Auth> signInWithGoogle() async {
     try {
+
       AuthGoogle authGoogle = AuthGoogle();
       final signInAuth = await authGoogle.signInWithGoogle();
-      final credential = GoogleAuthProvider.getCredential(
+
+      final credential = GoogleAuthProvider.credential(
         idToken: signInAuth.idToken,
         accessToken: signInAuth.accessToken,
       );
+
       final result = await _auth.signInWithCredential(credential);
       return Auth(user: _parseUser(result.user));
-    }
-    on PlatformException catch (error) {
+
+    } on PlatformException catch (error) {
       return Auth(errorCode: error.code);
     }
   }

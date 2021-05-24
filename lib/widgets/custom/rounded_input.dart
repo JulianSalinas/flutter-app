@@ -11,13 +11,13 @@ class RoundedInput extends StatelessWidget {
 
   final int minLines;
   final int maxLines;
-  final Widget leading;
-  final String hintText;
-  final String errorText;
-  final Function onChanged;
-  final Function validator;
-  final TextInputType keyboardType;
-  final TextEditingController controller;
+  final Widget? leading;
+  final String? hintText;
+  final String? errorText;
+  final ValueChanged<String>? onChanged;
+  final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   RoundedInput({
     this.minLines = 1,
@@ -64,7 +64,7 @@ class RoundedInput extends StatelessWidget {
       enabledBorder: border,
       focusedBorder: border,
       errorBorder: border,
-      prefixIcon: leading == null ? null : prefix,
+      prefixIcon: leading,
       hintText: hintText,
       errorText: errorText,
       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),

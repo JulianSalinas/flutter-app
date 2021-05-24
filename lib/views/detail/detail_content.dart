@@ -2,18 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/views/events/event_widget/event_speakers.dart';
-import 'package:lipsum/lipsum.dart' as lipsum;
 
 /// A simple colored screen with a centered text
 class DetailContent extends StatelessWidget {
 
   // TODO: Remote after putting the event
-  static final String title = lipsum.createParagraph(numSentences: 1);
-  static final String abstract = lipsum.createText(numParagraphs: 6);
+  static final String title = "title";
+  static final String abstract = "abstract";
 
   final Event event;
 
-  DetailContent({ @required this.event });
+  DetailContent({ required this.event });
 
   @override
   Widget build(BuildContext context) {

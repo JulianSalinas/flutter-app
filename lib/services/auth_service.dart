@@ -7,8 +7,8 @@ abstract class AuthService {
 
   final UsersService usersService = locator<UsersService>();
 
-  Future<User> get user;
-  Stream<User> get onAuthStateChanged;
+  AppUser get user;
+  Stream<AppUser> get onAuthStateChanged;
 
   Future<Auth> signInWithGoogle();
   Future<Auth> signInAnonymously();

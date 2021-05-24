@@ -1,6 +1,6 @@
-# Let's Attend!
+# letsattend
 
-Events app made in Flutter
+App to keep up with conferences
 
 ## Getting Started
 

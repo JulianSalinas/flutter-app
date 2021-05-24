@@ -1,25 +1,29 @@
 import 'package:letsattend/models/person.dart';
 
-class User extends Person {
+class AppUser extends Person {
 
   final String key;
   final String name;
-  final String email;
-  final String photoUrl;
+
+  final String? email;
+  final String? photoUrl;
 
   bool allowPhoto;
   bool isAdmin;
+  bool isLogged;
+
   final bool isAnonymous;
 
-  User({
-    this.key,
-    this.name,
+  AppUser({
+    required this.key,
+    this.name = "unknown",
     this.email,
     this.photoUrl,
     this.allowPhoto = true,
     this.isAdmin = true,
+    this.isLogged = false,
     this.isAnonymous = false,
-  }) : super(name == null ? '#': name);
+  }) : super(name);
 
   toJson() => ({
     'userid': key,
@@ -33,7 +37,7 @@ class User extends Person {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || other is User && key == other.key;
+    return identical(this, other) || other is AppUser && key == other.key;
   }
 
   @override

@@ -7,9 +7,8 @@ class PreviewImage extends StatelessWidget {
   final String imageUrl;
 
   PreviewImage({
-    Key key,
-    @required this.imageUrl,
-  }) : super(key: key);
+    required this.imageUrl,
+  });
 
   openImage(BuildContext context) {
     final route = MaterialPageRoute(builder: (_) => OpenedImage(imageUrl));

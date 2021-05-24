@@ -6,12 +6,12 @@ class HomeOption extends StatelessWidget {
 
   final Icon icon;
   final Color color;
-  final Function onTap;
+  final GestureTapCallback? onTap;
 
 
   HomeOption({
-    @required this.icon,
-    @required this.onTap,
+    required this.icon,
+    required this.onTap,
     this.color = Colors.white,
   });
 

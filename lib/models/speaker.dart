@@ -4,19 +4,19 @@ class Speaker extends Person {
 
   final String key;
   final String name;
-  final String about;
-  final String country;
-  final String university;
-  Map eventKeys;
+  final String? about;
+  final String? country;
+  final String? university;
+  Map? eventKeys;
 
   Speaker({
-    this.key,
-    this.name,
+    required this.key,
+    this.name = "unknown",
     this.about,
     this.country,
     this.university,
-    this.eventKeys
-  }) : super(name == null ? '#' : name);
+    this.eventKeys,
+  }) : super(name);
 
   @override
   int get hashCode => key.hashCode;

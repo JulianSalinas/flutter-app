@@ -8,7 +8,11 @@ class CarouselOption  {
   final String image;
   final Function onTap;
 
-  CarouselOption({this.name, this.image, this.onTap});
+  CarouselOption({
+    required this.name,
+    required this.image,
+    required this.onTap,
+  });
 
 }
 

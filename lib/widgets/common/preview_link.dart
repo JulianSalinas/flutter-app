@@ -11,9 +11,8 @@ class PreviewLink extends StatelessWidget {
   final Preview preview;
 
   PreviewLink({
-    Key key,
-    @required this.preview,
-  }) : super(key: key);
+    required this.preview,
+  });
 
   openUrl(BuildContext context) {
     final browser = BrowserView(initialUrl: preview.url);
@@ -26,32 +25,32 @@ class PreviewLink extends StatelessWidget {
 
     final scheme = Provider.of<SettingsBloc>(context);
 
-    final thumbnail = preview.thumbnail != null ? Image.network(
+    final thumbnail = Image.network(
       preview.thumbnail,
       width: 48,
       height: 48,
       fit: BoxFit.cover,
-    ): SizedBox.shrink();
+    );
 
     final title = Text(
-      preview.title ?? 'No title',
+      preview.title,
       style: TextStyle(fontWeight: FontWeight.bold),
     );
 
-    final url = preview.url != null ? Text(
+    final url = Text(
       preview.url,
       style: TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w300,
       ),
       overflow: TextOverflow.ellipsis,
-    ): SizedBox.shrink();
+    );
 
-    final description = preview.description != null ? Text(
+    final description = Text(
       preview.description,
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
-    ): SizedBox.shrink();
+    );
     
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,

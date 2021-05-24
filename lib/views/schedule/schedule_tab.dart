@@ -12,7 +12,7 @@ class ScheduleTab extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final content = Align(
-      child: Text(text ?? 'INDEFINIDO'),
+      child: Text(text),
       alignment: Alignment.center,
     );
 

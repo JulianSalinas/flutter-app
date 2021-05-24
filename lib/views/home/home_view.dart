@@ -33,7 +33,7 @@ class HomeViewState extends State<HomeView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
+      child: FlutterLogo(size: 132),
     );
 
     final logoContainer = Container(
@@ -50,22 +50,26 @@ class HomeViewState extends State<HomeView> {
             text: 'Cronograma',
             icon: Icon(Ionicons.md_calendar, size: 28),
             onTap: () => Navigator.of(context).pushNamed(Routes.scheduleRoute),
+            color: Colors.white,
           ),
         ),
         HomeCircle(
           text: 'Expositores',
           icon: Icon(Icons.people, size: 28,),
           onTap: () => Navigator.of(context).pushNamed(Routes.speakersRoute),
+          color: Colors.white,
         ),
         HomeCircle(
           text: 'Mensajes',
           icon: Icon(Entypo.chat, size: 28,),
           onTap: () => Navigator.of(context).pushNamed(Routes.chatRoute),
+          color: Colors.white,
         ),
         HomeCircle(
           text: 'Configuración',
-          icon: Icon(MaterialCommunityIcons.settings, size: 28,),
+          icon: Icon(MaterialCommunityIcons.settings_helper, size: 28,),
           onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
+          color: Colors.white,
         ),
         Container(
           margin: EdgeInsets.only(right: 12),
@@ -73,6 +77,7 @@ class HomeViewState extends State<HomeView> {
             text: 'Contácto',
             icon: Icon(Icons.mail, size: 28,),
             onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
+            color: Colors.white,
           ),
         ),
       ],
@@ -147,7 +152,7 @@ class HomeViewState extends State<HomeView> {
     final willPopScope = WillPopScope(
       child: paddedContent,
       onWillPop: () async {
-        Scaffold.of(context).showSnackBar(popSnackBar);
+        ScaffoldMessenger.of(context).showSnackBar(popSnackBar);
         return false;
       },
     );

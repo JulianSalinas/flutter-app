@@ -28,11 +28,11 @@ class EventWidget extends StatelessWidget {
   final Function(Event) toggleFavorite;
 
   EventWidget({
-    @required this.event,
+    required this.event,
     this.isFirst = false,
     this.isLast = false,
     this.isOdd = false,
-    this.toggleFavorite
+    required this.toggleFavorite
   });
 
   openDetail(BuildContext context) {
@@ -45,17 +45,19 @@ class EventWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final decorationColor = colors[event.type] ?? Colors.white;
+
     final decoration = ItemLine(
       isFirst: isFirst,
       isLast: isLast,
       isOdd: isOdd,
-      color: colors[event.type],
+      color: decorationColor,
     );
 
     final itemType = Text(
       '${event.code}. ${event.type} ',
       style: TextStyle(
-        color: colors[event.type],
+        color: decorationColor,
         fontWeight: FontWeight.bold
       ),
     );
@@ -86,14 +88,6 @@ class EventWidget extends StatelessWidget {
       ),
     );
 
-    final itemLocation = Row(
-      children: <Widget>[
-        Icon(Entypo.location_pin, size: 14),
-        SizedBox(width: 4),
-        Text(event.location, style: TextStyle(fontSize: 12)),
-      ],
-    );
-
     final itemPeople =  event.speakers.length > 0 ? ItemPeople(
       speakers: event.speakers
     ): Row(
@@ -110,7 +104,7 @@ class EventWidget extends StatelessWidget {
 
     final itemBottom = Container(
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         children: <Widget>[
           itemPeople,
           Positioned(right: 0, top: -16, child: itemFavorite),
@@ -125,7 +119,15 @@ class EventWidget extends StatelessWidget {
         SizedBox(height: 12),
         itemTitle,
         SizedBox(height: 8),
-        itemLocation,
+        if(event.location != null)...[
+          Row(
+            children: [
+              Icon(Entypo.location_pin, size: 14),
+              SizedBox(width: 4),
+              Text(event.location!, style: TextStyle(fontSize: 12)),
+            ],
+          )
+        ],
         SizedBox(height: 8),
         itemBottom
       ],

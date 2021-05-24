@@ -5,25 +5,25 @@ import 'package:letsattend/services/synched_service.dart';
 
 class FilterableBloc<T extends SynchedService> extends OrderableBloc<T> {
 
-  String _filter;
-  Timer _typingTimer;
+  String? _filter;
+  Timer? _typingTimer;
 
   set filter(String filter) {
     _filter = filter.toLowerCase();
-    if(_timerShouldCancel()) _typingTimer.cancel();
+    if(_timerShouldCancel()) _typingTimer!.cancel();
     _typingTimer = Timer(Duration(milliseconds: 400), search);
   }
 
   bool _timerShouldCancel(){
-    return _typingTimer != null && _typingTimer.isActive;
+    return _typingTimer != null && _typingTimer!.isActive;
   }
 
   void search() async {
     notify(collection.where(isSearched).toList());
   }
 
-  bool isSearched(Object item) =>
+  bool isSearched(dynamic item) =>
       _filter == null ||
-      _filter.isEmpty ||
-      SharedUtils.containsFilter(_filter, item.toString());
+      _filter!.isEmpty ||
+      SharedUtils.containsFilter(_filter!, item.toString());
 }

@@ -112,7 +112,6 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
 
     final eventsView = (entry) {
       return EventsView(
-        key: Key(entry.key),
         events: entry.value,
         toggleFavorite: scheduleModel.toggleFavorite,
       );

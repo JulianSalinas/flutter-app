@@ -8,8 +8,8 @@ class SpeakerWidget extends StatelessWidget {
   final Speaker speaker;
 
   SpeakerWidget({
-    Key key,
-    @required this.speaker,
+    required Key key,
+    required this.speaker,
   }) : super(key: key);
 
   /// Opens PersonView widget with the speaker's information
@@ -45,7 +45,7 @@ class SpeakerWidget extends StatelessWidget {
         : 'Desde ${speaker.about}';
 
     final subtitleText = Text(
-      subtitle,
+      subtitle!,
       overflow: TextOverflow.ellipsis,
     );
 

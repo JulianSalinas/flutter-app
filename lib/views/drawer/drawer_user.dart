@@ -5,24 +5,30 @@ import 'package:letsattend/shared/colors.dart';
 
 class DrawerUser extends StatelessWidget {
 
-  final User user;
+  final AppUser user;
 
   DrawerUser({
-    @required this.user,
-  }) : assert(user != null);
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
 
     final hasPhoto = user.photoUrl != null;
 
-    final circleAvatar = CircleAvatar(
+    var circleAvatar = CircleAvatar(
       radius: 40,
       backgroundColor: user.color,
-      backgroundImage: hasPhoto
-          ? NetworkImage(user.photoUrl)
-          : AssetImage('assets/avatar/penguin.png'),
+      backgroundImage: AssetImage('assets/avatar/penguin.png'),
     );
+
+    if (hasPhoto)
+
+      circleAvatar = CircleAvatar(
+        radius: 40,
+        backgroundColor: user.color,
+        backgroundImage: NetworkImage(user.photoUrl!),
+      );
 
     final avatarDecoration = BoxDecoration(
       shape: BoxShape.circle,
@@ -37,7 +43,7 @@ class DrawerUser extends StatelessWidget {
     );
 
     final drawerName = Text(
-      user.name ?? 'Bienvenido',
+      user.isLogged ? user.name : 'Bienvenido',
       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
     );
 

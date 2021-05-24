@@ -13,9 +13,8 @@ class PostWidget extends StatelessWidget {
   final Post post;
 
   PostWidget({
-    Key key,
-    @required this.post,
-  }) : super(key: key ?? Key(post.key));
+    required this.post,
+  }) : super(key: Key(post.key));
 
   openUrl(BuildContext context, LinkableElement params) {
     final browser = BrowserView(initialUrl: params.url);
@@ -45,15 +44,15 @@ class PostWidget extends StatelessWidget {
 
     final description = post.description != null
         ? Linkify(
-            text: post.description,
+            text: post.description!,
             onOpen: (params) => openUrl(context, params),
           )
         : SizedBox.shrink();
 
     final preview = post.preview != null
-        ? post.preview.isImage()
-            ? PreviewImage(imageUrl: post.preview.url)
-            : PreviewLink(preview: post.preview)
+        ? post.preview!.isImage()
+            ? PreviewImage(imageUrl: post.preview!.url)
+            : PreviewLink(preview: post.preview!)
         : SizedBox.shrink();
 
     final content = Column(

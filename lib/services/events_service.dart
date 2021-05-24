@@ -16,14 +16,14 @@ class EventsService extends FirebaseService<Event> {
   final SpeakersService _speakersService = locator<SpeakersService>();
   final FavoritesService _favoritesService = locator<FavoritesService>();
 
-  StreamSubscription _favoriteAddedSubscription;
-  StreamSubscription _favoriteRemovedSubscription;
+  late StreamSubscription _favoriteAddedSubscription;
+  late StreamSubscription _favoriteRemovedSubscription;
 
   EventsService() : super('edepa6/schedule', orderBy: 'start'){
-    auth.user.then(subscribeFavoritesChanges);
+    subscribeFavoritesChanges(auth.user);
   }
 
-  void subscribeFavoritesChanges(User user) {
+  void subscribeFavoritesChanges(AppUser user) {
 
     final reference = database
         .child('edepa6')
@@ -41,8 +41,7 @@ class EventsService extends FirebaseService<Event> {
 
   void onFavoriteChanged(dynamic data, bool isFavorite) {
     final find = (event) => event.key == data.snapshot.key;
-    Event event = collection.firstWhere(find, orElse: () => null);
-    if (event == null) return;
+    Event event = collection.firstWhere(find);
     event.isFavorite = isFavorite;
     _onCollectionChanged(event);
   }
@@ -54,7 +53,7 @@ class EventsService extends FirebaseService<Event> {
     controller.add(collection);
   }
 
-  Future<Event> getEvent(dynamic key) async {
+  Future<Event?> getEvent(dynamic key) async {
 
     final snapshot = await database
         .child('edepa6')
@@ -65,34 +64,35 @@ class EventsService extends FirebaseService<Event> {
     return parse(snapshot);
   }
 
-  Future<Speaker> getSpeaker(dynamic key) async {
+  Future<Speaker?> getSpeaker(dynamic key) async {
     return await _speakersService.getSpeaker(key);
   }
 
   @override
-  Future<Event> parse(DataSnapshot snapshot) async {
+  Future<Event?> parse(DataSnapshot snapshot) async {
 
     final data = snapshot.value;
     if (data == null) return null;
 
     Map people = data['people'] ?? {};
-
-    List<Speaker> speakers = await Future.wait(people.keys.map(getSpeaker));
     final isFavorite = await _favoritesService.isFavorite(snapshot.key);
 
-    return Event(
+    final event = Event(
       key: snapshot.key,
       code: data['id'],
       type: data['eventype'],
-      title: SharedUtils.cleanText(data['title']),
+      title: SharedUtils.cleanText(data['title']) ?? "unknown",
       description: SharedUtils.cleanText(data['briefSpanish']),
       start: SharedUtils.castMilliseconds(data['start']),
       end: SharedUtils.castMilliseconds(data['end']),
       image: 'assets/tec_edificio_a4.jpg',
       location: SharedUtils.cleanText(data['location']),
-      speakers: speakers,
       isFavorite: isFavorite,
     );
+
+    final speakers = await Future.wait(people.keys.map(getSpeaker));
+    event.speakers = speakers.where((sp) => sp != null) as List<Speaker>;
+    return event;
 
   }
 

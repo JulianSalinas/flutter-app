@@ -23,7 +23,7 @@ class PasswordResetView extends StatefulWidget {
 
 class PasswordResetViewState extends State<PasswordResetView> {
 
-  String emailError;
+  String? emailError;
   final emailCtrl = TextEditingController();
 
   @override
@@ -42,7 +42,9 @@ class PasswordResetViewState extends State<PasswordResetView> {
     final auth = Provider.of<AuthBloc>(context, listen: false);
     String email = emailCtrl.text.trim();
     final payload = await auth.resetPassword(email);
-    payload.hasError ? _displayError(payload.errorCode) : sent(context, email);
+    payload.hasError
+        ? _displayError(payload.errorCode ?? "unknown")
+        : sent(context, email);
   }
 
   void sent(BuildContext context, String email){
@@ -56,7 +58,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
   void _displayError(String errorCode){
     if(errorCode == Codes.networkRequestFailed) {
       String message = 'Revise la conexión a internet.';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
     else if (errorCode == Codes.invalidEmail)
       setState(() => emailError = 'El correo es inválido');
@@ -64,7 +66,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
       setState(() => emailError = 'El usuario asociado a este correo no existe');
     else{
       String message = 'No se ha podido enviar la contraseña.';
-      showDialog(context: context, child: buildAlert(context, message));
+      showDialog(context: context, builder: (context) => buildAlert(context, message));
     }
   }
 
@@ -72,9 +74,11 @@ class PasswordResetViewState extends State<PasswordResetView> {
 
     final textStyle = TextStyle(color: Colors.white);
 
-    final closeButton = FlatButton(
+    final closeButton = TextButton(
       child: Text('ENTENDIDO'),
-      color: Colors.white,
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+      ),
       onPressed: Navigator.of(context).pop,
     );
 
@@ -93,13 +97,22 @@ class PasswordResetViewState extends State<PasswordResetView> {
     final auth = Provider.of<AuthBloc>(context);
     final settings = Provider.of<SettingsBloc>(context);
 
-    final emailField = RoundedInput(
+    var emailField = RoundedInput(
       hintText: 'Email',
-      errorText: emailError,
       controller: emailCtrl,
       keyboardType: TextInputType.text,
       leading: Icon(MaterialCommunityIcons.at),
     );
+
+    if (emailError != null)
+
+      emailField = RoundedInput(
+        hintText: 'Email',
+        controller: emailCtrl,
+        errorText: emailError!,
+        keyboardType: TextInputType.text,
+        leading: Icon(MaterialCommunityIcons.at),
+      );
 
     final submitButton = RoundedButton(
       'RECUPERAR',
@@ -110,7 +123,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
     final auxText = Text(
       'Recordé mi contraseña',
       style: TextStyle(
-        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(0.6),
+        color: Theme.of(context).textTheme.bodyText2?.color?.withOpacity(0.6),
       ),
     );
 
@@ -121,7 +134,7 @@ class PasswordResetViewState extends State<PasswordResetView> {
 
     final logo = Hero(
       tag: 'app-logo',
-      child: FlutterLogo(size: 132, colors: Colors.deepOrange),
+      child: FlutterLogo(size: 132),
     );
 
     final content = Column(

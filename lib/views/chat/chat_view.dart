@@ -1,3 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:uuid/uuid.dart';
+
 import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +31,9 @@ class _ChatViewState extends State<ChatView> {
 
   Message createMessage() {
     final auth = Provider.of<AuthBloc>(context, listen: false);
-    assert(auth.currentUser != null);
     return Message(
-      sender: auth.currentUser,
+      key: Uuid().v1(),
+      sender: auth.currentUser!,
       content: _editingController.text.trim(),
       timestamp: DateTime.now(),
     );
@@ -136,13 +139,14 @@ class _ChatViewState extends State<ChatView> {
     final auth = Provider.of<AuthBloc>(context, listen: false);
 
     final postWidget = (context, itemIndex) => BubbleWidget(
+      key: Key(messages[itemIndex].key),
       message: messages[itemIndex],
-      isOwned: auth.currentUser.key == messages[itemIndex].sender.key,
+      isOwned: auth.currentUser!.key == messages[itemIndex].sender.key,
       startSequence: itemIndex == messages.length - 1
           || messages[itemIndex].sender.key != messages[itemIndex + 1].sender.key,
       useTimestamp: itemIndex == messages.length - 1
-          || Jiffy(messages[itemIndex].timestamp).startOf('day')
-          != Jiffy(messages[itemIndex + 1].timestamp).startOf('day'),
+          || Jiffy(messages[itemIndex].timestamp).startOf(Units.DAY)
+          != Jiffy(messages[itemIndex + 1].timestamp).startOf(Units.DAY),
     );
 
     final padding = EdgeInsets.symmetric(

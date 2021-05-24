@@ -14,14 +14,14 @@ abstract class FirebaseService<T> extends SynchedService<T> {
 
   /// To create firebase query
   final String path;
-  final String orderBy;
-  final String equalTo;
+  final String? orderBy;
+  final String? equalTo;
 
   /// Holds the retrieved data
   List<T> collection = [];
-  StreamSubscription _addSubscription;
-  StreamSubscription _changeSubscription;
-  StreamSubscription _removeSubscription;
+  late StreamSubscription _addSubscription;
+  late StreamSubscription _changeSubscription;
+  late StreamSubscription _removeSubscription;
 
   FirebaseService(this.path, {this.orderBy, this.equalTo}) {
     final reference = database.child(path);
@@ -40,7 +40,7 @@ abstract class FirebaseService<T> extends SynchedService<T> {
   }
 
   /// Let each service return its own type for the list
-  Future<T> parse(DataSnapshot snapshot);
+  Future<T?> parse(DataSnapshot snapshot);
 
   Future<void> addChild(dynamic data) async {
     final reference = database.child(path);
@@ -48,12 +48,15 @@ abstract class FirebaseService<T> extends SynchedService<T> {
   }
 
   Future<void> onChildAdded(Event data) async {
-    collection.add(await parse(data.snapshot));
+    T? value = await parse(data.snapshot);
+    if (value == null) return;
+    collection.add(value);
     controller.add(collection);
   }
 
   Future<void> onChildChanged(Event data) async {
-    T value = await parse(data.snapshot);
+    T? value = await parse(data.snapshot);
+    if (value == null) return;
     int index = collection.indexOf(value);
     collection.removeAt(index);
     collection.insert(index, value);

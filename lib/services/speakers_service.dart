@@ -7,7 +7,7 @@ class SpeakersService extends FirebaseService<Speaker> {
 
   SpeakersService() : super('edepa6/people', orderBy: 'completeName');
 
-  Future<Speaker> getSpeaker(String key) async {
+  Future<Speaker?> getSpeaker(String key) async {
     final snapshot =
         await database.child('edepa6').child('people').child(key).once();
 
@@ -15,7 +15,7 @@ class SpeakersService extends FirebaseService<Speaker> {
   }
 
   @override
-  Future<Speaker> parse(DataSnapshot snapshot) async {
+  Future<Speaker?> parse(DataSnapshot snapshot) async {
     final data = snapshot.value;
 
     final about = SharedUtils.cleanText(data['about']);
@@ -28,7 +28,7 @@ class SpeakersService extends FirebaseService<Speaker> {
 
     return Speaker(
       key: snapshot.key,
-      name: SharedUtils.formatName(data['completeName']),
+      name: SharedUtils.formatName(data['completeName']) ?? "unknown",
       about: about,
       country: SharedUtils.cleanText(data['personalTitle']),
       university: university ?? inferredUniversity,

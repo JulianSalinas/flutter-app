@@ -19,12 +19,12 @@ class BubbleWidget extends StatelessWidget {
   final Message message;
 
   BubbleWidget({
-    Key key,
+    required Key key,
     this.isOwned = true,
     this.startSequence = true,
     this.useTimestamp = true,
-    @required this.message,
-  }) : super(key: key ?? Key(message.key));
+    required this.message,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,6 @@ class BubbleWidget extends StatelessWidget {
     final bubbleGradient = LinearGradient(
       colors: isOwned
           ? SharedColors.midnightCity
-          : settings.colors ?? settings.nightMode
-          ? SharedColors.flareOrange
           : SharedColors.flareOrange
     );
 
@@ -96,13 +94,15 @@ class BubbleWidget extends StatelessWidget {
     final lazyAvatar = FutureBuilder(
       future: userModel.getUser(message.sender.key),
       builder: (context, snapshot) {
-        User user = snapshot.data;
+
+        AppUser user = snapshot.data as AppUser;
+
         return CircleAvatar(
           radius: 16,
           backgroundColor: person.color,
           backgroundImage: snapshot.hasData
               && user.photoUrl != null
-              ? NetworkImage(user?.photoUrl)
+              ? NetworkImage(user.photoUrl!)
               : null,
           child: snapshot.hasData
               && user.photoUrl != null
