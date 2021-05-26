@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:letsattend/models/event.dart';
-import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/views/detail/detail.dart';
 import 'package:letsattend/views/events/event_widget/event_favorite.dart';
-import 'package:provider/provider.dart';
 import 'event_leading.dart';
 import 'event_speakers.dart';
 

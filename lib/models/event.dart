@@ -7,13 +7,13 @@ class Event {
 
   final String type;
   final String title;
-  final String? description;
 
   final DateTime start;
   final DateTime end;
 
   final String? image;
   final String? location;
+  final String? description;
 
   bool isFavorite;
   List<Speaker> speakers = [];
@@ -23,11 +23,11 @@ class Event {
     required this.code,
     required this.type,
     required this.title,
-    required this.description,
     required this.start,
     required this.end,
     this.image,
     this.location,
+    this.description,
     this.isFavorite = false,
   });
 

@@ -11,7 +11,7 @@ class Speaker extends Person {
 
   Speaker({
     required this.key,
-    this.name = "unknown",
+    required this.name,
     this.about,
     this.country,
     this.university,

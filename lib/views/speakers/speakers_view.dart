@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'package:letsattend/router/routes.dart';
+import 'package:letsattend/views/settings/section_title.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,20 +61,11 @@ class SpeakersViewState extends State<SpeakersView> {
     if (i != 0 && (speaker.initial == speakers[i - 1].initial))
       return speakerWidget;
 
-    final headerText = Text(
-      speaker.initial,
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    );
-
-    final tintedHeader = Container(
-      color: Colors.grey.withOpacity(0.05),
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 22),
-      child: Row(children: <Widget>[headerText]),
-    );
+    final headerText = SectionTitle(speaker.initial);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [tintedHeader, speakerWidget],
+      children: [headerText, speakerWidget],
     );
 
   }

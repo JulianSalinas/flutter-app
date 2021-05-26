@@ -12,7 +12,7 @@ class FavoritesService {
 
   Future<bool> isFavorite(String eventKey) async {
 
-    final user = await auth.user;
+    final user = auth.user;
     final snapshot = await database
         .child('edepa6')
         .child('favorites')
@@ -24,7 +24,7 @@ class FavoritesService {
 
   Future<void> setFavorite(String eventKey, bool value) async {
 
-    final user = await auth.user;
+    final user = auth.user;
     final reference = database
         .child('edepa6')
         .child('favorites')

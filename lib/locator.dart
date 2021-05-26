@@ -21,7 +21,7 @@ GetIt locator = GetIt.instance;
 void setupLocator() {
 
   /// --- Theme management ---
-  locator.registerLazySingleton(() => SettingsBloc());
+  locator.registerFactory<SettingsBloc>(() => SettingsBloc());
 
   /// --- Auth management ---
   locator.registerFactory<AuthWithFirebase>(() => AuthWithFirebase());

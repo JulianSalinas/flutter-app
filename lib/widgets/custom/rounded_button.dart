@@ -47,10 +47,10 @@ class RoundedButton extends StatelessWidget {
       child: wrapper,
     );
 
-    final border = RoundedRectangleBorder(
-      borderRadius: new BorderRadius.circular(24),
-      side: BorderSide(color: color, width: 0),
-    );
+    // final border = RoundedRectangleBorder(
+    //   borderRadius: new BorderRadius.circular(24),
+    //   side: BorderSide(color: color, width: 0),
+    // );
 
     final raiseButton = ElevatedButton(
       child: container,

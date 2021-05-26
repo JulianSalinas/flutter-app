@@ -95,7 +95,7 @@ class PreviewLink extends StatelessWidget {
         Clipboard.setData(ClipboardData(
           text: preview.url
         )).then((result) {
-          Scaffold.of(context).showSnackBar(new SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
             content: new Text('Copiado al portapapeles'),
             duration: Duration(seconds: 1),
           ));

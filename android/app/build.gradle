@@ -34,9 +34,10 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.imagisoft.letsattend"
-        minSdkVersion 16
+        applicationId "imagisoft.letsattend"
+        minSdkVersion 22
         targetSdkVersion 30
+        multiDexEnabled
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -56,4 +57,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

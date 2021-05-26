@@ -10,6 +10,7 @@ import 'package:letsattend/services/auth_google.dart';
 import 'package:letsattend/services/auth_service.dart';
 
 class AuthWithFirebase extends AuthService {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -122,4 +123,5 @@ class AuthWithFirebase extends AuthService {
     await _auth.signOut();
     return Future.delayed(Duration.zero);
   }
+
 }

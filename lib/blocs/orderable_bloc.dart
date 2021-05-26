@@ -17,10 +17,12 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
     notifyListeners();
   }
 
-  StreamSubscription? _subscription;
+  late StreamSubscription _subscription;
 
   OrderableBloc() {
-    _subscription = service.stream.listen(update);
+    _subscription = service.stream
+        .asBroadcastStream()
+        .listen(update);
   }
   
   void update(List<dynamic> listened){
@@ -36,13 +38,13 @@ class OrderableBloc<T extends SynchedService> extends SynchedBloc<T> {
   }
 
   Stream<dynamic> get stream {
-    return controller.stream;
+    return controller.stream.asBroadcastStream();
   }
 
   @override
   void dispose() {
     controller.close();
-    _subscription?.cancel();
+    _subscription.cancel();
     super.dispose();
   }
 

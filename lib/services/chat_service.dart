@@ -13,18 +13,21 @@ class ChatService extends FirebaseService<Message> {
   ChatService() : super('edepa6/chat', orderBy: 'timestamp');
 
   @override
-  Future<Message> parse(DataSnapshot snapshot) async {
+  Future<Message?> parse(DataSnapshot snapshot) async {
+
+    if (snapshot.key == null || snapshot.value == null) return null;
+
     final data = snapshot.value;
-    final user = await auth.user;
+    final user = auth.user;
     final sender = await usersService.getUser(data['userid']);
 
     return Message(
-      key: snapshot.key,
+      key: snapshot.key!,
       sender: sender,
       content: data['content'],
       isOwned: user.key == sender.key,
       timestamp: SharedUtils.castMilliseconds(data['time']),
     );
-  }
 
+  }
 }

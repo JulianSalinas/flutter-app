@@ -5,7 +5,7 @@ abstract class SynchedService<T> {
 
   final StreamController<List<T>> controller = StreamController();
 
-  Stream<List<T>> get stream => controller.stream;
+  Stream<List<T>> get stream => controller.stream.asBroadcastStream();
 
   void close() {
     controller.close();

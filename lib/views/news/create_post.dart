@@ -1,12 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:letsattend/models/post.dart';
 import 'package:letsattend/shared/colors.dart';
-import 'package:letsattend/widgets/common/browser_view.dart';
-import 'package:letsattend/widgets/common/preview_image.dart';
-import 'package:letsattend/widgets/common/preview_link.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
 import 'package:letsattend/widgets/custom/rounded_button.dart';

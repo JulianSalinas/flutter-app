@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,9 @@ Future<void> main() async {
 
   /// To load lazy modules
   setupLocator();
+
+  /// Init firebase core
+  await Firebase.initializeApp();
 
   /// Entry point of the Flutter application
   runApp(LetsAttendApp());

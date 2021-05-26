@@ -71,14 +71,15 @@ class EventsService extends FirebaseService<Event> {
   @override
   Future<Event?> parse(DataSnapshot snapshot) async {
 
-    final data = snapshot.value;
-    if (data == null) return null;
+    if (snapshot.key == null || snapshot.value == null) return null;
 
+    final data = snapshot.value;
     Map people = data['people'] ?? {};
-    final isFavorite = await _favoritesService.isFavorite(snapshot.key);
+
+    final isFavorite = await _favoritesService.isFavorite(snapshot.key!);
 
     final event = Event(
-      key: snapshot.key,
+      key: snapshot.key!,
       code: data['id'],
       type: data['eventype'],
       title: SharedUtils.cleanText(data['title']) ?? "unknown",
@@ -91,7 +92,7 @@ class EventsService extends FirebaseService<Event> {
     );
 
     final speakers = await Future.wait(people.keys.map(getSpeaker));
-    event.speakers = speakers.where((sp) => sp != null) as List<Speaker>;
+    event.speakers = speakers.where((sp) => sp != null).cast<Speaker>().toList();
     return event;
 
   }

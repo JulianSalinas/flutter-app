@@ -54,13 +54,9 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
 
   Widget buildSchedule(BuildContext context, Map<dynamic, List<Event>> schedule){
 
-    final ScheduleBloc scheduleModel = Provider.of<ScheduleBloc>(context);
-
     final ScheduleBloc model = Provider.of<ScheduleBloc>(context);
     final SettingsBloc settings = Provider.of<SettingsBloc>(context);
-
-    final labelColor =
-        settings.nightMode ? Colors.white : SharedColors.edepa;
+    final labelColor = settings.nightMode ? Colors.white : SharedColors.edepa;
 
     final indicatorBorder = BorderRadius.only(
       topLeft: Radius.circular(10),
@@ -72,9 +68,9 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
       color: Theme.of(context).scaffoldBackgroundColor,
     );
 
-    final scheduleTab = (entry) => ScheduleTab(entry.key.toString());
-
-    final scheduleTabs = schedule.entries.map(scheduleTab).toList();
+    final scheduleTabs = schedule.entries
+        .map((entry) => ScheduleTab(entry.key.toString()))
+        .toList();
 
     final tabBar = TabBar(
       tabs: scheduleTabs,
@@ -85,35 +81,44 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
       indicatorSize: TabBarIndicatorSize.label,
     );
 
-    final appBar = SliverAppBar(
-      title: FormalText(
-        'Cronograma',
-        color: Colors.white,
+    final buttons = [
+      IconButton(
+        icon: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationY(model.orderedByType ? 0: math.pi),
+          child: Icon(MaterialCommunityIcons.rotate_3d),
+        ),
+        onPressed: () => model.orderedByType = !model.orderedByType,
       ),
+      IconButton(
+        icon: Icon(Icons.search),
+        onPressed: () => print('view'),
+      ),
+    ];
+
+    // final appBar = AppBar(
+    //   actions: buttons,
+    //   centerTitle: true,
+    //   backgroundColor: Colors.transparent,
+    //   title: FormalText('Cronograma'),
+    //   flexibleSpace: ColoredFlex(),
+    //   elevation: 0,
+    //   bottom: tabBar,
+    // );
+
+    final appBar = SliverAppBar(
+      title: FormalText('Cronograma'),
       centerTitle: true,
       flexibleSpace: ColoredFlex(),
       bottom: tabBar,
       elevation: 0,
-      actions: <Widget>[
-        IconButton(
-          icon: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.rotationY(model.orderedByType ? 0: math.pi),
-            child: Icon(MaterialCommunityIcons.rotate_3d_variant),
-          ),
-          onPressed: () => model.orderedByType = !model.orderedByType,
-        ),
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () => print('view'),
-        ),
-      ],
+      actions: buttons,
     );
 
     final eventsView = (entry) {
       return EventsView(
         events: entry.value,
-        toggleFavorite: scheduleModel.toggleFavorite,
+        toggleFavorite: model.toggleFavorite,
       );
     };
 
@@ -140,6 +145,13 @@ class ScheduleViewState extends State<ScheduleView> with TickerProviderStateMixi
       length: schedule.length,
     );
 
+  }
+
+  @override
+  void dispose() {
+    final ScheduleBloc model = Provider.of<ScheduleBloc>(context);
+    model.dispose();
+    super.dispose();
   }
 
 }

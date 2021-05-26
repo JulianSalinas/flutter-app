@@ -28,7 +28,6 @@ class SettingsBloc with ChangeNotifier {
   }
 
   List<Color>? _colors;
-
   List<Color>? get colors => _colors;
 
   set colors(List<Color>? colors) {

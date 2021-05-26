@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Github/letsattend/lib/widgets/common/opened_image.dart';
+import 'package:letsattend/widgets/common/opened_image.dart';
 
 class PreviewImage extends StatelessWidget {
 

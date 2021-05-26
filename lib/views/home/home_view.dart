@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:letsattend/models/post.dart';
-import 'package:letsattend/blocs/news_bloc.dart';
 import 'package:letsattend/views/home/home_carousel.dart';
-import 'package:letsattend/views/home/home_circle.dart';
 import 'package:letsattend/views/news/post_widget.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
 import 'package:letsattend/widgets/custom/formal_text.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:letsattend/router/routes.dart';
 import 'package:letsattend/views/drawer/drawer_view.dart';
@@ -29,80 +25,80 @@ class HomeViewState extends State<HomeView> {
 
 //    final auth = Provider.of<AuthModel>(context);
 //    final settings = Provider.of<SettingsModel>(context);
-    final news = Provider.of<NewsBloc>(context);
+//     final news = Provider.of<NewsBloc>(context);
+//
+//     final logo = Hero(
+//       tag: 'app-logo',
+//       child: FlutterLogo(size: 132),
+//     );
+//
+//     final logoContainer = Container(
+//       padding: EdgeInsets.only(top: 48, bottom: 24),
+//       child: logo,
+//     );
+//
+//     final optionsList = ListView(
+//       scrollDirection: Axis.horizontal,
+//       children: <Widget>[
+//         Container(
+//           margin: EdgeInsets.only(left: 8),
+//           child: HomeCircle(
+//             text: 'Cronograma',
+//             icon: Icon(Ionicons.md_calendar, size: 28),
+//             onTap: () => Navigator.of(context).pushNamed(Routes.scheduleRoute),
+//             color: Colors.white,
+//           ),
+//         ),
+//         HomeCircle(
+//           text: 'Expositores',
+//           icon: Icon(Icons.people, size: 28,),
+//           onTap: () => Navigator.of(context).pushNamed(Routes.speakersRoute),
+//           color: Colors.white,
+//         ),
+//         HomeCircle(
+//           text: 'Mensajes',
+//           icon: Icon(Entypo.chat, size: 28,),
+//           onTap: () => Navigator.of(context).pushNamed(Routes.chatRoute),
+//           color: Colors.white,
+//         ),
+//         HomeCircle(
+//           text: 'Configuración',
+//           icon: Icon(MaterialCommunityIcons.settings_helper, size: 28,),
+//           onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
+//           color: Colors.white,
+//         ),
+//         Container(
+//           margin: EdgeInsets.only(right: 12),
+//           child: HomeCircle(
+//             text: 'Contácto',
+//             icon: Icon(Icons.mail, size: 28,),
+//             onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
+//             color: Colors.white,
+//           ),
+//         ),
+//       ],
+//     );
 
-    final logo = Hero(
-      tag: 'app-logo',
-      child: FlutterLogo(size: 132),
-    );
+    // final subtitleStyle = TextStyle(
+    //   fontSize: 28,
+    //   fontWeight: FontWeight.bold,
+    // );
 
-    final logoContainer = Container(
-      padding: EdgeInsets.only(top: 48, bottom: 24),
-      child: logo,
-    );
-
-    final optionsList = ListView(
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 8),
-          child: HomeCircle(
-            text: 'Cronograma',
-            icon: Icon(Ionicons.md_calendar, size: 28),
-            onTap: () => Navigator.of(context).pushNamed(Routes.scheduleRoute),
-            color: Colors.white,
-          ),
-        ),
-        HomeCircle(
-          text: 'Expositores',
-          icon: Icon(Icons.people, size: 28,),
-          onTap: () => Navigator.of(context).pushNamed(Routes.speakersRoute),
-          color: Colors.white,
-        ),
-        HomeCircle(
-          text: 'Mensajes',
-          icon: Icon(Entypo.chat, size: 28,),
-          onTap: () => Navigator.of(context).pushNamed(Routes.chatRoute),
-          color: Colors.white,
-        ),
-        HomeCircle(
-          text: 'Configuración',
-          icon: Icon(MaterialCommunityIcons.settings_helper, size: 28,),
-          onTap: () => Navigator.pushNamed(context, Routes.settingsRoute),
-          color: Colors.white,
-        ),
-        Container(
-          margin: EdgeInsets.only(right: 12),
-          child: HomeCircle(
-            text: 'Contácto',
-            icon: Icon(Icons.mail, size: 28,),
-            onTap: () => Navigator.pushNamed(context, Routes.aboutRoute),
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-
-    final subtitleStyle = TextStyle(
-      fontSize: 28,
-      fontWeight: FontWeight.bold,
-    );
-
-    final optionsTitle = Container(
-      margin: EdgeInsets.only(left: 16, bottom: 16),
-      child: Text('Bienvenido', style: subtitleStyle),
-    );
-
-    final optionsContainer = Container(
-      alignment: Alignment.center,
-      height: 88,
-      child: optionsList,
-    );
-
-    final newsTitle = Container(
-      margin: EdgeInsets.only(left: 16, bottom: 16),
-      child: Text('Noticias', style: subtitleStyle),
-    );
+    // final optionsTitle = Container(
+    //   margin: EdgeInsets.only(left: 16, bottom: 16),
+    //   child: Text('Bienvenido', style: subtitleStyle),
+    // );
+    //
+    // final optionsContainer = Container(
+    //   alignment: Alignment.center,
+    //   height: 88,
+    //   child: optionsList,
+    // );
+    //
+    // final newsTitle = Container(
+    //   margin: EdgeInsets.only(left: 16, bottom: 16),
+    //   child: Text('Noticias', style: subtitleStyle),
+    // );
 
 //    final divider = Divider(
 //      height: 48,
@@ -111,11 +107,11 @@ class HomeViewState extends State<HomeView> {
 //      endIndent: 16,
 //    );
 
-    final divider = SizedBox(height: 24,);
-
-    final image = Image(
-      image: AssetImage('assets/planning.png'),
-    );
+    // final divider = SizedBox(height: 24,);
+    //
+    // final image = Image(
+    //   image: AssetImage('assets/planning.png'),
+    // );
 
     final container = CustomScrollView(
       slivers: <Widget>[

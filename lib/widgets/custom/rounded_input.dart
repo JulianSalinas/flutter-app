@@ -52,10 +52,10 @@ class RoundedInput extends StatelessWidget {
       borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
     );
 
-    final prefix = Padding(
-      child: leading,
-      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-    );
+    // final prefix = Padding(
+    //   child: leading,
+    //   padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+    // );
 
     final decoration = InputDecoration(
       filled: true,

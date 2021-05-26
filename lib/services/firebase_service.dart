@@ -19,24 +19,35 @@ abstract class FirebaseService<T> extends SynchedService<T> {
 
   /// Holds the retrieved data
   List<T> collection = [];
+
+  /// Subscriptions for realtime changes
   late StreamSubscription _addSubscription;
   late StreamSubscription _changeSubscription;
   late StreamSubscription _removeSubscription;
 
+  /// Path to reach realtime database data
   FirebaseService(this.path, {this.orderBy, this.equalTo}) {
     final reference = database.child(path);
 
     var query = orderBy == null
         ? reference
-        : reference.orderByChild(orderBy);
+        : reference.orderByChild(orderBy!);
 
     query = equalTo == null
         ? query
         : query.equalTo(equalTo);
 
-    _addSubscription = query.onChildAdded.listen(onChildAdded);
-    _changeSubscription = reference.onChildChanged.listen(onChildChanged);
-    _removeSubscription = reference.onChildRemoved.listen(onChildRemoved);
+    _addSubscription = query.onChildAdded
+        .asBroadcastStream()
+        .listen(onChildAdded);
+
+    _changeSubscription = reference.onChildChanged
+        .asBroadcastStream()
+        .listen(onChildChanged);
+
+    _removeSubscription = reference.onChildRemoved
+        .asBroadcastStream()
+        .listen(onChildRemoved);
   }
 
   /// Let each service return its own type for the list

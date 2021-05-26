@@ -1,11 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/widgets/custom/colored_flex.dart';
-import 'package:provider/provider.dart';
 
 class PersonHeader extends StatefulWidget {
 
@@ -19,8 +15,8 @@ class PersonHeader extends StatefulWidget {
 
 class _PersonHeaderState extends State<PersonHeader> {
 
-  static const int EVENTS_TAB = 0;
-  static const int ABOUT_TAB = 1;
+  // static const int EVENTS_TAB = 0;
+  // static const int ABOUT_TAB = 1;
   int? segmentedControlGroupValue = 0;
 
   onSegmentedControlValueChanged(int? index) {
@@ -29,8 +25,8 @@ class _PersonHeaderState extends State<PersonHeader> {
 
   @override
   Widget build(BuildContext context) {
-
-    final settings = Provider.of<SettingsBloc>(context);
+    //
+    // final settings = Provider.of<SettingsBloc>(context);
 
     final initials = Text(
       widget.speaker.initials,
@@ -66,17 +62,17 @@ class _PersonHeaderState extends State<PersonHeader> {
       child: Material(child: speakerName, color: Colors.transparent),
     );
 
-    final availableTabs = <int, Widget> {
-      EVENTS_TAB: Text('Eventos'),
-      ABOUT_TAB: Text('Acerca de'),
-    };
+    // final availableTabs = <int, Widget> {
+    //   EVENTS_TAB: Text('Eventos'),
+    //   ABOUT_TAB: Text('Acerca de'),
+    // };
 
-    final segmentedControl = CupertinoSlidingSegmentedControl(
-      groupValue: segmentedControlGroupValue,
-      children: availableTabs,
-      onValueChanged: onSegmentedControlValueChanged,
-      backgroundColor: settings.nightMode ? Colors.black26 : Colors.white24,
-    );
+    // final segmentedControl = CupertinoSlidingSegmentedControl(
+    //   groupValue: segmentedControlGroupValue,
+    //   children: availableTabs,
+    //   onValueChanged: onSegmentedControlValueChanged,
+    //   backgroundColor: settings.nightMode ? Colors.black26 : Colors.white24,
+    // );
 
     final subtitle = widget.speaker.university != null
         ? '${widget.speaker.university}, ${widget.speaker.country}'

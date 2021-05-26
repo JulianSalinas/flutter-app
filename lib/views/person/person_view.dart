@@ -1,15 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letsattend/blocs/settings_bloc.dart';
 import 'package:letsattend/locator.dart';
 import 'package:letsattend/models/event.dart';
 import 'package:letsattend/models/speaker.dart';
 import 'package:letsattend/blocs/speakers_bloc.dart';
-import 'package:letsattend/shared/colors.dart';
 import 'package:letsattend/views/events/events_view.dart';
 import 'package:letsattend/views/person/person_header.dart';
-import 'package:letsattend/views/speakers/speaker_widget.dart';
-import 'package:provider/provider.dart';
 
 
 class PersonView extends StatefulWidget {
@@ -62,7 +58,7 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
   }
 
   onEventsChange(List<Event> events) {
-    this.events = events.where((event) => event != null).toList();
+    this.events = events.toList();
     setState(() { this.isLoading = false; });
   }
 
@@ -79,7 +75,7 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
 
-    final settings = Provider.of<SettingsBloc>(context);
+    // final settings = Provider.of<SettingsBloc>(context);
 
     final spaceBar = FlexibleSpaceBar(
       background: PersonHeader(speaker: widget.speaker),
@@ -110,12 +106,12 @@ class PersonViewState extends State<PersonView> with SingleTickerProviderStateMi
 
     final tilePrefix = currentPage == 0 ? 'Acerca' : 'Eventos';
 
-    final tile = ListTile(
-      title: Text('$tilePrefix de ${widget.speaker.firstName}'),
-      trailing: _pageController.page == 0 ? Icon(Icons.keyboard_arrow_right) : null,
-      leading: _pageController.page == 1 ? Icon(Icons.keyboard_arrow_left) : null,
-      onTap: changePage
-    );
+    // final tile = ListTile(
+    //   title: Text('$tilePrefix de ${widget.speaker.firstName}'),
+    //   trailing: _pageController.page == 0 ? Icon(Icons.keyboard_arrow_right) : null,
+    //   leading: _pageController.page == 1 ? Icon(Icons.keyboard_arrow_left) : null,
+    //   onTap: changePage
+    // );
 
     final tile2 = InkWell(
       child: Container(
